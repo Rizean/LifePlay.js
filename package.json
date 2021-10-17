@@ -1,0 +1,22 @@
+{
+  "name": "lifeplayjs",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "author": "Rizean@gmail.com",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "jest": "^27.2.5"
+  },
+  "scripts": {
+    "test": "jest",
+    "example:cinema_with_date_passive": "node ./examples/cinema_with_date_passive.scene",
+    "example:optionChoice": "node ./examples/optionChoice",
+    "example:simpleScene": "node ./examples/simpleScene",
+    "example:while": "node ./examples/while"
+  },
+  "dependencies": {
+    "esprima": "^4.0.1",
+    "vm2": "^3.9.4"
+  }
+}
