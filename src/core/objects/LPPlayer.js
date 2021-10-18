@@ -606,11 +606,4 @@ module.exports = class LPPlayer extends LPActor {
      * @return {void|*}
      */
     stopBusiness = () => this.context.writeLine(`stopBusiness()`)
-
-
-
-
-    // TODO looks like it's not valid in lpscene?
-    isIncest = () => this.context.writeLine(`isIncest()`)
-
 }
