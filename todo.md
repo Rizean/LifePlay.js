@@ -16,20 +16,21 @@ All work so a far is based on 4.11
 * TfGame
 * StringVariable = enterString()
 
-### Needs Review
-* isIncest() Only used for lptalk and lpdesc, check if the current sex scene is an incest one
+### Modules
+* LPTalk
+* LPDescription
+* LPStat
+* LPAI
+* LPAction
+* LPMod
+* LPCharacter
+* LPGlobal
+* LPQuest
 
-### Needs to be updated/refactored in Parser
-* While Expressions
+#### LPTalk
+* Tag(tag1, tag2, ..., tagN)
 
-### Global Variables
-* GlobalVariableName.clearGlobal() - SugarBabe.clearGlobal()
-* ~~GlobalVariable.getGlobal()~~ return float - Get the float value of a global variable. If there's no global variable under such name, returns 0. - SugarBabe = SugarBabe.getGlobal(); If SugarBabe > 0; Actor = getSpecific(SugarBabe)
-* GlobalVariableName.setGlobal(float or floatvariable) - SugarBabe = Actor.getID();  SugarBabe.setGlobal(SugarBabe)
-* (not used) ~~GlobalVariable.getGlobalString()~~ returns String - Same as getGlobal(), just string instead of float
-* (not used) GlobalVariable.setGlobalString(String) Same as setGlobal(), just string instead of float
-
-### Quest
+#### LPQuest
 * AliasName.generateBuildingAlias(buildingtype) - example NatH.generateBuildingAlias(home); NatH.addObjective(bggw_film)
 * AliasName.getActorAlias() returns Actor
 * questEnd()
@@ -38,10 +39,20 @@ All work so a far is based on 4.11
 * BuildingAlias.removeObjective(Lpactionfilename)
 * isQuestCompleted - example isQuestCompleted(legalized)
 
-### Other
-* (LPTalk) Tag(tag1, tag2, ..., tagN)
+#### LPGlobal
+* GlobalVariableName.clearGlobal() - SugarBabe.clearGlobal()
+* ~~GlobalVariable.getGlobal()~~ return float - Get the float value of a global variable. If there's no global variable under such name, returns 0. - SugarBabe = SugarBabe.getGlobal(); If SugarBabe > 0; Actor = getSpecific(SugarBabe)
+* GlobalVariableName.setGlobal(float or floatvariable) - SugarBabe = Actor.getID();  SugarBabe.setGlobal(SugarBabe)
+* (not used) ~~GlobalVariable.getGlobalString()~~ returns String - Same as getGlobal(), just string instead of float
+* (not used) GlobalVariable.setGlobalString(String) Same as setGlobal(), just string instead of float
+
 
 ## Done
+
+### Other
+* ~~Needs Review - isIncest() Only used for lptalk and lpdesc, check if the current sex scene is an incest one~~
+* ~~While Expressions~~
+
 ### Actor Condition
 * NP? ~~Actor.hadSex()~~ Check if this actor has had sex with the player at any point in this playthrough
 * ~~Actor.hasRelationship(Type1, Type2, ..., TypeN)~~
