@@ -22,22 +22,23 @@ handlers.getHandler = (expression) => {
 handlers.Identifier = ({name}, {depth = 0} = {}) => name
 handlers.Literal = ({value, raw}, {depth = 0, name} = {}) => {
     if (typeof value === 'boolean') {
-        if (name) return `boolean(${raw}, "${name}")`
+        if (name) return `scene.boolean(${raw}, "${name}")`
         return raw
     } else if (typeof value === 'number') {
-        if (name) return `float(${raw}, "${name}")`
+        if (name) return `scene.float(${raw}, "${name}")`
         return raw
     } else if (typeof value === 'string') {
-        if (name) return `string(${raw}, "${name}")`
+        if (name) return `scene.string(${raw}, "${name}")`
         return raw
     }
-    return raw
+    /* istanbul ignore next */
+    throw new Error('Fixme! How did we get here?')
 }
 handlers.UnaryExpression = (expression, {depth = 0, logs, name} = {}) => {
     logs.push(['UnaryExpression', expression])
     const {operator, argument} = expression
     name = name ? `, "${name}"` : ''
-    if (operator === '!') return `not(${handlers[argument.type](argument, {depth, logs})}${name})`
+    if (operator === '!') return `scene.not(${handlers[argument.type](argument, {depth, logs})}${name})`
     return `${operator}${handlers.getHandler(argument)(argument, {depth, logs})}`
 }
 handlers.MemberExpression = (expression, {depth = 0, logs} = {}) => {
@@ -162,17 +163,26 @@ handlers.ObjectPattern = (expression, {depth = 0, logs} = {}) => {
 handlers.BlockStatement = (expression, {depth = 0, logs} = {}) => {
     logs.push(['BlockStatement', expression])
 
-    return [
-        'const {float, boolean, not, string} = scene',
-        ...expression.body.map(_expression => handlers.getHandler(_expression)(_expression, {depth, logs}))
-    ].join('\r\n')
-
+    return expression.body.map(_expression => handlers.getHandler(_expression)(_expression, {depth, logs})).join('\r\n')
 }
 
 handlers.ObjectExpression = (expression, {depth = 0, logs} = {}) => {
     logs.push(['ObjectExpression', expression])
     const properties = expression.properties.map(prop => handlers.getHandler(prop)(prop, {depth, logs}))
     return `{${properties.join(', ')}}`
+}
+
+handlers.WhileStatement = (expression, {depth = 0, logs} = {}) => {
+    logs.push(['WhileStatement = ', expression])
+    let {test, body} = expression
+    test = handlers.getHandler(test)(test, {depth, logs})
+    body = handlers.getHandler(body)(body, {depth: depth + INDENT, logs})
+
+    return [
+        `${$pad(depth)}scene.$while(${test}, () => {`,
+        `${$pad(depth + 2)}${body}`,
+        `${$pad(depth)}})`
+    ].join('\r\n')
 }
 
 handlers.IfStatement = (expression, {depth = 0, logs} = {}) => {
@@ -231,7 +241,7 @@ handlers.Program = (program, {depth = 0, logs} = {}) => {
 }
 
 
-const parser = (source) => {
+const parser = (source, context = 'scene') => {
     const logs = []
     const parsed = esprima.parse(source, {tokens: false, comment: false, loc: false, range: false})
     const intermediate = handlers.Program(parsed, {logs}).join('\r\n')
