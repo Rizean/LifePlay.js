@@ -7,9 +7,9 @@ scene.WHAT(['watch_a_movie'])
 scene.WHERE(['cinema'])
 scene.WHEN([0, 24])
 scene.WHO('none')
-scene.OTHER((scene) => {
+scene.OTHER((scene, condition, $IF) => {
     const {Player, CurrentCompanion, random, paren} = scene;
-    (Player.isWithCompanion() && CurrentCompanion.isInterestedIn(Player) && paren(paren(!CurrentCompanion.isRelative() && CurrentCompanion.attractiontoplayer > 30) || CurrentCompanion.incest > 50) && random(50, 200) < CurrentCompanion.perversion).write()
+    condition(Player.isWithCompanion() && CurrentCompanion.isInterestedIn(Player) && paren(paren(!CurrentCompanion.isRelative() && CurrentCompanion.attractiontoplayer > 30) || CurrentCompanion.incest > 50) && random(50, 200) < CurrentCompanion.perversion)
 })
 
 scene.start((scene) => {
