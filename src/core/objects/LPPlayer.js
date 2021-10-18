@@ -20,6 +20,13 @@ module.exports = class LPPlayer extends LPActor {
         return this.context.boolean(expression, name)
     }
 
+    _playerFunction(func, params, name, ReturnType) {
+        const expression = `${func}(${params})`
+        if (name === '') this.context.writeLine(`${expression}`)
+        else if (name) this.context.writeLine(`${name} = ${expression}`)
+        if (ReturnType) return new ReturnType({context: this.context, name, expression})
+    }
+
     /**
      * Remove this actor from your contact list.
      * @param {LPActor} actor
@@ -281,19 +288,24 @@ module.exports = class LPPlayer extends LPActor {
      * scene.narration("Who should be my first guest?")
      * Player.selectNPC()
      * var Guest1 = Player.getSelectedNPC()
-     * @return {LPActor}
+     * @return {LPNPC}
      */
-    getSelectedNPC = () => {
-        this.context.writeLine(`getSelectedNPC()`)
+    getSelectedNPC() {
+        const [name] = arguments
+        const expression = `getSelectedNPC()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name, expression})
     }
 
     /**
      * Get the current interaction target (i.e. the actor the player just clicked on)
      * @example
      * var Actor = Player.getTarget()
-     * @return {void|*}
+     * @return {LPNPC}
      */
-    getTarget = () => this.context.writeLine(`getTarget()`)
+    getTarget() {
+        return this._playerFunction('getTarget', '', arguments[0], LPNPC)
+    }
 
     /**
      * Gives the player default clothing?
@@ -311,49 +323,59 @@ module.exports = class LPPlayer extends LPActor {
 
     /**
      * Checks if player is at significant other's home rather than their own. (The WHERE : home trigger catches both)
-     * @return {boolean}
+     * @return {LPBoolean}
      */
-    isAtDatingHome = () => this.context.writeLine(`isAtDatingHome()`)
+    isAtDatingHome() {
+        return this._playerFunction('isAtDatingHome', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Check if the player is at their own home. Frequently used to separate 'WHERE: home' cases of the player being at home and being at their significant other's home.
      * @return {LPBoolean}
      */
     isAtHome() {
-        const [name] = arguments
-        // this.context.writeLine(`isAtHome()`)
-        return new LPBoolean({context: this.context, name, expression: `isAtHome()`})
+        return this._playerFunction('isAtHome', '', arguments[0], LPBoolean)
     }
 
     /**
      * Checks if the player is married.
      * @return {boolean}
      */
-    isPlayerMarried = () => this._playerIsHelper('isPlayerMarried', [], name)
+    isPlayerMarried() {
+        return this._playerFunction('isPlayerMarried', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Checks if the player is a student.
      * @return {boolean}
      */
-    isStudent = (name) => this._playerIsHelper('isStudent', [], name)
+    isStudent() {
+        return this._playerFunction('isStudent', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Checks if the player is with a companion.
      * @return {LPBoolean}
      */
-    isWithCompanion = (name) => this._playerIsHelper('isWithCompanion', [], name)
+    isWithCompanion() {
+        return this._playerFunction('isWithCompanion', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Checks if the player is with a companion creature.
      * @return {boolean}
      */
-    isWithCompanionCreature = () => this.context.writeLine(`isWithCompanionCreature()`)
+    isWithCompanionCreature() {
+        return this._playerFunction('isWithCompanionCreature', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Break up with current boyfriend / girlfriend. All affairs and SO's friends are cleared and become acquaintances.
      * @return {void|*}
      */
-    loseDating = () => this.context.writeLine(`loseDating()`)
+    loseDating() {
+        return this._playerFunction('loseDating', '', '', null)
+    }
 
     /**
      * The player moves out of their current home. Set rent to 0. Landlord and neighbours become acquaintances. If the player's SO has a home, they'll move in with them instead.
@@ -426,7 +448,9 @@ module.exports = class LPPlayer extends LPActor {
      * Check if player player has a home.
      * @return {boolean}
      */
-    playerHasHome = () => this.context.writeLine(`PlayerHasHome()`)
+    playerHasHome() {
+        return this._playerFunction('playerHasHome', '', arguments[0], LPBoolean)
+    }
 
     /**
      * Leave your crime family
@@ -474,7 +498,9 @@ module.exports = class LPPlayer extends LPActor {
      * @param tag
      * @return {void|*}
      */
-    selectNPC = (tag = '') => this.context.writeLine(`selectNPC(${tag})`)
+    selectNPC(tag = '') {
+        return this._playerFunction('selectNPC', tag, arguments[1], LPBoolean)
+    }
 
 
     /**
@@ -483,12 +509,11 @@ module.exports = class LPPlayer extends LPActor {
      * var FratFee = Player.setFraternityFees(1000)
      * scene.narrative("I agreed to pay $1000 per month for fraternity fees")
      * @param {number|LPFloat} fratFee
-     * @return {LPActor} - reference to this for chaining
      */
     setFraternityFees(fratFee) {
         const varFratFee = new LPFloat({context: this.context, name: 'lpjs_fratFee', codeStr: fratFee})
-        this.context.writeLine(`${varFratFee.name}.setFraternityFees()`)
-        return this
+        this.context.writeLine(`lpjs_fratFee = ${fratFee}`)
+        this.context.writeLine(`lpjs_fratFee.setFraternityFees()`)
     }
 
     /**
@@ -500,7 +525,7 @@ module.exports = class LPPlayer extends LPActor {
      *
      * @return {void|*}
      */
-    setMajor = () => this.context.writeLine()
+    setMajor = () => this.context.writeLine('setMajor()')
 
     /**
      * Set your current rent.
@@ -514,17 +539,12 @@ module.exports = class LPPlayer extends LPActor {
      * @return {LPFloat} lpjs_rent
      */
     setRent = (rent) => {
-        // const varFratFee = new LPFloat({context: this.context, name: 'lpjs_rent', codeStr: rent})
-        // this.context.writeLine(`${varFratFee.name}.setRent()`)
-        // return this
-
         if (rent instanceof LPFloat) {
             this.context.writeLine(`${rent.name}.setRent()`)
             return rent
         }
-        const lpjs_rent = float({name: 'lpjs_rent', expression: `lpjs_rent = ${rent}`})
+        this.context.writeLine(`lpjs_rent = ${rent}`)
         this.context.writeLine(`lpjs_rent.setRent()`)
-        return lpjs_rent
     }
 
     /**
@@ -537,15 +557,13 @@ module.exports = class LPPlayer extends LPActor {
      * @param {number|LPFloat} salary
      * @return {LPFloat} lpjs_salary
      */
-    setSalary(salary, name = 'lpjs_salary') {
+    setSalary(salary) {
         if (salary instanceof LPFloat) {
             this.context.writeLine(`${salary.name}.setSalary()`)
             return salary
         }
-        const lpjsSalary = new LPFloat({context: this.context, name})
-        this.context.writeLine(`${name} = ${salary}`)
-        this.context.writeLine(`${name}.setSalary()`)
-        return lpjsSalary
+        this.context.writeLine(`lpjs_salary = ${salary}`)
+        this.context.writeLine(`lpjs_salary.setSalary()`)
     }
 
     /**
@@ -554,17 +572,14 @@ module.exports = class LPPlayer extends LPActor {
      * Player.setTuition(1000)
      * scene.narrative("I agreed to pay $1000 per month for tuition")
      * @param {number|LPFloat} tuition
-     * @return {LPFloat} lpjs_tuition
      */
-    setTuition(tuition, name = 'lpjs_tuition') {
+    setTuition(tuition) {
         if (tuition instanceof LPFloat) {
             this.context.writeLine(`${tuition.name}.setTuition()`)
             return tuition
         }
-        const lpjsTuition = new LPFloat({context: this.context, name})
-        this.context.writeLine(`${name} = ${tuition}`)
-        this.context.writeLine(`${name}.setTuition()`)
-        return lpjsTuition
+        this.context.writeLine(`lpjs_tuition = ${tuition}`)
+        this.context.writeLine(`lpjs_tuition.setTuition()`)
     }
 
     /**

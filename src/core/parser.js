@@ -8,6 +8,7 @@ const DEFAULT_VALUE_FUNC = [
     {name: 'generateCreature', value: "''"},
     {name: 'generateCreatureTemporary', value: "''"},
     {name: 'getPersonHere', value: "''"},
+    {name: 'selectNPC', value: "''"},
 ]
 
 const handlers = {}
