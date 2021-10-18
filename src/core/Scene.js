@@ -627,7 +627,7 @@ module.exports = class Scene extends Context {
      * @param {Script~scene} script
      * @return {Scene} scene for chaining
      */
-    sceneStart = (script) => {
+    start = (script) => {
         this.writeLine(``)
         this.writeLine(`sceneStart()`)
         this.codeDepth += 2
@@ -636,22 +636,8 @@ module.exports = class Scene extends Context {
             this.codeDepth -= 2
             this.writeLine(`sceneEnd()`)
             this.writeLine(``)
-            // console.log(this._code)
-
         }
-
     }
-    start = this.sceneStart
-
-    /**
-     * End the scene and return to map view. This will also clear all actors (except player and current companion from memory) after saving them back into their lpcharacters.
-     * @return {Scene} scene for chaining
-     */
-    // sceneEnd = () => {
-    //     this.codeDepth -= 2
-    //     this.writeLine(`sceneEnd()`)
-    //     this.writeLine(``)
-    // }
 
     /**
      * End the current scene and loads the last save. Used for game-over.
