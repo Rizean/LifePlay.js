@@ -5,6 +5,7 @@ const LPActor = require('./LPActor')
 const LPBuilding = require('../objects/LPBuilding')
 const LPFloat = require('../objects/LPFloat')
 const LPBoolean = require('../objects/LPBoolean')
+const LPNPC = require('../objects/LPNPC')
 
 module.exports = class LPPlayer extends LPActor {
     constructor({context}) {
@@ -21,10 +22,10 @@ module.exports = class LPPlayer extends LPActor {
 
     /**
      * Remove this actor from your contact list.
-     * @param {string} actor
+     * @param {LPActor} actor
      * @return {void|*}
      */
-    blockContact = (actor) => this.context.writeLine(`blockContact(${actor})`)
+    blockContact = (actor) => this.context.writeLine(`blockContact(${actor.name})`)
 
     /**
      * Choose a person from your contact by displaying a option menu while staying in the scene. Must be followed by getSpecific(chooseContact). Probably inferior to selectNPC() unless you really don't want to take the player out of the scene even temporarily.
@@ -68,7 +69,7 @@ module.exports = class LPPlayer extends LPActor {
      * }
      * @return {void|*}
      */
-    datingHasHome = () => this.context.writeLine(`DatingHasHome()`)
+    datingHasHome = () => this.context.writeLine(`datingHasHome()`)
 
 
     /**
@@ -80,7 +81,7 @@ module.exports = class LPPlayer extends LPActor {
      * Player.loseDating()
      * @return {*}
      */
-    divorce = () => this.context.writeLine(`Divorce()`)
+    divorce = () => this.context.writeLine(`divorce()`)
 
     /**
      * End the current 'date', i.e. get rid of the current companion.
@@ -147,7 +148,12 @@ module.exports = class LPPlayer extends LPActor {
      * @param relativeType
      * @return {void|*}
      */
-    getAnyRelative = (relativeType) => this.context.writeLine(`getAnyRelative(${relativeType})`)
+    getAnyRelative(relativeType) {
+        const [_, name] = arguments
+        const expression = `getAnyRelative(${relativeType})`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name})
+    }
 
     /**
      * Get the current companion. Not entirely necessary as the current companion has a special variable "CurrentCompanion" that is always available.
@@ -159,19 +165,34 @@ module.exports = class LPPlayer extends LPActor {
      * CurrentCompanion.dress()
      * @return {void|*}
      */
-    getCompanion = () => this.context.writeLine(`getCompanion()`)
+    getCompanion() {
+        const [name] = arguments
+        const expression = `getCompanion()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name})
+    }
 
     /**
      * Get the current companion, regardless of whether they are human or not.
      * @return {void|*}
      */
-    getCompanionAny = () => this.context.writeLine(`getCompanionAny()`)
+    getCompanionAny() {
+        const [name] = arguments
+        const expression = `getCompanionAny()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name})
+    }
 
     /**
      * Get the current companion, but only if they are a creature.
      * @return {void|*}
      */
-    getCompanionCreature = () => this.context.writeLine(`getCompanionCreature()`)
+    getCompanionCreature() {
+        const [name] = arguments
+        const expression = `getCompanionCreature()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name})
+    }
 
     /**
      * Call this function to marry the player to their current bf/gf. This doesn't trigger a wedding scene, but flags them as being married.
@@ -186,7 +207,12 @@ module.exports = class LPPlayer extends LPActor {
      * Counts the total number of relative NPCs in the game (your relatives, not NPC's relatives).
      * @return {LPFloat}
      */
-    getNumRelatives = () => this.context.writeLine(`getNumRelatives()`)
+    getNumRelatives() {
+        const [name] = arguments
+        const expression = `getNumRelatives()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPFloat({context: this.context, name, expression})
+    }
 
     /**
      * Retrieves an actor who's related to the player.
@@ -194,15 +220,24 @@ module.exports = class LPPlayer extends LPActor {
      * @param {[string]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
      * @return {LPActor|undefined}
      */
-    getRelative = (relationshipTypes = []) => this.context.writeLine(`getRelative(${relationshipTypes.join(', ')})`)
-
+    getRelative(relationshipTypes = []) {
+        const [, name] = arguments
+        const expression = `getRelative(${relationshipTypes.join(', ')})`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name, expression})
+    }
 
     /**
      * Retrieves an actor who is related to the player, but isn't tagged by the listed keyword(s).
      * @param {[string]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
      * @return {LPActor|undefined}
      */
-    getRelativeExcept = (relationshipTypes = []) => this.context.writeLine(`getRelativeExcept(${relationshipTypes.join(', ')})`)
+    getRelativeExcept(relationshipTypes = []) {
+        const [, name] = arguments
+        const expression = `getRelativeExcept(${relationshipTypes.join(', ')})`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPNPC({context: this.context, name, expression})
+    }
 
     /**
      * Get the current rent into a float variable.
@@ -215,10 +250,11 @@ module.exports = class LPPlayer extends LPActor {
      *
      * @return {LPFloat} rent
      */
-    getRent = () => {
-        // return new LPFloat({context: this.context, name: 'lpjs_rent', value: Number.NaN, codeStr: 'getRent()'})
-        return new LPFloat({context: this.context, name: 'lpjs_rent', value: Number.NaN, codeStr: 'getRent()'})
-        // this.context.writeLine(`getRent()`)
+    getRent() {
+        const [name] = arguments
+        const expression = `getRent()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPFloat({context: this.context, name, expression})
     }
 
     /**
@@ -232,8 +268,11 @@ module.exports = class LPPlayer extends LPActor {
      *
      * @return {LPFloat} Salary
      */
-    getSalary = () => {
-        return new LPFloat({context: this.context, name: 'lpjs_salary', value: Number.NaN, codeStr: 'getSalary()'})
+    getSalary() {
+        const [name] = arguments
+        const expression = `getSalary()`
+        if (name) this.context.writeLine(`${name} = ${expression}`)
+        return new LPFloat({context: this.context, name, expression})
     }
 
     /**
