@@ -40,6 +40,7 @@ test('float.add chaining', async () => {
         let a = 1
         let b = 2
         let c = a + b + 32 + 17
+        let d = a + 31 + 18
     })
     await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_add_chaining', type: 'scene', debug: true})
     expect(scene._code.trim()).toBe([
@@ -47,6 +48,7 @@ test('float.add chaining', async () => {
         '  a = 1',
         '  b = 2',
         '  c = a + b + 32 + 17',
+        '  d = a + 31 + 18',
         'sceneEnd()'
     ].join(LB))
 })
@@ -121,18 +123,21 @@ test('float.sub', () => {
     ].join(LB))
 })
 
-test('float.sub chaining', () => {
+test('float.sub chaining', async () => {
     const scene = new Scene()
     scene.start((scene) => {
         let a = 1
         let b = 2
         let c = a - b - 3
+        let d = a - 8 - 7
     })
+    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_sub_chaining', type: 'scene', debug: true})
     expect(scene._code.trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a - b - 3',
+        '  d = a - 8 - 7',
         'sceneEnd()'
     ].join(LB))
 })
