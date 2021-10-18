@@ -1,7 +1,7 @@
 const Scene = require('../../src/core/Scene')
 const LB = '\r\n'
 
-test('$while', () => {
+test('while', async () => {
     let scene = new Scene()
     const {WHAT, WHERE, WHEN, WHO, OTHER} = scene
     WHAT(['all', '-sleep', '-nap'])
@@ -12,13 +12,14 @@ test('$while', () => {
     OTHER((scene) => {
     })
     scene.start((scene) => {
-        const {$while, narrative} = scene
+        const {narrative} = scene
         let count =  0
-        $while(count < 10, () => {
+        while (count < 10) {
             count += 1 // without this line, the loop will continue forever i.e. count will remain less than 10 forever
             narrative("The count is <count>")
-        })
+        }
     })
+    await scene.writeFiles({buildPath: 'build', filePath: 'test/core', fileName: 'while', type: 'scene', debug: true})
     expect(scene._code.trim()).toBe([
         'WHAT: all, -sleep, -nap',
         'WHERE: home',

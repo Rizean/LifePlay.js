@@ -8,7 +8,7 @@ test('$random', () => {
     scene.WHEN(['0', '24'])
     scene.WHO()
     scene.OTHER()
-    scene.sceneStart((scene)=>{
+    scene.start((scene)=>{
         const {$while, narrative, $random} = scene
         $random(() => {
             narrative("random 1")
