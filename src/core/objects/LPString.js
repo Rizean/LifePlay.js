@@ -1,7 +1,7 @@
 const LPBoolean = require('./LPBoolean')
-const LPObject = require('./LPObject')
+const LPVariable = require('./LPVariable')
 
-class LPString extends LPObject {
+class LPString extends LPVariable {
 
     /**
      * Assigns the value of rhs to this

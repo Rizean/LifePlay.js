@@ -13,10 +13,10 @@ module.exports = class LPBoolean extends LPVariable {
     /**
      * Logical and
      * @param {boolean|LPBoolean} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    and = (rhs, name) => {
+    and(rhs) {
+        const [, name] = arguments
         rhs = rhs.expression || rhs
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} && ${rhs}`)
@@ -28,10 +28,10 @@ module.exports = class LPBoolean extends LPVariable {
     /**
      * Logical or
      * @param rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    or = (rhs, name) => {
+    or(rhs) {
+        const [, name] = arguments
         rhs = rhs.expression || rhs
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} || ${rhs}`)
@@ -42,17 +42,10 @@ module.exports = class LPBoolean extends LPVariable {
 
     /**
      * Logical not
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    not = (name) => {
+    not() {
+        const [name] = arguments
         return this._enclose('!(', ')', name)
-        // return this._enclose('!', '')
-    }
-
-    write() {
-        this.context.writeLine(`${this.expression}`)
-        return this
-        // this._expression = this.name
     }
 }

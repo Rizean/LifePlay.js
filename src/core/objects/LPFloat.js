@@ -19,11 +19,15 @@ class LPFloat extends LPVariable {
      * @return {LPFloat|*}
      * @private
      */
-    _opHelper = ({op, rhs, name, ReturnType = LPFloat}) => {
+    _opHelper = ({op, aop, rhs, name, ReturnType = LPFloat, noChain}) => {
         rhs = rhs.expression || rhs
+        if (noChain) this._noChain(noChain)
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} ${op} ${rhs}`)
             return new ReturnType({context: this.context, name, expression: name})
+        }
+        if (aop) {
+            this.context.writeLine(`${this.name} ${aop} ${rhs.expression || rhs}`)
         }
         return new ReturnType({context: this.context, name: this.name, expression: `${this.expression} ${op} ${rhs}`})
     }
@@ -48,45 +52,51 @@ class LPFloat extends LPVariable {
     /**
      * this + rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    add = (rhs, name) => this._opHelper({op: '+', rhs, name})
+    add(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '+', rhs, name})
+    }
 
     /**
      * this - rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    sub = (rhs, name) => this._opHelper({op: '-', rhs, name})
+    sub(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '-', rhs, name})
+    }
 
 
     /**
      * this / rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    div = (rhs, name) => this._opHelper({op: '/', rhs, name})
+    div(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '/', rhs, name})
+    }
 
     /**
      * this * rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    mul = (rhs, name) => this._opHelper({op: '*', rhs, name})
+    mul(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '*', rhs, name})
+    }
 
     /**
      * this += rhs
      * @param {string=} name optional name handled by parser
      * @param {number|LPObject} rhs
      */
-    addEq(rhs, name) {
-        this._noChain('addEq')
-        // return this._opHelper('+=', rhs, name)
-        this.context.writeLine(`${this.name} += ${rhs.expression || rhs}`)
+    addEq(rhs) {
+        return this._opHelper({aop: '+=', rhs, noChain: 'addEq'})
     }
 
     /**
@@ -94,8 +104,7 @@ class LPFloat extends LPVariable {
      * @param {number|LPObject} rhs
      */
     subEq(rhs) {
-        this._noChain('subEq')
-        this.context.writeLine(`${this.name} -= ${rhs.expression || rhs}`)
+        return this._opHelper({aop: '-=', rhs, noChain: 'subEq'})
     }
 
     /**
@@ -103,8 +112,7 @@ class LPFloat extends LPVariable {
      * @param {number|LPObject} rhs
      */
     mulEq(rhs) {
-        this._noChain('mulEq')
-        this.context.writeLine(`${this.name} *= ${rhs.expression || rhs}`)
+        return this._opHelper({aop: '*=', rhs, noChain: 'mulEq'})
     }
 
     /**
@@ -112,8 +120,7 @@ class LPFloat extends LPVariable {
      * @param {number|LPObject} rhs
      */
     divEq(rhs) {
-        this._noChain('divEq')
-        this.context.writeLine(`${this.name} /= ${rhs.expression || rhs}`)
+        return this._opHelper({aop: '/=', rhs, noChain: 'divEq'})
     }
 
     /**
@@ -134,88 +141,106 @@ class LPFloat extends LPVariable {
     /**
      * this > rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    gt = (rhs, name) => this._opHelper({op: '>', rhs, name, ReturnType: LPBoolean})
-
+    gt(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '>', rhs, name, ReturnType: LPBoolean})
+    }
 
     /**
      * this >= rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    gte = (rhs, name) => this._opHelper({op: '>=', rhs, name, ReturnType: LPBoolean})
-
+    gte(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '>=', rhs, name, ReturnType: LPBoolean})
+    }
 
     /**
      * this < rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    lt = (rhs, name) => this._opHelper({op: '<', rhs, name, ReturnType: LPBoolean})
+    lt(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '<', rhs, name, ReturnType: LPBoolean})
+    }
 
 
     /**
      * this <= rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    lte = (rhs, name) => this._opHelper({op: '<=', rhs, name, ReturnType: LPBoolean})
+    lte(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '<=', rhs, name, ReturnType: LPBoolean})
+    }
 
     /**
      * this != rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    ne = (rhs, name) => this._opHelper({op: '!=', rhs, name, ReturnType: LPBoolean})
+    ne(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '!=', rhs, name, ReturnType: LPBoolean})
+    }
 
     /**
      * this == rhs
      * @param {number|LPObject} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPBoolean}
      */
-    eq = (rhs, name) => this._opHelper({op: '==', rhs, name, ReturnType: LPBoolean})
+    eq(rhs) {
+        const [, name] = arguments
+        return this._opHelper({op: '==', rhs, name, ReturnType: LPBoolean})
+    }
 
     /**
      * Use this function to get the integer value of a float variable.
      * Any value less than x.3 / x.5 / x.8 will be rounded down to "x".
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    floor = (name) => this._funcHelper({func: 'floor', noChain: true, name, params: '', ReturnType: LPFloat})
+    floor() {
+        const [name] = arguments
+        return this._funcHelper({func: 'floor', noChain: true, name, params: '', ReturnType: LPFloat})
+    }
 
 
     /**
      * Float raised to the power of rhs.
      * @param {number|LPFloat} rhs
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    power = (rhs, name) => this._funcHelper({func: 'power', noChain: true, name, params: `${rhs.expression || rhs}`, ReturnType: LPFloat})
+    power(rhs) {
+        const [, name] = arguments
+        return this._funcHelper({func: 'power', noChain: true, name, params: `${rhs.expression || rhs}`, ReturnType: LPFloat})
+    }
 
 
     /**
      * Use this function mathematically round a float variable.
      * Any value less than x.5 will be rounded down to "x" anything larger or equal to
      * x.5 will be rounded up to x+1.
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    round = (name) => this._funcHelper({func: 'round', noChain: true, name, params: ``, ReturnType: LPFloat})
+    round() {
+        const [name] = arguments
+        this._funcHelper({func: 'round', noChain: true, name, params: ``, ReturnType: LPFloat})
+    }
 
 
     /**
      * Converts a dollar value to the local currency for the home city in string format.
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat}
      */
-    convertToLocalCurrency = (name) => this._funcHelper({func: 'convertToLocalCurrency', noChain: true, name, params: ``, ReturnType: LPFloat})
+    convertToLocalCurrency() {
+        const [name] = arguments
+        this._funcHelper({func: 'convertToLocalCurrency', noChain: true, name, params: ``, ReturnType: LPFloat})
+    }
 
     /**
      * Set this as your current monthly fraternity fees.
@@ -224,10 +249,12 @@ class LPFloat extends LPVariable {
      * FratFee.setFraternityFees()
      * scene.narrative("I agreed to pay $1000 per month for fraternity fees")
      * @param {number|LPFloat} fratFee
-     * @param {string=} name optional name handled by parser
      * @return {LPFloat} - reference to this for chaining
      */
-    setFraternityFees = (fratFee, name) => this._funcHelper({func: 'setFraternityFees', noChain: true, name, params: `${fratFee.expression || fratFee}`, ReturnType: LPFloat})
+    setFraternityFees(fratFee) {
+        const [, name] = arguments
+        this._funcHelper({func: 'setFraternityFees', noChain: true, name, params: `${fratFee.expression || fratFee}`, ReturnType: LPFloat})
+    }
 
 
     /**
@@ -279,10 +306,6 @@ class LPFloat extends LPVariable {
 
     set isStat(value) {
         this._isStat = value
-    }
-
-    write() {
-        this.context.writeLine(`${this.expression}`)
     }
 }
 
