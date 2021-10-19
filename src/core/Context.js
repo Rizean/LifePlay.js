@@ -10,11 +10,13 @@ const LPFloat = require('./objects/LPFloat')
 const LPBoolean = require('./objects/LPBoolean')
 const LPString = require('./objects/LPString')
 const LPObject = require('./objects/LPObject')
+const LPGlobals = require('./objects/LPGlobals')
 const {NodeVM} = require("vm2")
 const parser = require('./parser')
 
 module.exports = class Context {
     constructor({script}) {
+        this._globals = new LPGlobals({context: this})
         this._code = ''
         this._codeDepth = 0
         this._inline = false
@@ -165,25 +167,9 @@ module.exports = class Context {
         return this._enclose(LPObject, '[', ']')
     }
 
-    // reset() {
-    //     this._code = ''
-    //     this.intermediate = ''
-    //     this._codeDepth = 0
-    //     this._inline = false
-    //     // this._localVariable = new Map()
-    //     // this._localVariableIndex = new Map()
-    // }
-
-    // build(shouldReset = true, context) {
-    //     throw new Error('dont use!')
-    //     if (shouldReset) this.reset()
-    //     // fixme this is temp for testing
-    //     this.buildV2({}, this._script, this)
-    //     return this._code
-    // }
-
-    buildV2(sandbox, script, context) {
+    buildV2(sandbox = {}, script, context) {
         this._build = {}
+        this._globals.hookSandbox(sandbox)
         const vm = new NodeVM({
             timeout: 10 * 1000,
             console: 'inherit',
