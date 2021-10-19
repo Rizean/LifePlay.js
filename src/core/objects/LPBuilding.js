@@ -11,6 +11,14 @@ class LPBuilding extends LPObject {
     }
 
     /**
+     * Add objective to a building alias, objective is simply a lpaction file with SCENE_ALWAYS
+     * @param lpaction
+     */
+    addObjective(lpaction) {
+        this.context.writeLine(`${this.name}.addObjective(${lpaction})`)
+    }
+
+    /**
      * Calculate the expenses for the current building.
      * @return {LPFloat}
      */
@@ -52,6 +60,16 @@ class LPBuilding extends LPObject {
         const expression = 'calculateWages()'
         if (name) this.context.writeLine(`${name} = ${expression}`)
         return new LPFloat({context: this.context, name, expression})
+    }
+
+    /**
+     * Used for quest, building alias is a location that a quest objective can be at, used with addObjective()
+     * @param alias
+     * @param buildingType
+     */
+    generateBuildingAlias(alias, buildingType) {
+        this.context.writeLine(`${alias}.generateBuildingAlias(${buildingType})`)
+        return new LPBuilding({context: this.context, name: alias})
     }
 
     /**
@@ -113,6 +131,13 @@ class LPBuilding extends LPObject {
     removeObjective = (lpActionFilename) => {
         this.context.writeLine(`${this.name}.removeObjective(${lpActionFilename})`)
         return this
+    }
+
+    /**
+     * Set a specific building as your SO's home
+     */
+    setHomeDating = () => {
+        this.context.writeLine(`${this.name}.setHomeDating()`)
     }
 }
 

@@ -51,6 +51,17 @@ class LPActor extends LPObject {
     }
 
     /**
+     * Make the actor use a furniture animation / pose with a specific object. Use the room editor to get x y z of the furniture. Filter is usually sit, use, lie or work
+     * @param x
+     * @param y
+     * @param z
+     * @param filter
+     */
+    animateFnt = (x, y, z, filter) => {
+        this.context.writeLine(`${this.name}.animate(${x}, ${y}, ${z}, ${filter})`)
+    }
+
+    /**
      * Animates a pair of actors
      * @param {LPActor} secondActor
      * @param {string} animation - can be one of Kissing, Vaginal, ...?
@@ -130,6 +141,17 @@ class LPActor extends LPObject {
      * @return {void|*}
      */
     closeEyes = (isClosed) => this.context.writeLine(`${this.name}.closeEyes(${isClosed})`)
+
+    /**
+     * Check if any equipped apparel has an ID that contains the keyword
+     * @example
+     * if (Actor.clothesContain('Jeans')) {
+     *     scene.narrative("<Actor.name> is wearing some sorts of jeans")
+     * }
+     * @param keyword
+     * @param name
+     */
+    clothesContain = (keyword, name) => this._isHelper('clothesContain', [keyword], name)
 
     /**
      * Returns the number of days a player has been pregnant.
@@ -816,6 +838,11 @@ class LPActor extends LPObject {
      * @return {void|*}
      */
     setCurrentLocation = (buildingVariable) => this.context.writeLine(`${this.name}.setCurrentLocation(${buildingVariable.name})`)
+
+    /**
+     * Used for polyamorous for setting up which lover to break up with before you use loseDating()
+     */
+    setDatingId = () => this.context.writeLine(`${this.name}.setDatingId()`)
 
     /**
      * Make this Actor remember that they used to be related to the actor.

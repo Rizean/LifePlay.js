@@ -719,6 +719,13 @@ module.exports = class Scene extends Context {
      */
     sexNoAffair = (actors) => this.writeLine(`sexNoAffair(${actors.map(({name}) => name).join(', ')})`)
 
+
+    /**
+     * Allows you to switch to the map view during scenes, possibly with a random location within a specified radius from your current location
+     * @param radius
+     */
+    showMapView = (radius) => this.writeLine(`showMapView(${radius})`)
+
     /**
      * Show sneak game, if successful, the next sneak check will return 100
      * @example
@@ -733,6 +740,17 @@ module.exports = class Scene extends Context {
      * call this command before starting a sex scene to make sure that none of the regular 'dirtytalk' (ie both ppl wanting it) is played, and only rape talk is.
      */
     talkNonConsensual = () => this.writeLine(`talkNonConsensual()`)
+
+    /**
+     * Check if the current game was started with the TF New Game
+     * @return {LPBoolean}
+     */
+    TfGame() {
+        const [name] = arguments
+        const expression = `TfGame()`
+        if (name) this.writeLine(`${name} = ${expression}`)
+        return new LPBoolean({context: this, name, expression})
+    }
 
     /**
      * Returns true if condoms were used during last sex
