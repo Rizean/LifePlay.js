@@ -627,9 +627,9 @@ STATS.forEach(stat => {
         const script = `(scene) => {
             const {Player} = scene
             var ActorA = scene.getSpecific('Employee')
-            ActorA[${stat}] = 5
-            ActorA[${stat}] += 5
-            var sum = Player[${stat}] + ActorA[${stat}]
+            ActorA.${stat} = 5
+            ActorA.${stat} += 5
+            var sum = Player.${stat} + ActorA.${stat}
         }`
         scene.start(eval(script))
         if (runOnce) {
