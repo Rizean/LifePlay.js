@@ -1,10 +1,13 @@
 const LPObject = require('./LPObject')
 const LPString = require('./LPString')
 module.exports = class LPGlobals extends LPObject {
+    constructor({context}) {
+        super({context});
+    }
 
     hookSandbox(sandbox) {
-        sandbox.enterString = this.enterString
-        sandbox.setHomeCity = this.setHomeCity
+        sandbox.enterString = (...params) => this.enterString(...params)
+        sandbox.setHomeCity = (...params) => this.setHomeCity(...params)
     }
 
     /**

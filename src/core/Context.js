@@ -16,7 +16,6 @@ const parser = require('./parser')
 
 module.exports = class Context {
     constructor({script}) {
-        this._globals = new LPGlobals({context: this})
         this._code = ''
         this._codeDepth = 0
         this._inline = false
@@ -169,7 +168,12 @@ module.exports = class Context {
 
     buildV2(sandbox = {}, script, context) {
         this._build = {}
-        this._globals.hookSandbox(sandbox)
+        sandbox.globals = {}
+        const globals = new LPGlobals({context})
+        globals.hookSandbox(sandbox.globals)
+
+
+        // console.log('buildV2 - sandbox', sandbox)
         const vm = new NodeVM({
             timeout: 10 * 1000,
             console: 'inherit',
@@ -183,13 +187,19 @@ module.exports = class Context {
 
         // console.log('buildV2 script', script)
         // const _script = `module.exports = ${preprocessor('' + script)}`
-        const _script = `module.exports = ${'' + script}`
+
+
+
+        const _script = [
+            `Object.keys(globals).forEach((k) => global[k] = globals[k])`,
+            `module.exports = ${'' + script}`
+        ].join('\n')
         this._build.script = _script
         const {intermediate, parsed, logs} = parser(_script)
         this._build.intermediate = intermediate
         this._build.parsed = parsed
         this._build.logs = logs
-        // console.log('intermediate', intermediate)
+        console.log('intermediate', intermediate)
         const functionInSandbox = vm.run(intermediate, __filename)
 
         // console.log(functionInSandbox)
