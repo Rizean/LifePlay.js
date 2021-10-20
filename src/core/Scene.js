@@ -506,12 +506,12 @@ module.exports = class Scene extends Context {
      * @param {string|float} keywordOrID - Doctor, Nurse, Dating, Dating_Friend, Boss, Colleague, Neighbour, PT, PotentialBabyDaddy, Prostitute, ExDating, Landlord, Lecturer, CurrentBabyDaddy,
      * Impregnated, Affair, Coursemate, Fraternity, Student, chooseContact, PassedOn, Relative, Dating_Friend, Neighbour
      * Alternatively, you can input an ID number or a float variable containing it to get the actor with that ID.
-     * @todo handle variable name?
+     * @return {LPNPC}
      */
     getSpecific = (keywordOrID, name) => {
         const expression = `getSpecific(${keywordOrID})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPActor({context: this, name, expression})
+        return new LPNPC({context: this, name, expression})
     }
 
     /**
