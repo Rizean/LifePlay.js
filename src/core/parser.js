@@ -44,8 +44,11 @@ handlers.UnaryExpression = (expression, {depth = 0, logs, name} = {}) => {
 }
 handlers.MemberExpression = (expression, {depth = 0, logs} = {}) => {
     logs.push(['MemberExpression', expression])
-    const {object, property} = expression
-    return `${handlers.getHandler(object)(object, {depth, logs})}.${handlers.getHandler(property)(property, {depth, logs})}`
+    const {object, property, computed} = expression
+    const obj = `${handlers.getHandler(object)(object, {depth, logs})}`
+    const prop = `${handlers.getHandler(property)(property, {depth, logs})}`
+    if (computed) return `${obj}[${prop}]`
+    return `${obj}.${prop}`
 }
 
 handlers.CallExpression = (expression, {depth = 0, name, logs} = {}) => {
@@ -220,6 +223,7 @@ handlers.IfStatement = (expression, {depth = 0, logs} = {}) => {
 handlers.AssignmentExpression = (expression, {depth = 0, logs} = {}) => {
     logs.push(['AssignmentExpression', expression])
     let {operator, left, right} = expression
+    const isComputed = left.computed
     const name = left.name
     if (operator === '-=') return `${handlers.getHandler(left)(left, {logs, name})}.subEq(${handlers.getHandler(right)(right, {depth, logs})})`
     if (operator === '+=') return `${handlers.getHandler(left)(left, {logs, name})}.addEq(${handlers.getHandler(right)(right, {depth, logs})})`
@@ -234,6 +238,17 @@ handlers.AssignmentExpression = (expression, {depth = 0, logs} = {}) => {
     return `${handlers.getHandler(left)(left, {logs})} ${operator} ${handlers.getHandler(right)(right, {depth, logs, name})}`
 }
 
+handlers.FunctionExpression = (expression, {depth = 0, logs} = {}) => {
+    logs.push(['FunctionExpression', expression])
+    const params = expression.params.map(param => handlers.getHandler(param)(param, {depth, logs})).join(', ')
+    const body = handlers.getHandler(expression.body)(expression.body, {depth: depth + INDENT, logs})
+
+    return [
+        `function(${params}) {`,
+        `${body}`,
+        `${$pad(depth)}}`,
+    ].join('\r\n')
+}
 
 handlers.Program = (program, {depth = 0, logs} = {}) => {
     logs.push(['Program', program])
