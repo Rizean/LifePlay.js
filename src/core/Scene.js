@@ -630,7 +630,6 @@ module.exports = class Scene extends Context {
     start = (script) => {
         this.writeLine(``)
         this.writeLine(`sceneStart()`)
-        this.codeDepth += 2
         if (typeof script === 'function') {
             const result = super.buildV2({}, '' + script, this)
             this.codeDepth -= 2
