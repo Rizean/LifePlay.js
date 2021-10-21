@@ -1,13 +1,15 @@
-# 
+#
+## WIP
+* LPStat - Need some way for users to add stats
+* LPAction
+* LPMod
+
 ## todo
 
 ### Modules
 * LPTalk
 * LPDescription
-* LPStat
 * LPAI
-* LPAction
-* LPMod
 * LPCharacter
 * LPGlobal
 * LPQuest
