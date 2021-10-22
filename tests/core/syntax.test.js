@@ -10,7 +10,6 @@ const LPObject = require('../../src/core/objects/LPObject')
 const LPPlayer = require('../../src/core/objects/LPPlayer')
 const LPString = require('../../src/core/objects/LPString')
 const LPGlobals = require('../../src/core/objects/LPGlobals')
-const LPGlobal = require('../../src/core/objects/LPGlobal')
 const LPTalk = require('../../src/core/objects/LPTalk')
 
 const setupMod = require('../tools/setupMod')
@@ -33,7 +32,6 @@ test('Syntax Check', async () => {
         new LPString({context: scene, lpMod: setupMod()}),
 
         new LPGlobals({context: scene, lpMod: setupMod()}),
-        new LPGlobal({context: scene, lpMod: setupMod()}),
 
         new LPObject({context: scene, lpMod: setupMod()}),
         new LPActor({context: scene, lpMod: setupMod()}),

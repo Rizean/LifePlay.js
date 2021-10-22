@@ -26,7 +26,12 @@ module.exports = class Context {
         this._lpMod = lpMod
     }
 
-    require = require
+    reset() {
+        this._code = ''
+        this._codeDepth = 0
+        this._inline = false
+        this._build = {}
+    }
 
     writeLine(line) {
         let padding = ''.padStart(this._codeDepth, SPACE)

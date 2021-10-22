@@ -1,8 +1,8 @@
 #
 ## WIP
 * LPStat - Need some way for users to add stats
-* LPAction
-* LPMod
+* ~~LPAction~~
+* ~~LPMod~~
 
 ## todo
 
@@ -28,11 +28,15 @@
 * isQuestCompleted - example isQuestCompleted(legalized)
 
 #### LPGlobal
-* GlobalVariableName.clearGlobal() - SugarBabe.clearGlobal()
+* ~~GlobalVariableName.clearGlobal() - SugarBabe.clearGlobal()~~
 * ~~GlobalVariable.getGlobal()~~ return float - Get the float value of a global variable. If there's no global variable under such name, returns 0. - SugarBabe = SugarBabe.getGlobal(); If SugarBabe > 0; Actor = getSpecific(SugarBabe)
-* GlobalVariableName.setGlobal(float or floatvariable) - SugarBabe = Actor.getID();  SugarBabe.setGlobal(SugarBabe)
-* (not used) ~~GlobalVariable.getGlobalString()~~ returns String - Same as getGlobal(), just string instead of float
-* (not used) GlobalVariable.setGlobalString(String) Same as setGlobal(), just string instead of float
+* ~~GlobalVariableName.setGlobal(float or floatvariable) - SugarBabe = Actor.getID();  SugarBabe.setGlobal(SugarBabe)~~
+* ~~GlobalVariable.getGlobalString() returns String - Same as getGlobal(), just string instead of float~~
+* ~~GlobalVariable.setGlobalString(String) Same as setGlobal(), just string instead of float~~
+
+### Other
+* LPMod needs JSDoc
+* need JSDoc's that works on the injected Globals
 
 ### Review 4.14 Missing Syntax
 * ~~addObjective~~

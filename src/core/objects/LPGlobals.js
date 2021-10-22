@@ -7,11 +7,35 @@ module.exports = class LPGlobals extends LPObject {
         super({context, lpMod});
     }
 
+    /**
+     * Internal private function used by parser
+     * @private
+     * @param sandbox
+     */
     hookSandbox(sandbox) {
+        sandbox.comment = (...params) => this.comment(...params)
         sandbox.enterString = (...params) => this.enterString(...params)
         sandbox.getGlobal = (...params) => this.getGlobal(...params)
         sandbox.getGlobalString = (...params) => this.getGlobalString(...params)
+        sandbox.setGlobal = (...params) => this.setGlobal(...params)
+        sandbox.setGlobalString = (...params) => this.setGlobalString(...params)
         sandbox.setHomeCity = (...params) => this.setHomeCity(...params)
+    }
+
+    /**
+     * Delete this global variable completely.
+     */
+    clearGlobal(key) {
+        this.lpMod.delete(key)
+        this.context.writeLine(`${key}.clearGlobal()`)
+    }
+
+    /**
+     * Adds a comment to the final code output.
+     * @param text
+     */
+    comment(text) {
+        this.context.writeLine(`// ${text}`)
     }
 
     /**
@@ -31,11 +55,20 @@ module.exports = class LPGlobals extends LPObject {
      * @return {LPFloat}
      */
     getGlobal(key) {
-        const [name] = arguments
-        // todo track global variables
+        const [, name] = arguments
         const expression = `${key}.getGlobal()`
+        const globalType = this.lpMod.getGlobal(key)
+        if (!globalType) {
+            const text = `Unknown global ${key}!`
+            console.warn(text)
+            this.comment(text)
+        } else if (globalType !== 'float') {
+            const text = `Expected global ${key} to be a float but found a ${globalType}!`
+            console.warn(text)
+            this.comment(text)
+        }
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this,lpMod: this.lpMod, name, expression})
+        return new LPFloat({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -44,11 +77,40 @@ module.exports = class LPGlobals extends LPObject {
      * @return {LPString}
      */
     getGlobalString(key) {
-        const [name] = arguments
-        // todo track global variables
+        const [, name] = arguments
         const expression = `${key}.getGlobalString()`
+        const globalType = this.lpMod.getGlobal(key)
+        if (!globalType) {
+            const text = `Unknown global ${key}!`
+            console.warn(text)
+            this.comment(text)
+        } else if (globalType !== 'string') {
+            const text = `Expected global ${key} to be a string but found a ${globalType}!`
+            console.warn(text)
+            this.comment(text)
+        }
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPString({context: this,lpMod: this.lpMod, name, expression})
+        return new LPString({context: this, lpMod: this.lpMod, name, expression})
+    }
+
+    /**
+     * Set (add if it doesn't already exist) a global variable to a certain number.
+     * @param key global variable key name
+     * @param {number|LPFloat} float
+     */
+    setGlobal(key, float) {
+        this.lpMod.addGlobal(key, 'float')
+        this.context.writeLine(`${key}.setGlobal(${float.name || float})`)
+    }
+
+    /**
+     * Same as setGlobal(), just string instead of float
+     * @param key global variable key name
+     * @param str
+     */
+    setGlobalString(key, str) {
+        this.lpMod.addGlobal(key, 'string')
+        this.context.writeLine(`${key}.setGlobalString(${str.name || `"${str}"`})`)
     }
 
     /**

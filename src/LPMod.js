@@ -64,6 +64,10 @@ class LPMod {
         return this._globals.get(key)
     }
 
+    deleteGlobal(key) {
+        return this._globals.delete(key)
+    }
+
     addStat(stat) {
         assert.ok(stat instanceof LPStat)
         if (this._stats.has(stat.STAT_ID)) {

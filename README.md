@@ -53,3 +53,55 @@ an example see below:
 * `yarn example:optionChoice`
 * `yarn example:simpleScene`
 * `yarn example:while`
+
+
+## API
+### Global Variable
+#### Example
+LifePlay.js (lpjs) makes it easier to use global variables and warns you when you are making mistakes.
+
+Example Scene 1
+```javascript
+scene.start((scene) => {
+    var gf2 = 2
+    setGlobal('globalF1', 1)
+    setGlobal('globalF2', gf2)
+    setGlobalString('globalF3', "Not a float.")
+})
+```
+
+Generated LifePlay code
+```text
+sceneStart()
+  gf2 = 2
+  globalF1.setGlobal(1)
+  globalF2.setGlobal(gf2)
+  globalF3.setGlobalString("Not a float.")
+sceneEnd()
+```
+
+Example Scene 2
+```javascript
+scene.start((scene) => {
+    var gf1 = getGlobal('globalF1')
+    var gf2 = getGlobal('globalF2')
+    var gf3 = getGlobal('globalF3')
+    var gf4 = getGlobal('globalF4')
+})
+```
+
+Generated LifePlay code
+```text
+sceneStart()
+  gf1 = globalF1.getGlobal()
+  gf2 = globalF2.getGlobal()
+  // Expected global globalF3 to be a float but found a string!
+  gf3 = globalF3.getGlobal()
+  // Unknown global globalF4!
+  gf4 = globalF4.getGlobal()
+sceneEnd()
+```
+
+lpjs adds these comment to the final LifePlay source output and you will see warnings in the build output console.
+
+See test `Globals setGlobal(key, value) and getGlobal(key)` and `Globals setGlobalString(key, value) and getGlobalString(key)` in `tests/core/gloabals.test.js`
