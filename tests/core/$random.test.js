@@ -1,8 +1,10 @@
 const Scene = require('../../src/core/Scene')
+const setupMod = require('../tools/setupMod')
 const LB = '\r\n'
 
+
 test('$random', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.WHAT(['all', '-sleep', '-nap'])
     scene.WHERE(['home'])
     scene.WHEN(['0', '24'])

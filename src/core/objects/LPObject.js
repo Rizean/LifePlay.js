@@ -1,12 +1,16 @@
+const assert = require('assert')
+const LPMod = require('../../LPMod')
+
 module.exports = class LPObject {
-    constructor({context, name, expression}) {
+    constructor({context, lpMod, name, expression}) {
         if (context == null) throw new Error(`Invalid context!`)
         this._context = context
         this._name = name
         this._expression = expression || name
+
+        assert.ok(lpMod instanceof LPMod, 'Expected lpMod to be instanceof LPMod')
+        this._lpMod = lpMod
     }
-
-
 
     _noChain = (func) => {
         if (this._expression !== this.name) throw new Error(`${this.constructor.name}.${func} cannot be chained!`)
@@ -22,5 +26,9 @@ module.exports = class LPObject {
 
     get name() {
         return this._name
+    }
+
+    get lpMod() {
+        return this._lpMod
     }
 }

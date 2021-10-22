@@ -22,6 +22,7 @@ class LPMod {
 
         this._stats = new Map()
         this._actions = new Map()
+        this._globals = new Map()
     }
 
 
@@ -53,6 +54,14 @@ class LPMod {
 
     loadMod(modsDir) {
 
+    }
+
+    addGlobal(key, type) {
+        this._globals.set(key, type)
+    }
+
+    getGlobal(key) {
+        return this._globals.get(key)
     }
 
     addStat(stat) {

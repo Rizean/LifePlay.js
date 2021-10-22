@@ -7,8 +7,8 @@ const LPFloat = require('./LPFloat')
 const LPBoolean = require('./LPBoolean')
 
 module.exports = class LPNPC extends LPActor {
-    constructor({context, name, expression}) {
-        super({context, name, expression})
+    constructor({context, lpMod, name, expression}) {
+        super({context, lpMod, name, expression})
     }
 
     /**
@@ -131,7 +131,7 @@ module.exports = class LPNPC extends LPActor {
      */
     getUntil = (name) => {
         if (name) this.context.writeLine(`${name} = ${this.name}.getUntil()`)
-        return new LPFloat({context: this.context, name})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -145,7 +145,7 @@ module.exports = class LPNPC extends LPActor {
         })
         const expression = `${this.name}.hasRelationship(${types.join(', ')})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -159,7 +159,7 @@ module.exports = class LPNPC extends LPActor {
     isAffair = (name) => {
         const expression = `${this.name}.isAffair()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -378,7 +378,7 @@ module.exports = class LPNPC extends LPActor {
      */
     setActorAlias = (aliasStr) => {
         const expression = `${this.name}.setActorAlias(${aliasStr})`
-        const alias = new LPString({context: this, name: aliasStr, expression})
+        const alias = new LPString({context: this, lpMod: this.lpMod, name: aliasStr, expression})
         this.context.writeLine(expression)
         return alias
     }

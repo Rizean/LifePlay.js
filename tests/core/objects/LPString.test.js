@@ -1,7 +1,8 @@
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 test('LPString.assign', async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 'test'
         a = 'test2'
@@ -19,7 +20,7 @@ test('LPString.assign', async () => {
 
 
 test('LPString.isSameString', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 'test'
         let b = 'test'
@@ -38,7 +39,7 @@ test('LPString.isSameString', () => {
 })
 
 test('LPString.isString', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 'test'
         let c = a.isString('test')

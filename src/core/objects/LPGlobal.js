@@ -25,4 +25,6 @@ module.exports = class LPGlobal extends LPObject {
     setGlobalString(str) {
         this.context.writeLine(`${this.name}.setGlobal(${str.name || str})`)
     }
+
+
 }

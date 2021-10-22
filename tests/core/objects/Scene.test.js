@@ -1,5 +1,6 @@
 // noinspection DuplicatedCode
 
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 const paramScriptMapper = (params) => {
@@ -18,7 +19,7 @@ function simpleScene(func, hasResult, ...params) {
     ${hasResult ? 'var result = ' : ''}scene.${func}(${paramScriptMapper(params)})
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -33,7 +34,7 @@ function simpleSceneOneActor(func, ...params) {
     scene.${func}(ActorA)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -50,7 +51,7 @@ function simpleSceneTwoActor(func, ...params) {
     scene.${func}(ActorA, ActorB)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -62,7 +63,7 @@ function simpleSceneTwoActor(func, ...params) {
 }
 
 test('WHAT / WHERE / WHEN / WHO', async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.WHAT(['all', '-sleep', '-nap'])
     scene.WHERE(['home'])
     scene.WHEN(['0', '24'])
@@ -100,7 +101,7 @@ test('WHAT / WHERE / WHEN / WHO', async () => {
 })
 
 test('addNpcRelationship', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         var ActorB = scene.getSpecific('Boss')
@@ -141,7 +142,7 @@ test('generatePerson', () => simpleScene('generatePerson', true, ["easterneurope
 test('generatePersonTemporary', () => simpleScene('generatePersonTemporary', true, ["easterneuropean", "twenties", "fitness_model"]))
 
 test('getActorAlias', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var Amy = scene.getActorAlias('AmyA')
     })
@@ -155,34 +156,10 @@ test('getActorAlias', () => {
 test('getAssignee', () => simpleScene('getAssignee', true, "living room"))
 test('getCreature', () => simpleScene('getCreature', true))
 
-test('getGlobal', () => {
-    let scene = new Scene()
-    scene.start((scene) => {
-        var SugarParent = scene.getGlobal('SugarParent')
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  SugarParent = SugarParent.getGlobal()',
-        'sceneEnd()'
-    ].join(LB))
-})
-
-test('getGlobalString', () => {
-    let scene = new Scene()
-    scene.start((scene) => {
-        var someGlobalString = scene.getGlobalString('someGlobalString')
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  someGlobalString = someGlobalString.getGlobalString()',
-        'sceneEnd()'
-    ].join(LB))
-})
-
 test('getPerson', () => simpleScene('getPerson', true, true))
 
 test('getPersonHere', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var anyNpc = scene.getPersonHere()
         var onlyPermanent = scene.getPersonHere(true)
@@ -198,7 +175,7 @@ test('getPersonHere', () => {
 })
 
 test('getRelatedPeople', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var related = scene.getRelatedPeople(['Dating', 'Spouses'])
     })
@@ -214,7 +191,7 @@ test('isQuestCompleted', () => simpleScene('isQuestCompleted', true, 'legalized'
 test('isTimingOut', () => simpleScene('isTimingOut', true, 'recommend_for_promotion'))
 
 test('narrative', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.narrative("some text")
     })
@@ -231,7 +208,7 @@ test('preciseModify', () => simpleScene('preciseModify', false))
 test('questEnd', () => simpleScene('questEnd', false))
 
 test('removeNpcRelationship', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         var ActorB = scene.getSpecific('Boss')
@@ -251,7 +228,7 @@ test('saveOldPlayer', () => simpleScene('saveOldPlayer', false))
 test('sceneEndLoadLastSave', () => simpleScene('sceneEndLoadLastSave', false))
 
 test('secondScreen', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         scene.secondScreen(ActorA)
@@ -265,7 +242,7 @@ test('secondScreen', () => {
 })
 
 test('secondScreenIfHidden', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         scene.secondScreenIfHidden(ActorA)
@@ -279,7 +256,7 @@ test('secondScreenIfHidden', () => {
 })
 
 test('setBackground', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.setBackground('street')
     })
@@ -299,7 +276,7 @@ test('setBackground3D', () => simpleScene('setBackground3D', false, 'Modules/nn_
 test('setBackgroundCustom', () => simpleScene('setBackgroundCustom', false, 'livingroom'))
 
 test('sex', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         var ActorB = scene.getSpecific('Boss')
@@ -315,7 +292,7 @@ test('sex', () => {
 })
 
 test('sexAtPoint', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         var ActorB = scene.getSpecific('Boss')
@@ -335,7 +312,7 @@ test('sexAtPoint', () => {
 })
 
 test('sexNoAffair', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         var ActorB = scene.getSpecific('Boss')
@@ -356,7 +333,7 @@ test('wasCondomUsedDuringLastSex', () => simpleScene('wasCondomUsedDuringLastSex
 test('timeoutPrecise', () => simpleScene('timeoutPrecise', false, 8760, ['birthday']))
 
 test('timeoutActorPrecise', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         scene.timeoutActorPrecise(156, 'call_invite', [ActorA])
@@ -370,7 +347,7 @@ test('timeoutActorPrecise', () => {
 })
 
 test('timeoutActor', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var ActorA = scene.getSpecific('Criminal')
         scene.timeoutActor(24, 'call_invite', [ActorA])

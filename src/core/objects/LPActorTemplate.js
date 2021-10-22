@@ -9,8 +9,8 @@ const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
 let LPNPC = undefined
 
 class LPActor extends LPObject {
-    constructor({context, name, expression}) {
-        super({context, name, expression})
+    constructor({context, lpMod, name, expression}) {
+        super({context, lpMod, name, expression})
 
         // delayed require as LPNPC depends on LPActor
         LPNPC = require("./LPNPC")

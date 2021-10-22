@@ -1,3 +1,4 @@
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
@@ -7,7 +8,7 @@ function playerFunctionTest(func, ...params) {
     scene.Player.${func}(${params.map(ele => `"${ele}"`).join(', ')})
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -25,7 +26,7 @@ function playerFunctionTestWithReturn(func, ...params) {
     }).join(', ')})
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -41,7 +42,7 @@ function playerFunctionTestWithActor(func, ...params) {
     scene.Player.${func}(ActorA)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -104,7 +105,7 @@ test('LPPlayer.removeAddedClothes', () => playerFunctionTest('removeAddedClothes
 test('LPPlayer.selectNPC', () => playerFunctionTestWithReturn('selectNPC'))
 
 test('LPPlayer.setFraternityFees', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.Player.setFraternityFees(1000)
     })
@@ -121,7 +122,7 @@ test('LPPlayer.setFraternityFees', () => {
 test('LPPlayer.setMajor', () => playerFunctionTest('setMajor'))
 
 test('LPPlayer.setRent', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.Player.setRent(1000)
     })
@@ -135,7 +136,7 @@ test('LPPlayer.setRent', () => {
 
 })
 test('LPPlayer.setSalary', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.Player.setSalary(1000)
     })
@@ -149,7 +150,7 @@ test('LPPlayer.setSalary', () => {
 
 })
 test('LPPlayer.setTuition', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.Player.setTuition(1000)
     })

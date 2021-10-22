@@ -1,6 +1,7 @@
 // noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst
 // noinspection JSUnusedLocalSymbols
 
+const setupMod = require('../../tools/setupMod')
 const {STATS} = require('../../../src/core/constants')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
@@ -17,7 +18,7 @@ function npcSceneOneActor(func, ...params) {
     }).join(', ')})
 }`
     // console.log('script', script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -37,7 +38,7 @@ function npcSceneOneActorWithVar(func, ...params) {
     }).join(', ')})
 }`
     // console.log('script', script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -55,7 +56,7 @@ function npcSceneTwoActor(func) {
     randomActorOne.${func}(randomActorTwo)
 }`
     // console.log('script', script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -83,7 +84,7 @@ test('LPNPC.getUntil()', () => npcSceneOneActorWithVar('getUntil'))
 test('LPNPC.hadSex()', () => npcSceneOneActorWithVar('hadSex'))
 
 test('LPNPC.hasRelationship()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var randomActor = scene.getPerson()
         var hasRelationship = randomActor.hasRelationship(['Dating', 'Spouses'])
@@ -111,7 +112,7 @@ test('LPNPC.isMarried()', () => npcSceneOneActorWithVar('isMarried'))
 test('LPNPC.isNeighbour()', () => npcSceneOneActorWithVar('isNeighbour'))
 // test('LPNPC.isRelationshipWith()', () => npcSceneOneActorWithVar('isRelationshipWith'))
 test('LPNPC.isRelationshipWith()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var randomActorA = scene.getPerson()
         var randomActorB = scene.getPerson()
@@ -144,7 +145,7 @@ test('LPNPC.removeProstitute()', () => npcSceneOneActor('removeProstitute'))
 test('LPNPC.saveAndDelete()', () => npcSceneOneActor('saveAndDelete'))
 // test('LPNPC.setActorAlias()', () => npcSceneOneActor('setActorAlias'))
 test('LPNPC.setActorAlias()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var randomActorA = scene.getPerson()
         randomActorA.setActorAlias('Eric')

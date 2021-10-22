@@ -6,8 +6,8 @@ const LPBoolean = require('./LPBoolean')
 const LPString = require('./LPString')
 
 class LPBuilding extends LPObject {
-    constructor({context, name, expression}) {
-        super({context, name, expression})
+    constructor({context, lpMod, name, expression}) {
+        super({context, lpMod, name, expression})
     }
 
     /**
@@ -25,7 +25,7 @@ class LPBuilding extends LPObject {
     calculateExpenses = (name) => {
         const expression = 'calculateExpenses()'
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -35,7 +35,7 @@ class LPBuilding extends LPObject {
     calculateRent = (name) => {
         const expression = 'calculateRent()'
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -49,7 +49,7 @@ class LPBuilding extends LPObject {
     calculateRevenue = (name) => {
         const expression = 'calculateRevenue()'
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -59,7 +59,7 @@ class LPBuilding extends LPObject {
     calculateWages = (name) => {
         const expression = 'calculateWages()'
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -79,13 +79,13 @@ class LPBuilding extends LPObject {
     getBuildingType = (name) => {
         const expression = `${this.name}.getBuildingType()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPString({context: this.context, name, expression})
+        return new LPString({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     isBuildingValid = (name) => {
         const expression = `${this.name}.isBuildingValid()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -96,7 +96,7 @@ class LPBuilding extends LPObject {
     isOpen = (type, name) => {
         const expression = `isOpen(${type})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -107,7 +107,7 @@ class LPBuilding extends LPObject {
     isSameBuilding = (otherBuilding, name) => {
         const expression = `${this.name}.otherBuilding(${otherBuilding})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**

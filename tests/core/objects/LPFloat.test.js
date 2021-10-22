@@ -1,10 +1,11 @@
 // noinspection JSUnresolvedVariable,EqualityComparisonWithCoercionJS,JSUnusedLocalSymbols,JSUnusedAssignment
 
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
 test('creates float with value 1', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
     })
@@ -17,7 +18,7 @@ test('creates float with value 1', () => {
 
 // ADD
 test('float.add', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -35,7 +36,7 @@ test('float.add', () => {
 })
 
 test('float.add chaining', async () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -54,7 +55,7 @@ test('float.add chaining', async () => {
 })
 
 test('float.add stats', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var Employee1 = scene.getSpecific('Employee')
         var Employee2 = scene.getSpecific('Employee')
@@ -70,7 +71,7 @@ test('float.add stats', () => {
 })
 
 test('float.addEq', async () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -91,7 +92,7 @@ test('float.addEq', async () => {
 })
 
 test('float.addEq with rhs chaining', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -108,7 +109,7 @@ test('float.addEq with rhs chaining', () => {
 
 // SUB
 test('float.sub', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -124,7 +125,7 @@ test('float.sub', () => {
 })
 
 test('float.sub chaining', async () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -143,7 +144,7 @@ test('float.sub chaining', async () => {
 })
 
 test('float.subEq', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -161,7 +162,7 @@ test('float.subEq', () => {
 })
 
 test('float.subEq with rhs chaining', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -178,7 +179,7 @@ test('float.subEq with rhs chaining', () => {
 
 // MUL
 test('float mul', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -194,7 +195,7 @@ test('float mul', () => {
 })
 
 test('float.mul chaining', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -210,7 +211,7 @@ test('float.mul chaining', () => {
 })
 
 test('float.mulEq', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -231,7 +232,7 @@ test('float.mulEq', () => {
 
 // DIV
 test('float.div', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -250,7 +251,7 @@ test('float.div', () => {
 
 
 test('float.divEq', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -270,7 +271,7 @@ test('float.divEq', () => {
 
 // Logical
 test('float.gt', async () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -300,7 +301,7 @@ test('float.gt', async () => {
 
 
 test('float.gte', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -318,7 +319,7 @@ test('float.gte', () => {
 })
 
 test('float.lt', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -336,7 +337,7 @@ test('float.lt', () => {
 })
 
 test('float.lte', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -354,7 +355,7 @@ test('float.lte', () => {
 })
 
 test('float.ne', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
 
     scene.start((scene) => {
         let a = 1
@@ -373,7 +374,7 @@ test('float.ne', () => {
 })
 
 test('float.eq', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = 2
@@ -392,7 +393,7 @@ test('float.eq', () => {
 
 // Other
 test('float.floor', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b =  a.floor()
@@ -407,7 +408,7 @@ test('float.floor', () => {
 
 
 test('float.power', async () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = a.power(3)
@@ -424,7 +425,7 @@ test('float.power', async () => {
 })
 
 test('float.round', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = a.round()
@@ -438,7 +439,7 @@ test('float.round', () => {
 })
 
 test('float.convertToLocalCurrency', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         let b = a.convertToLocalCurrency()
@@ -452,7 +453,7 @@ test('float.convertToLocalCurrency', () => {
 })
 
 test('float.setRent', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         a.setRent()
@@ -466,7 +467,7 @@ test('float.setRent', () => {
 })
 
 test('float.setSalary', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         a.setSalary()
@@ -480,7 +481,7 @@ test('float.setSalary', () => {
 })
 
 test('float.setTuition', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         a.setTuition()
@@ -495,7 +496,7 @@ test('float.setTuition', () => {
 
 // this is mostly for coverage
 test('float.isStat', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         // a is turned into an LPFloat so this is valid but very weird :D
@@ -513,7 +514,7 @@ test('float.isStat', () => {
 })
 
 test('float.write', () => {
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = 1
         a.write()

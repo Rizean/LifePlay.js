@@ -99,7 +99,8 @@ test('LPMod', async () => {
 test('LPMod > Stat', async () => {
     const expectedDir = path.resolve(__dirname, 'modules/rizean_LifePlay_test/rizean_LifePlay_test.lpmod')
     const expected = await fs.readFile(expectedDir, 'utf-8')
-    const lpMod = setupStats()
+    const lpMod = setupMod()
+    setupStats(lpMod)
     await lpMod.writeMod()
     const result = await fs.readFile(path.resolve(lpMod.modsDir, `${lpMod.MODULE_UNIQUEID}.lpmod`), 'utf-8')
     expect(expected).toBe(result)

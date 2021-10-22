@@ -8,8 +8,8 @@ const LPBoolean = require('../objects/LPBoolean')
 const LPNPC = require('../objects/LPNPC')
 
 module.exports = class LPPlayer extends LPActor {
-    constructor({context}) {
-        super({context, name: 'Player'})
+    constructor({context, lpMod}) {
+        super({context, lpMod, name: 'Player'})
     }
 
     _playerIsHelper(func, params = [], nameStr) {
@@ -24,7 +24,7 @@ module.exports = class LPPlayer extends LPActor {
         const expression = `${func}(${params})`
         if (name === '') this.context.writeLine(`${expression}`)
         else if (name) this.context.writeLine(`${name} = ${expression}`)
-        if (ReturnType) return new ReturnType({context: this.context, name, expression})
+        if (ReturnType) return new ReturnType({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -159,7 +159,7 @@ module.exports = class LPPlayer extends LPActor {
         const [_, name] = arguments
         const expression = `getAnyRelative(${relativeType})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -176,7 +176,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getCompanion()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -187,7 +187,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getCompanionAny()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -198,7 +198,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getCompanionCreature()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -218,7 +218,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getNumRelatives()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -231,7 +231,7 @@ module.exports = class LPPlayer extends LPActor {
         const [, name] = arguments
         const expression = `getRelative(${relationshipTypes.join(', ')})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name, expression})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -243,7 +243,7 @@ module.exports = class LPPlayer extends LPActor {
         const [, name] = arguments
         const expression = `getRelativeExcept(${relationshipTypes.join(', ')})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name, expression})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -261,7 +261,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getRent()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -279,7 +279,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getSalary()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this.context, name, expression})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -294,7 +294,7 @@ module.exports = class LPPlayer extends LPActor {
         const [name] = arguments
         const expression = `getSelectedNPC()`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this.context, name, expression})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -511,7 +511,7 @@ module.exports = class LPPlayer extends LPActor {
      * @param {number|LPFloat} fratFee
      */
     setFraternityFees(fratFee) {
-        const varFratFee = new LPFloat({context: this.context, name: 'lpjs_fratFee', codeStr: fratFee})
+        const varFratFee = new LPFloat({context: this.context, lpMod: this.lpMod, name: 'lpjs_fratFee', codeStr: fratFee})
         this.context.writeLine(`lpjs_fratFee = ${fratFee}`)
         this.context.writeLine(`lpjs_fratFee.setFraternityFees()`)
     }

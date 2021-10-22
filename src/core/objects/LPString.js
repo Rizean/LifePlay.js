@@ -30,9 +30,9 @@ class LPString extends LPVariable {
         const expression = `${this.name}.isSameString(${rhs})`
         if (name) {
             this.context.writeLine(`${name} = ${expression}`)
-            return new LPBoolean({context: this.context, name, expression: name})
+            return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression: name})
         }
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -47,9 +47,9 @@ class LPString extends LPVariable {
         const expression = `${this.name}.isString("${rhs}")`
         if (name) {
             this.context.writeLine(`${name} = ${expression}`)
-            return new LPBoolean({context: this.context, name, expression: name})
+            return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression: name})
         }
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 }
 

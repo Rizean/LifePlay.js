@@ -2,8 +2,8 @@ const LPVariable = require('./LPVariable')
 const LPBoolean = require('./LPBoolean')
 
 class LPFloat extends LPVariable {
-    constructor({context, value = Number.NaN, name, expression, isStat = false}) {
-        super({context, name, expression: expression || name})
+    constructor({context, lpMod, value = Number.NaN, name, expression, isStat = false}) {
+        super({context, lpMod, name, expression: expression || name})
         // if (value !== null) this.isValid(value)
         // todo is this.value needed?
         this.value = value
@@ -24,12 +24,12 @@ class LPFloat extends LPVariable {
         if (noChain) this._noChain(noChain)
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} ${op} ${rhs}`)
-            return new ReturnType({context: this.context, name, expression: name})
+            return new ReturnType({context: this.context, lpMod: this.lpMod, name, expression: name})
         }
         if (aop) {
             this.context.writeLine(`${this.name} ${aop} ${rhs.expression || rhs}`)
         }
-        return new ReturnType({context: this.context, name: this.name, expression: `${this.expression} ${op} ${rhs}`})
+        return new ReturnType({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${this.expression} ${op} ${rhs}`})
     }
 
     /**
@@ -46,7 +46,7 @@ class LPFloat extends LPVariable {
         if (noChain) this._noChain('floor')
         const expression = `${this.expression}.${func}(${params})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new ReturnType({context: this.context, name: this.name, expression})
+        return new ReturnType({context: this.context, lpMod: this.lpMod, name: this.name, expression})
     }
 
     /**

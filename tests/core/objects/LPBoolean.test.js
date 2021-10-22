@@ -1,8 +1,9 @@
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
 test('boolean.and with lhs/rhs chaining', async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = true
         let b = false
@@ -21,7 +22,7 @@ test('boolean.and with lhs/rhs chaining', async () => {
 })
 
 test('boolean.or with lhs/rhs chaining', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = true
         let b = false
@@ -37,7 +38,7 @@ test('boolean.or with lhs/rhs chaining', () => {
 })
 
 test('boolean.not with chaining', async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         let a = true
         let b = false
@@ -54,7 +55,7 @@ test('boolean.not with chaining', async () => {
 })
 
 test('boolean.paren/squareBrackets with lhs/rhs chaining', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {paren, squareBrackets} = scene;
         let a = true

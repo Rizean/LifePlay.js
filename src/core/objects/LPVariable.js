@@ -24,7 +24,7 @@ module.exports = class LPVariable extends LPObject {
 
         }
 
-        const newThis = new this.constructor({context: this.context, name: name || this.name, expression: name})
+        const newThis = new this.constructor({context: this.context, lpMod: this.lpMod, name: name || this.name, expression: name})
         this.context.writeLine(`${newThis.name} = ${rhs._expression || rhs}`)
         return newThis
     }
@@ -33,9 +33,9 @@ module.exports = class LPVariable extends LPObject {
         const expression = `${a}${this.expression}${b}`
         if (name) {
             this.context.writeLine(`${name} = ${expression}`)
-            return new this.constructor({context: this.context, name: this.name, expression: this.name})
+            return new this.constructor({context: this.context, lpMod: this.lpMod, name: this.name, expression: this.name})
         }
-        return new this.constructor({context: this.context, name: this.name, expression: `${a}${this.expression}${b}`})
+        return new this.constructor({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${a}${this.expression}${b}`})
     }
 
     write() {

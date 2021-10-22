@@ -22,10 +22,10 @@ module.exports = class Scene extends Context {
      *
      * @param script
      */
-    constructor(script) {
-        super({script})
+    constructor({lpMod}) {
+        super({lpMod})
         // this._context = this
-        this.Player = new LPPlayer({context: this})
+        this.Player = new LPPlayer({context: this, lpMod})
         // require('./playerFunctions')(this.Player, this)
         this._what = 'WHAT:'
         this._where = 'WHERE:'
@@ -34,10 +34,10 @@ module.exports = class Scene extends Context {
         this._whoScript = undefined
         this._other = 'OTHER:'
         this._otherScript = undefined
-        this._building = new LPBuilding({context: this, name: 'SceneBuilding'})
-        this._CurrentCompanion = new LPNPC({context: this, name: 'CurrentCompanion'})
+        this._building = new LPBuilding({context: this, lpMod, name: 'SceneBuilding'})
+        this._CurrentCompanion = new LPNPC({context: this, lpMod, name: 'CurrentCompanion'})
         this._shouldWriteHeader = true
-        this.actionDuration = new LPFloat({context: this, name: 'actionDuration'})
+        this.actionDuration = new LPFloat({context: this, lpMod, name: 'actionDuration'})
 
         // this.build.bind(this)
     }
@@ -285,7 +285,7 @@ module.exports = class Scene extends Context {
     findNearbyBuilding = (types, name) => {
         const expression = `findNearbyBuilding(${types.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBuilding({context: this, name, expression})
+        return new LPBuilding({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -320,7 +320,7 @@ module.exports = class Scene extends Context {
     forcedTrigger = (name) => {
         const expression = `forcedTrigger()`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -334,7 +334,7 @@ module.exports = class Scene extends Context {
     generateCreature = (optionalRace = '', name) => {
         const expression = `generateCreature(${optionalRace})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPActor({context: this, name, expression})
+        return new LPActor({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -352,7 +352,7 @@ module.exports = class Scene extends Context {
     generateCreatureTemporary = (optionalRace = '', name) => {
         const expression = `generateCreatureTemporary(${optionalRace})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPActor({context: this, name, expression})
+        return new LPActor({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -368,7 +368,7 @@ module.exports = class Scene extends Context {
     generatePerson = (presets = [], name) => {
         const expression = `generatePerson(${presets.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPActor({context: this, name, expression})
+        return new LPActor({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -384,7 +384,7 @@ module.exports = class Scene extends Context {
     generatePersonTemporary = (presets = [], name) => {
         const expression = `generatePersonTemporary(${presets.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPActor({context: this, name, expression})
+        return new LPActor({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -396,7 +396,7 @@ module.exports = class Scene extends Context {
         aliasStr = aliasStr.name || aliasStr
         const expression = `${aliasStr}.getActorAlias()`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -408,7 +408,7 @@ module.exports = class Scene extends Context {
     getAssignee = (location, name) => {
         const expression = `getAssignee(${location})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -417,33 +417,7 @@ module.exports = class Scene extends Context {
     getCreature = (name) => {
         const expression = `getCreature()`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
-    }
-
-    /**
-     * Get the float value of a global variable. If there's no global variable under such name, returns 0.
-     * @param key global variable key name
-     * @param name optional variable name
-     * @return {LPFloat}
-     */
-    getGlobal = (key, name) => {
-        // todo track global variables
-        const expression = `${key}.getGlobal()`
-        if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this, name, expression})
-    }
-
-    /**
-     * Get the string value of a global variable. If there's no global variable under such name, returns ?.
-     * @param key global variable key name
-     * @param name optional variable name
-     * @return {LPString}
-     */
-    getGlobalString = (key, name) => {
-        // todo track global variables
-        const expression = `${key}.getGlobalString()`
-        if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPString({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -472,7 +446,7 @@ module.exports = class Scene extends Context {
     getPerson = (hasContactExchangedOrTag = '', name) => {
         const expression = `getPerson(${hasContactExchangedOrTag})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -485,7 +459,7 @@ module.exports = class Scene extends Context {
         if (typeof isPermanent === 'boolean' && isPermanent) expression = `getPersonHere(true)`
         else if (typeof isPermanent === 'boolean' && !isPermanent) expression = `getPersonHere(false)`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -498,7 +472,7 @@ module.exports = class Scene extends Context {
         const expression = `getRelatedPeople(${types.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
         // FIXME this is special as it returns an array of npcs?
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -511,7 +485,7 @@ module.exports = class Scene extends Context {
     getSpecific = (keywordOrID, name) => {
         const expression = `getSpecific(${keywordOrID})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPNPC({context: this, name, expression})
+        return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -522,7 +496,7 @@ module.exports = class Scene extends Context {
     isModEnabled = (modID, name) => {
         const expression = `isModEnabled(${modID})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -533,7 +507,7 @@ module.exports = class Scene extends Context {
     isQuestCompleted = (quest, name) => {
         const expression = `isQuestCompleted(${quest})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -544,7 +518,7 @@ module.exports = class Scene extends Context {
     isTimingOut = (sceneID, name) => {
         const expression = `isTimingOut(${sceneID})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
     narrative = (text) => this.writeLine(`"${text}"`)
@@ -631,6 +605,7 @@ module.exports = class Scene extends Context {
         this.writeLine(``)
         this.writeLine(`sceneStart()`)
         if (typeof script === 'function') {
+            this.codeDepth += 2
             const result = super.buildV2({}, '' + script, this)
             this.codeDepth -= 2
             this.writeLine(`sceneEnd()`)
@@ -748,7 +723,7 @@ module.exports = class Scene extends Context {
         const [name] = arguments
         const expression = `TfGame()`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
     /**
@@ -758,7 +733,7 @@ module.exports = class Scene extends Context {
     wasCondomUsedDuringLastSex = (name) => {
         const expression = `wasCondomUsedDuringLastSex()`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this, name, expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
 

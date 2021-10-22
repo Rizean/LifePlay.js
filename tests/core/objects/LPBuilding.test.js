@@ -1,3 +1,4 @@
+const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
@@ -10,7 +11,7 @@ function simpleSceneWithVar(func, isScene, ...params) {
     }).join(', ')})
 }`
     // console.log('script', script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -29,7 +30,7 @@ test('LPBuilding.isBuildingValid()', () => simpleSceneWithVar('isBuildingValid',
 test('LPBuilding.isOpen()', () => simpleSceneWithVar('isOpen', false, "brothel"))
 
 test('LPBuilding.isSameBuilding()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene;
         var location = Player.getBuilding('current')
@@ -44,7 +45,7 @@ test('LPBuilding.isSameBuilding()', () => {
 })
 
 test('LPBuilding.modifyReputation()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const change = 0.5
         scene.building.modifyReputation(0.5)
@@ -60,7 +61,7 @@ test('LPBuilding.modifyReputation()', () => {
 })
 
 test('LPBuilding.modifyReputation() to throw ', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     const main = () => scene.start((scene) => {
         scene.building.modifyReputation('a')
     })
@@ -68,7 +69,7 @@ test('LPBuilding.modifyReputation() to throw ', () => {
 })
 
 test('LPBuilding.removeObjective()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene;
         var location = Player.getBuilding('current')

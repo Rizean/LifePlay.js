@@ -1,5 +1,7 @@
+const assert = require('assert')
 const fs = require('fs/promises')
 const path = require('path')
+const LPMod = require('../LPMod')
 
 const ensureDirectory = async (dirPath) => fs.mkdir(dirPath, {recursive: true})
 
@@ -15,14 +17,13 @@ const {NodeVM} = require("vm2")
 const parser = require('./parser')
 
 module.exports = class Context {
-    constructor({script}) {
+    constructor({lpMod}) {
         this._code = ''
         this._codeDepth = 0
         this._inline = false
-        // this._localVariable = new Map()
-        // this._localVariableIndex = new Map()
-        this._script = script
         this._build = {}
+        assert.ok(lpMod instanceof LPMod, 'Expected lpMod to be instanceof LPMod')
+        this._lpMod = lpMod
     }
 
     require = require
@@ -92,7 +93,7 @@ module.exports = class Context {
     random = (min, max, name) => {
         const expression = `Random(${min}, ${max})`
         if (name) this.writeLine(`${name} = ${expression}`)
-        return new LPFloat({context: this, name, expression})
+        return new LPFloat({context: this, lpMod: this.lpMod, name, expression})
     }
     $random = (script) => {
         this.writeLine(`Random`)
@@ -102,7 +103,7 @@ module.exports = class Context {
         this.writeLine('EndRandom')
     }
     $not = (lpBoolean) => {
-        return new LPBoolean({context: this, name: lpBoolean.name, expression: `!${lpBoolean.expression}`})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name: lpBoolean.name, expression: `!${lpBoolean.expression}`})
     }
     not = (lhs, name) => lhs.not(name)
     and = (lhs, rhs) => lhs.and(rhs)
@@ -115,26 +116,26 @@ module.exports = class Context {
     float = (expression, name) => {
         if (typeof expression === 'number') {
             this.writeLine(`${name} = ${expression}`)
-            return new LPFloat({context: this, name, expression: name})
+            return new LPFloat({context: this, lpMod: this.lpMod, name, expression: name})
         }
         if (expression instanceof LPFloat) {
             if (name) this.writeLine(`${name} = ${expression}`)
             return expression
         }
-        return new LPFloat({context: this, name, expression: expression})
+        return new LPFloat({context: this, lpMod: this.lpMod, name, expression: expression})
     }
 
     boolean = (expression, name) => {
         if (typeof expression === 'boolean') {
             this.writeLine(`${name} = ${expression}`)
-            return new LPBoolean({context: this, name, expression: name})
+            return new LPBoolean({context: this, lpMod: this.lpMod, name, expression: name})
         }
         if (expression instanceof LPBoolean) {
             if (name) this.writeLine(`${name} = ${expression}`)
             return expression
         }
 
-        return new LPBoolean({context: this, name, expression: expression})
+        return new LPBoolean({context: this, lpMod: this.lpMod, name, expression: expression})
     }
     // _boolean = (expression, name) => {
     //     throw new Error('deprecated')
@@ -145,18 +146,18 @@ module.exports = class Context {
     string = (expression, name) => {
         if (typeof expression === 'string') {
             this.writeLine(`${name} = "${expression}"`)
-            return new LPString({context: this, name, expression: name})
+            return new LPString({context: this, lpMod: this.lpMod, name, expression: name})
         }
         if (expression instanceof LPString) {
             if (name) this.writeLine(`${name} = ${expression}`)
             return expression
         }
 
-        return new LPString({context: this, name, expression: expression})
+        return new LPString({context: this, lpMod: this.lpMod, name, expression: expression})
     }
 
     _enclose = (LPObject, a, b) => {
-        return new LPObject.constructor({context: LPObject.context, name: LPObject.name, expression: `${a}${LPObject.expression}${b}`})
+        return new LPObject.constructor({context: LPObject.context, lpMod: this.lpMod, name: LPObject.name, expression: `${a}${LPObject.expression}${b}`})
     }
     paren = (LPObject) => {
         return this._enclose(LPObject, '(', ')')
@@ -169,7 +170,7 @@ module.exports = class Context {
     buildV2(sandbox = {}, script, context) {
         this._build = {}
         sandbox.globals = {}
-        const globals = new LPGlobals({context})
+        const globals = new LPGlobals({context, lpMod: this._lpMod})
         globals.hookSandbox(sandbox.globals)
 
 
@@ -254,4 +255,7 @@ module.exports = class Context {
     //     return this._localVariableIndex
     // }
 
+    get lpMod() {
+        return this._lpMod
+    }
 }

@@ -3,7 +3,7 @@ const path = require('path')
 const assert = require('assert')
 const ensureDirectory = require('./libs/ensureDirectory')
 
-class LPMod {
+class LPStat {
     constructor({STAT_ID, STAT_NAME, PLAYER_ONLY, HIGHER_BETTER, STAT_MIN, STAT_MAX, DAILY_CHANGE, DEFAULT_VALUE, NPC_ONLY, modsDir, filePath = 'stats'}) {
         PLAYER_ONLY = PLAYER_ONLY.toString()
         NPC_ONLY = NPC_ONLY.toString()
@@ -151,4 +151,4 @@ class LPMod {
     }
 }
 
-module.exports = LPMod
+module.exports = LPStat

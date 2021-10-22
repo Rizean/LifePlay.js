@@ -1,8 +1,9 @@
 const Scene = require('../../src/core/Scene')
+const setupMod = require('../tools/setupMod')
 const LB = '\r\n'
 
 test('while', async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     const {WHAT, WHERE, WHEN, WHO, OTHER} = scene
     WHAT(['all', '-sleep', '-nap'])
     WHERE(['home'])

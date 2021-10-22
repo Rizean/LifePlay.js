@@ -1,6 +1,7 @@
 const Context = require('../../../src/core/Context')
 const LPObject = require('../../../src/core/objects/LPObject')
 const LPString = require('../../../src/core/objects/LPString')
+const setupMod = require('../../tools/setupMod')
 
 // We can't test LPObject in the normal way as it is not available in the Scene scope
 test('LPObject.constructor', () => {
@@ -64,8 +65,8 @@ test('LPObject.constructor', () => {
 
 test('LPObject.name', () => {
     const main = () => {
-        const context = new Context({})
-        let a = new LPObject({context, name: 'a'})
+        const context = new Context({lpMod: setupMod()})
+        let a = new LPObject({context, lpMod: setupMod(), name: 'a'})
         a.name = 'b'
         return a.name
     }

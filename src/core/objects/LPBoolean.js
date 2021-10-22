@@ -20,9 +20,9 @@ module.exports = class LPBoolean extends LPVariable {
         rhs = rhs.expression || rhs
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} && ${rhs}`)
-            return new LPBoolean({context: this.context, name, expression: name})
+            return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression: name})
         }
-        return new LPBoolean({context: this.context, name: this.name, expression: `${this.expression} && ${rhs}`})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${this.expression} && ${rhs}`})
     }
 
     /**
@@ -35,9 +35,9 @@ module.exports = class LPBoolean extends LPVariable {
         rhs = rhs.expression || rhs
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} || ${rhs}`)
-            return new LPBoolean({context: this.context, name, expression: name})
+            return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression: name})
         }
-        return new LPBoolean({context: this.context, name: this.name, expression: `${this.expression} || ${rhs}`})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${this.expression} || ${rhs}`})
     }
 
     /**

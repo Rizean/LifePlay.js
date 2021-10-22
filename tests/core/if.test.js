@@ -1,9 +1,10 @@
 // noinspection JSUnresolvedVariable
 
+const setupMod = require('../tools/setupMod')
 const Scene = require('../../src/core/Scene')
 const LB = '\r\n'
 test('simple $if()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$if, narrative} = scene
         $if(true, () => {
@@ -20,7 +21,7 @@ test('simple $if()', () => {
 })
 
 test('simple $if().$else()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$if, narrative} = scene
         $if(true, () => {
@@ -41,7 +42,7 @@ test('simple $if().$else()', () => {
 })
 
 test('simple $if().$elseIf.$else()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$if, narrative} = scene
         $if(true, () => {
@@ -66,7 +67,7 @@ test('simple $if().$elseIf.$else()', () => {
 })
 
 test('simple $if().$elseIf().$elseIf().$elseIf().$else()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$if, narrative} = scene
         $if(true, () => {
@@ -99,7 +100,7 @@ test('simple $if().$elseIf().$elseIf().$elseIf().$else()', () => {
 })
 
 test('complex $if()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.WHO((scene) => {
         const {$if, $not, random} = scene;
         var Employee1 = scene.getSpecific('Employee')
@@ -130,7 +131,7 @@ test('complex $if()', () => {
 })
 
 test('complex $if().$elseIf().$elseIf().$elseIf().$else()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$if, narrative, $not, random} = scene;
         var Employee1 = scene.getSpecific('Employee')

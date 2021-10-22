@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable
-
+const setupMod = require('../tests/tools/setupMod')
 const Scene = require('../src/core/Scene')
-let scene = new Scene()
+let scene = new Scene({lpMod: setupMod()})
 
 scene.WHAT(['watch_a_movie'])
 scene.WHERE(['cinema'])

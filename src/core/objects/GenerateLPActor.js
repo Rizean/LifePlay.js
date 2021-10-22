@@ -30,7 +30,7 @@ const makeGettersSetters = (stats) => {
 const makeConstructor = (stats) => {
     const constructor = ['/****STATS****/']
     stats.forEach(stat => {
-        constructor.push(`        this._${stat} = new LPFloat({context, name: \`\${this.name}:${stat}\`, isStat: true})`)
+        constructor.push(`        this._${stat} = new LPFloat({context, lpMod, name: \`\${this.name}:${stat}\`, isStat: true})`)
     })
     return constructor.join('\n')
 }

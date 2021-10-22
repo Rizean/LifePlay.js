@@ -1,7 +1,8 @@
 // noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst,JSUnresolvedVariable
-
+const setupMod = require('../../tools/setupMod')
 const {STATS} = require('../../../src/core/constants')
 const Scene = require('../../../src/core/Scene')
+// const LPMod = require('../../../src/LPMod')
 const LB = '\r\n'
 
 // *** Helpers ***
@@ -23,7 +24,7 @@ function playerIsScene(func, ...params) {
     var ${varName} = Player.${func}(${params.map(ele => `"${ele}"`).join(', ')})
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -40,7 +41,7 @@ function actorIsScene(func, ...params) {
     var ${varName} = ActorA.${func}(${params.map(ele => `"${ele}"`).join(', ')})
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -60,7 +61,7 @@ function oneActorSceneWithVar(func, ...params) {
     }).join(', ')})
 }`
     // console.log('script', script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -78,7 +79,7 @@ function twoActorSceneWithVar(func, ...params) {
     var result = ActorA.${func}(ActorB)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -89,7 +90,6 @@ function twoActorSceneWithVar(func, ...params) {
     ].join(LB))
 }
 
-
 function twoActorIsScene(func, ...params) {
     const varName = `twoActor_${func}`
     const script = `(scene) => {
@@ -98,7 +98,7 @@ function twoActorIsScene(func, ...params) {
     var ${varName} = ActorA.${func}(ActorB)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -117,7 +117,7 @@ function actorPlayerScene(func, ...params) {
     ActorA.${func}(Player)
 }`
 
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
     expect(scene._code.trim()).toBe([
         'sceneStart()',
@@ -137,7 +137,7 @@ function oneActorScene(func, ...params) {
     }).join(', ')})
 }`
     // console.log(script)
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start(eval(script))
 
     expect(scene._code.trim()).toBe([
@@ -150,7 +150,7 @@ function oneActorScene(func, ...params) {
 
 // *** Test ***
 test('LPActor.animate', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene;
         var Actor = scene.getSpecific('Criminal', 'Actor')
@@ -167,12 +167,12 @@ test('LPActor.animate', () => {
         'sceneEnd()'
     ].join(LB))
 
-    const scene2 = new Scene(function ({scene}) {
-        const {float, boolean, Player} = scene
-        var Actor = scene.getSpecific('Criminal', 'Actor')
-        Player.animate('invalid')
-        Actor.animate('gun')
-    })
+    // const scene2 = new Scene(function ({scene}) {
+    //     const {float, boolean, Player} = scene
+    //     var Actor = scene.getSpecific('Criminal', 'Actor')
+    //     Player.animate('invalid')
+    //     Actor.animate('gun')
+    // })
     const main = () => scene.start((scene) => {
         const {Player} = scene;
         var Actor = scene.getSpecific('Criminal', 'Actor')
@@ -183,7 +183,7 @@ test('LPActor.animate', () => {
 })
 
 test('LPActor.animatePair', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene;
         var Actor = scene.getSpecific('Criminal', 'Actor')
@@ -198,7 +198,7 @@ test('LPActor.animatePair', () => {
 })
 
 test('LPActor.blendAppearanceFrom()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var dating = Player.getRelatedPerson(['Dating'])
@@ -216,7 +216,7 @@ test('LPActor.blendAppearanceFrom()', () => {
 
 // noinspection DuplicatedCode
 test('LPActor.blendPreset()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$random} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -239,7 +239,7 @@ test('LPActor.blendPreset()', () => {
 test('LPActor.changeSex', () => oneActorScene('changeSex'))
 
 test('LPActor.cloneFrom', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         var Actor = scene.getSpecific('Criminal', 'Actor')
         var Actor2 = scene.generatePerson([], 'Actor2')
@@ -259,7 +259,7 @@ test('LPActor.closeEyes()', () => oneActorScene('closeEyes', true))
 test('LPActor.countPregnancyDays()', () => oneActorSceneWithVar('countPregnancyDays'))
 
 test('LPActor.dialog()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         Player.dialogue("simple dialog")
@@ -284,7 +284,7 @@ test('LPActor.dress()', () => oneActorScene('dress', "Casual-Clothes_1_F"))
 test('LPActor.dressBondage()', () => oneActorScene('dressBondage', "Bdg_Blindfold"))
 
 test('LPActor.dressExcept()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         Player.dressExcept(["Outerwear", "Top", "Bottom", "Foot", "Headwear", "Eyewear"])
@@ -331,7 +331,7 @@ test('LPActor.getID()', () => oneActorSceneWithVar('getID'))
 test('LPActor.getMorphValue()', () => oneActorSceneWithVar('getMorphValue', 'Genesis8Female__Mouth'))
 
 test('LPActor.getPregnancyTag()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player, narrative, $if} = scene
         var pregnancyTag = Player.getPregnancyTag('pregnancyTag')
@@ -362,7 +362,7 @@ test('LPActor.hadSex()', () => actorIsScene('hadSex'))
 test('LPActor.hide()', () => oneActorScene('hide'))
 
 test('LPActor.impregnate()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player, narrative} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -431,7 +431,7 @@ test('LPActor.isVisible()', () => playerIsScene('isVisible', 'Bottom_Under'))
 
 // noinspection DuplicatedCode
 test('LPActor.loadPreset()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {$random} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -452,7 +452,7 @@ test('LPActor.loadPreset()', () => {
 })
 
 test('LPActor.makeInterested()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -467,7 +467,7 @@ test('LPActor.makeInterested()', () => {
 })
 
 test('LPActor.matchLastName()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -482,7 +482,7 @@ test('LPActor.matchLastName()', () => {
 })
 
 test('LPActor.modifyActorVar()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -497,7 +497,7 @@ test('LPActor.modifyActorVar()', () => {
 })
 
 test('LPActor.modifySalary()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -512,7 +512,7 @@ test('LPActor.modifySalary()', () => {
 })
 
 test('LPActor.moveToPerson()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -527,7 +527,7 @@ test('LPActor.moveToPerson()', () => {
 })
 
 test('LPActor.moveToPersonStand()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -542,7 +542,7 @@ test('LPActor.moveToPersonStand()', () => {
 })
 
 test('LPActor.setActorVar()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -557,7 +557,7 @@ test('LPActor.setActorVar()', () => {
 })
 
 test('LPActor.setCurrentLocation()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -581,7 +581,7 @@ test('LPActor.setWantsBabies() true', () => oneActorScene('setWantsBabies', true
 test('LPActor.setWantsBabies() false', () => oneActorScene('setWantsBabies', false))
 
 test('LPActor.sex()', () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Criminal')
@@ -600,7 +600,7 @@ test('LPActor.strip()', () => oneActorScene('strip'))
 test('LPActor.wantsBabies()', () => playerIsScene('wantsBabies'))
 
 test(`LPActor Stats Math test`, async () => {
-    let scene = new Scene()
+    let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         const {Player} = scene
         var ActorA = scene.getSpecific('Employee')
@@ -623,7 +623,7 @@ test(`LPActor Stats Math test`, async () => {
 let runOnce = true
 STATS.forEach(stat => {
     test(`LPActor Stats - ${stat}`, async () => {
-        let scene = new Scene()
+        let scene = new Scene({lpMod: setupMod()})
         const script = `(scene) => {
             const {Player} = scene
             var ActorA = scene.getSpecific('Employee')

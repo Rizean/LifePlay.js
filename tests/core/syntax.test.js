@@ -13,6 +13,8 @@ const LPGlobals = require('../../src/core/objects/LPGlobals')
 const LPGlobal = require('../../src/core/objects/LPGlobal')
 const LPTalk = require('../../src/core/objects/LPTalk')
 
+const setupMod = require('../tools/setupMod')
+
 test('Syntax Check', async () => {
     const syntax = (await fs.readFile(path.resolve(__dirname, 'syntax.txt'), 'utf-8')).split(/\r?\n/).filter(ele => !ele.startsWith('~~'))
     const expected = syntax.map(ele => `${ele}:true`).join('\r\n')
@@ -21,23 +23,23 @@ test('Syntax Check', async () => {
     const lowerFirst = (str) => `${str.slice(0, 1).toLowerCase()}${str.slice(1)}`
 
 
-    const scene = new Scene()
+    const scene = new Scene({lpMod: setupMod()})
     const objects = [
         scene,
 
-        new LPBoolean({context: scene}),
-        new LPBuilding({context: scene}),
-        new LPFloat({context: scene}),
-        new LPString({context: scene}),
+        new LPBoolean({context: scene, lpMod: setupMod()}),
+        new LPBuilding({context: scene, lpMod: setupMod()}),
+        new LPFloat({context: scene, lpMod: setupMod()}),
+        new LPString({context: scene, lpMod: setupMod()}),
 
-        new LPGlobals({context: scene}),
-        new LPGlobal({context: scene}),
+        new LPGlobals({context: scene, lpMod: setupMod()}),
+        new LPGlobal({context: scene, lpMod: setupMod()}),
 
-        new LPObject({context: scene}),
-        new LPActor({context: scene}),
-        new LPNPC({context: scene}),
-        new LPPlayer({context: scene}),
-        new LPTalk({context: LPTalk}),
+        new LPObject({context: scene, lpMod: setupMod()}),
+        new LPActor({context: scene, lpMod: setupMod()}),
+        new LPNPC({context: scene, lpMod: setupMod()}),
+        new LPPlayer({context: scene, lpMod: setupMod()}),
+        new LPTalk({context: LPTalk, lpMod: setupMod()}),
 
     ]
 

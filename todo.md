@@ -10,8 +10,7 @@
 * LPTalk
 * LPDescription
 * LPAI
-* LPCharacter
-* LPGlobal
+* LPCharacter - Complex and a lot of work.
 * LPQuest
 * LPAlias
 

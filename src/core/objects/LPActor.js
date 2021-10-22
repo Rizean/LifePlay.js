@@ -10,64 +10,64 @@ const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
 let LPNPC = undefined
 
 class LPActor extends LPObject {
-    constructor({context, name, expression}) {
-        super({context, name, expression})
+    constructor({context, lpMod, name, expression}) {
+        super({context, lpMod, name, expression})
 
         // delayed require as LPNPC depends on LPActor
         LPNPC = require("./LPNPC")
 
         /****STATS****/
-        this._age = new LPFloat({context, name: `${this.name}:age`, isStat: true})
-        this._arousal = new LPFloat({context, name: `${this.name}:arousal`, isStat: true})
-        this._attractiontoplayer = new LPFloat({context, name: `${this.name}:attractiontoplayer`, isStat: true})
-        this._attractiveness = new LPFloat({context, name: `${this.name}:attractiveness`, isStat: true})
-        this._car_value = new LPFloat({context, name: `${this.name}:car_value`, isStat: true})
-        this._children = new LPFloat({context, name: `${this.name}:children`, isStat: true})
-        this._cooking = new LPFloat({context, name: `${this.name}:cooking`, isStat: true})
-        this._dance = new LPFloat({context, name: `${this.name}:dance`, isStat: true})
-        this._energy = new LPFloat({context, name: `${this.name}:energy`, isStat: true})
-        this._fertility = new LPFloat({context, name: `${this.name}:fertility`, isStat: true})
-        this._fitness = new LPFloat({context, name: `${this.name}:fitness`, isStat: true})
-        this._incest = new LPFloat({context, name: `${this.name}:incest`, isStat: true})
-        this._intelligence = new LPFloat({context, name: `${this.name}:intelligence`, isStat: true})
-        this._interpersonal = new LPFloat({context, name: `${this.name}:interpersonal`, isStat: true})
-        this._intoxication = new LPFloat({context, name: `${this.name}:intoxication`, isStat: true})
-        this._jobexperience = new LPFloat({context, name: `${this.name}:jobexperience`, isStat: true})
-        this._jobperformance = new LPFloat({context, name: `${this.name}:jobperformance`, isStat: true})
-        this._martial = new LPFloat({context, name: `${this.name}:martial`, isStat: true})
-        this._masochist = new LPFloat({context, name: `${this.name}:masochist`, isStat: true})
-        this._money = new LPFloat({context, name: `${this.name}:money`, isStat: true})
-        this._mood = new LPFloat({context, name: `${this.name}:mood`, isStat: true})
-        this._muscle = new LPFloat({context, name: `${this.name}:muscle`, isStat: true})
-        this._music = new LPFloat({context, name: `${this.name}:music`, isStat: true})
-        this._perversion = new LPFloat({context, name: `${this.name}:perversion`, isStat: true})
-        this._pet_health = new LPFloat({context, name: `${this.name}:pet_health`, isStat: true})
-        this._pornfame = new LPFloat({context, name: `${this.name}:pornfame`, isStat: true})
-        this._rapportwithplayer = new LPFloat({context, name: `${this.name}:rapportwithplayer`, isStat: true})
-        this._sneak = new LPFloat({context, name: `${this.name}:sneak`, isStat: true})
-        this._stock_alcohol = new LPFloat({context, name: `${this.name}:stock_alcohol`, isStat: true})
-        this._stock_book = new LPFloat({context, name: `${this.name}:stock_book`, isStat: true})
-        this._stock_coffee = new LPFloat({context, name: `${this.name}:stock_coffee`, isStat: true})
-        this._stock_condom = new LPFloat({context, name: `${this.name}:stock_condom`, isStat: true})
-        this._stock_flower = new LPFloat({context, name: `${this.name}:stock_flower`, isStat: true})
-        this._stock_gift = new LPFloat({context, name: `${this.name}:stock_gift`, isStat: true})
-        this._stock_haircare = new LPFloat({context, name: `${this.name}:stock_haircare`, isStat: true})
-        this._stock_ingredient = new LPFloat({context, name: `${this.name}:stock_ingredient`, isStat: true})
-        this._stock_juice = new LPFloat({context, name: `${this.name}:stock_juice`, isStat: true})
-        this._stock_makeup = new LPFloat({context, name: `${this.name}:stock_makeup`, isStat: true})
-        this._stock_meal = new LPFloat({context, name: `${this.name}:stock_meal`, isStat: true})
-        this._stock_movie = new LPFloat({context, name: `${this.name}:stock_movie`, isStat: true})
-        this._stock_musicalinstrument = new LPFloat({context, name: `${this.name}:stock_musicalinstrument`, isStat: true})
-        this._stock_petfood = new LPFloat({context, name: `${this.name}:stock_petfood`, isStat: true})
-        this._stock_photo = new LPFloat({context, name: `${this.name}:stock_photo`, isStat: true})
-        this._stock_pill = new LPFloat({context, name: `${this.name}:stock_pill`, isStat: true})
-        this._stock_skincare = new LPFloat({context, name: `${this.name}:stock_skincare`, isStat: true})
-        this._stock_snack = new LPFloat({context, name: `${this.name}:stock_snack`, isStat: true})
-        this._stock_soda = new LPFloat({context, name: `${this.name}:stock_soda`, isStat: true})
-        this._stock_supplement = new LPFloat({context, name: `${this.name}:stock_supplement`, isStat: true})
-        this._stock_tea = new LPFloat({context, name: `${this.name}:stock_tea`, isStat: true})
-        this._stock_tobacco = new LPFloat({context, name: `${this.name}:stock_tobacco`, isStat: true})
-        this._stock_video = new LPFloat({context, name: `${this.name}:stock_video`, isStat: true})
+        this._age = new LPFloat({context, lpMod, name: `${this.name}:age`, isStat: true})
+        this._arousal = new LPFloat({context, lpMod, name: `${this.name}:arousal`, isStat: true})
+        this._attractiontoplayer = new LPFloat({context, lpMod, name: `${this.name}:attractiontoplayer`, isStat: true})
+        this._attractiveness = new LPFloat({context, lpMod, name: `${this.name}:attractiveness`, isStat: true})
+        this._car_value = new LPFloat({context, lpMod, name: `${this.name}:car_value`, isStat: true})
+        this._children = new LPFloat({context, lpMod, name: `${this.name}:children`, isStat: true})
+        this._cooking = new LPFloat({context, lpMod, name: `${this.name}:cooking`, isStat: true})
+        this._dance = new LPFloat({context, lpMod, name: `${this.name}:dance`, isStat: true})
+        this._energy = new LPFloat({context, lpMod, name: `${this.name}:energy`, isStat: true})
+        this._fertility = new LPFloat({context, lpMod, name: `${this.name}:fertility`, isStat: true})
+        this._fitness = new LPFloat({context, lpMod, name: `${this.name}:fitness`, isStat: true})
+        this._incest = new LPFloat({context, lpMod, name: `${this.name}:incest`, isStat: true})
+        this._intelligence = new LPFloat({context, lpMod, name: `${this.name}:intelligence`, isStat: true})
+        this._interpersonal = new LPFloat({context, lpMod, name: `${this.name}:interpersonal`, isStat: true})
+        this._intoxication = new LPFloat({context, lpMod, name: `${this.name}:intoxication`, isStat: true})
+        this._jobexperience = new LPFloat({context, lpMod, name: `${this.name}:jobexperience`, isStat: true})
+        this._jobperformance = new LPFloat({context, lpMod, name: `${this.name}:jobperformance`, isStat: true})
+        this._martial = new LPFloat({context, lpMod, name: `${this.name}:martial`, isStat: true})
+        this._masochist = new LPFloat({context, lpMod, name: `${this.name}:masochist`, isStat: true})
+        this._money = new LPFloat({context, lpMod, name: `${this.name}:money`, isStat: true})
+        this._mood = new LPFloat({context, lpMod, name: `${this.name}:mood`, isStat: true})
+        this._muscle = new LPFloat({context, lpMod, name: `${this.name}:muscle`, isStat: true})
+        this._music = new LPFloat({context, lpMod, name: `${this.name}:music`, isStat: true})
+        this._perversion = new LPFloat({context, lpMod, name: `${this.name}:perversion`, isStat: true})
+        this._pet_health = new LPFloat({context, lpMod, name: `${this.name}:pet_health`, isStat: true})
+        this._pornfame = new LPFloat({context, lpMod, name: `${this.name}:pornfame`, isStat: true})
+        this._rapportwithplayer = new LPFloat({context, lpMod, name: `${this.name}:rapportwithplayer`, isStat: true})
+        this._sneak = new LPFloat({context, lpMod, name: `${this.name}:sneak`, isStat: true})
+        this._stock_alcohol = new LPFloat({context, lpMod, name: `${this.name}:stock_alcohol`, isStat: true})
+        this._stock_book = new LPFloat({context, lpMod, name: `${this.name}:stock_book`, isStat: true})
+        this._stock_coffee = new LPFloat({context, lpMod, name: `${this.name}:stock_coffee`, isStat: true})
+        this._stock_condom = new LPFloat({context, lpMod, name: `${this.name}:stock_condom`, isStat: true})
+        this._stock_flower = new LPFloat({context, lpMod, name: `${this.name}:stock_flower`, isStat: true})
+        this._stock_gift = new LPFloat({context, lpMod, name: `${this.name}:stock_gift`, isStat: true})
+        this._stock_haircare = new LPFloat({context, lpMod, name: `${this.name}:stock_haircare`, isStat: true})
+        this._stock_ingredient = new LPFloat({context, lpMod, name: `${this.name}:stock_ingredient`, isStat: true})
+        this._stock_juice = new LPFloat({context, lpMod, name: `${this.name}:stock_juice`, isStat: true})
+        this._stock_makeup = new LPFloat({context, lpMod, name: `${this.name}:stock_makeup`, isStat: true})
+        this._stock_meal = new LPFloat({context, lpMod, name: `${this.name}:stock_meal`, isStat: true})
+        this._stock_movie = new LPFloat({context, lpMod, name: `${this.name}:stock_movie`, isStat: true})
+        this._stock_musicalinstrument = new LPFloat({context, lpMod, name: `${this.name}:stock_musicalinstrument`, isStat: true})
+        this._stock_petfood = new LPFloat({context, lpMod, name: `${this.name}:stock_petfood`, isStat: true})
+        this._stock_photo = new LPFloat({context, lpMod, name: `${this.name}:stock_photo`, isStat: true})
+        this._stock_pill = new LPFloat({context, lpMod, name: `${this.name}:stock_pill`, isStat: true})
+        this._stock_skincare = new LPFloat({context, lpMod, name: `${this.name}:stock_skincare`, isStat: true})
+        this._stock_snack = new LPFloat({context, lpMod, name: `${this.name}:stock_snack`, isStat: true})
+        this._stock_soda = new LPFloat({context, lpMod, name: `${this.name}:stock_soda`, isStat: true})
+        this._stock_supplement = new LPFloat({context, lpMod, name: `${this.name}:stock_supplement`, isStat: true})
+        this._stock_tea = new LPFloat({context, lpMod, name: `${this.name}:stock_tea`, isStat: true})
+        this._stock_tobacco = new LPFloat({context, lpMod, name: `${this.name}:stock_tobacco`, isStat: true})
+        this._stock_video = new LPFloat({context, lpMod, name: `${this.name}:stock_video`, isStat: true})
     }
 
     _isHelper(func, params = [], nameStr) {
@@ -210,7 +210,7 @@ class LPActor extends LPObject {
      */
     countPregnancyDays = (name = 'lpjs_pregnancyDays') => {
         this.context.writeLine(`${name} = ${this.name}.countPregnancyDays()`)
-        return new LPFloat({context: this.context, name})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -315,7 +315,7 @@ class LPActor extends LPObject {
      */
     generatePersonMatchRace = (name) => {
         this.context.writeLine(`${name} = ${this.name}.generatePersonMatchRace()`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -329,7 +329,7 @@ class LPActor extends LPObject {
      */
     generatePersonTemporaryMatchRace = (name) => {
         this.context.writeLine(`${name} = ${this.name}.generatePersonTemporaryMatchRace()`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -342,7 +342,7 @@ class LPActor extends LPObject {
      */
     generateRelativeMatchRace = (name) => {
         this.context.writeLine(`${name} = ${this.name}.generateRelativeMatchRace()`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -365,7 +365,7 @@ class LPActor extends LPObject {
      */
     getActorVar = (varOrTag, name) => {
         this.context.writeLine(`${name} = ${this.name}.getActorVar(${varOrTag})`)
-        return new LPString({context: this.context, name})
+        return new LPString({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -376,7 +376,7 @@ class LPActor extends LPObject {
      */
     getBabyDaddy = (name) => {
         this.context.writeLine(`${name} = ${this.name}.getBabyDaddy()`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -389,7 +389,7 @@ class LPActor extends LPObject {
         // name = name || `lpjs_${this.name}_getBuilding_${type}`
         // this.context.writeLine(`${this.name}.getBuilding(${type})`)
         if (name) this.context.writeLine(`${name} = ${this.name}.getBuilding(${type})`)
-        return new LPBuilding({context: this.context, name, expression: `${this.name}.getBuilding(${type})`})
+        return new LPBuilding({context: this.context, lpMod: this.lpMod, name, expression: `${this.name}.getBuilding(${type})`})
     }
 
     /**
@@ -412,7 +412,7 @@ class LPActor extends LPObject {
      */
     getID = (name) => {
         this.context.writeLine(`${name} = ${this.name}.getID()`)
-        return new LPFloat({context: this.context, name})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -422,7 +422,7 @@ class LPActor extends LPObject {
      */
     getMorphValue = (morphName, name) => {
         this.context.writeLine(`${name} = ${this.name}.getMorphValue(${morphName})`)
-        return new LPFloat({context: this.context, name})
+        return new LPFloat({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -440,7 +440,7 @@ class LPActor extends LPObject {
      */
     getPregnancyTag = (name) => {
         this.context.writeLine(`${name} = ${this.name}.getPregnancyTag()`)
-        return new LPString({context: this.context, name})
+        return new LPString({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -452,7 +452,7 @@ class LPActor extends LPObject {
      */
     getRace = (name) => {
         this.context.writeLine(`${name} = ${this.name}.getRace()`)
-        return new LPString({context: this.context, name})
+        return new LPString({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -462,7 +462,7 @@ class LPActor extends LPObject {
      */
     getRelatedPerson = (relationshipTypes = [], name) => {
         this.context.writeLine(`${name} = ${this.name}.getRelatedPerson(${relationshipTypes.join(', ')})`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -472,7 +472,7 @@ class LPActor extends LPObject {
      */
     getRelatedPersonQuick = (relationshipTypes = [], name = `lpjs_${this.name}_getRelatedPersonQuick`) => {
         this.context.writeLine(`${name} = ${this.name}.getRelatedPersonQuick(${relationshipTypes.join(', ')})`)
-        return new LPNPC({context: this.context, name})
+        return new LPNPC({context: this.context, lpMod: this.lpMod, name})
     }
 
     /**
@@ -491,7 +491,7 @@ class LPActor extends LPObject {
     hasSameInterestAs = (actor, name) => {
         const expression = `${this.name}.hasSameInterestAs(${actor.name})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
-        return new LPBoolean({context: this.context, name, expression})
+        return new LPBoolean({context: this.context, lpMod: this.lpMod, name, expression})
     }
 
     /**
