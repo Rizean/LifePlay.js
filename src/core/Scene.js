@@ -14,19 +14,19 @@ const LPPlayer = require('./objects/LPPlayer')
 const LPNPC = require('./objects/LPNPC')
 const Context = require('./Context')
 
+const fs = require('fs/promises')
+const path = require('path')
+const assert = require('assert')
+const ensureDirectory = require('../libs/ensureDirectory')
 
 module.exports = class Scene extends Context {
-
-
     /**
      *
      * @param script
      */
-    constructor({lpMod}) {
+    constructor({lpMod, name, modsDir, filePath = 'scenes'}) {
         super({lpMod})
-        // this._context = this
-        this.Player = new LPPlayer({context: this, lpMod})
-        // require('./playerFunctions')(this.Player, this)
+        this._player = new LPPlayer({context: this, lpMod})
         this._what = 'WHAT:'
         this._where = 'WHERE:'
         this._when = 'WHEN:'
@@ -38,34 +38,12 @@ module.exports = class Scene extends Context {
         this._CurrentCompanion = new LPNPC({context: this, lpMod, name: 'CurrentCompanion'})
         this._shouldWriteHeader = true
         this.actionDuration = new LPFloat({context: this, lpMod, name: 'actionDuration'})
+        this._lpMod = lpMod
+        this._name = name
+        this._modsDir = modsDir
+        this._filePath = filePath
 
-        // this.build.bind(this)
     }
-
-    // build() {
-    //     this.reset()
-    //     console.log('scene build')
-    //     if (this._shouldWriteHeader) {
-    //         console.log('scene build header')
-    //         this.writeLine(this._what)
-    //         this.writeLine(this._where)
-    //         this.writeLine(this._when)
-    //         this._inline = true
-    //         this._code += `WHO: `
-    //         if (this._whoScript) this._whoScript()
-    //         this._code += LINE_ENDDING
-    //         // this.writeLine(this._who)
-    //
-    //         this._code += `OTHER: `
-    //         if (this._otherScript) this._otherScript()
-    //         this._code += LINE_ENDDING
-    //         // this.writeLine(this._other)
-    //         this._inline = false
-    //         console.log('scene build header done', this._code)
-    //     }
-    //     // return super.build.call(this, false)
-    //     return super.build(false)
-    // }
 
     /**
      * WHAT
@@ -737,6 +715,7 @@ module.exports = class Scene extends Context {
     }
 
 
+    // todo sort these
     timeoutPrecise = (hours, scenes) => this.writeLine(`timeoutPrecise(${hours}, ${scenes.join(', ')})`)
     timeout = (hours, scenes) => this.writeLine(`timeout(${hours}, ${scenes.join(', ')})`)
     timeoutActorPrecise = (hours, scene, actors) => this.writeLine(`timeoutActorPrecise(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
@@ -749,5 +728,47 @@ module.exports = class Scene extends Context {
 
     get CurrentCompanion() {
         return this._CurrentCompanion
+    }
+
+    get lpMod() {
+        return this._lpMod
+    }
+
+    get name() {
+        return this._name
+    }
+
+    get Player() {
+        return this._player
+    }
+
+    get modsDir() {
+        return this._modsDir
+    }
+
+    set modsDir(value) {
+        this._modsDir = value
+    }
+
+    get filePath() {
+        return this._filePath
+    }
+
+    set filePath(value) {
+        this._filePath = value
+    }
+
+    toString() {
+        return this._code
+    }
+
+    async write() {
+        console.debug(`Writing ${this.name}.lpscene`)
+        assert.ok(!(this.modsDir == null))
+        const dirPath = path.resolve(this.modsDir, this.filePath)
+        await ensureDirectory(dirPath)
+        const filename = path.resolve(dirPath, `${this.name}.lpscene`)
+        console.log(`Writing ${this.name}.lpscene to "${filename}"`)
+        return fs.writeFile(filename, this.toString())
     }
 }

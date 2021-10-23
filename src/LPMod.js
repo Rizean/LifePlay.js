@@ -23,6 +23,7 @@ class LPMod {
         this._stats = new Map()
         this._actions = new Map()
         this._globals = new Map()
+        this._scenes = new Map()
     }
 
 
@@ -43,12 +44,9 @@ class LPMod {
         const promises = [
             fs.writeFile(modFile, this.toString())
         ]
-        this._stats.forEach((stat)=>{
-            promises.push(stat.write())
-        })
-        this._actions.forEach((action)=>{
-            promises.push(action.write())
-        })
+        this._stats.forEach((stat) => promises.push(stat.write()))
+        this._actions.forEach((action) => promises.push(action.write()))
+        this._scenes.forEach((scene) => promises.push(scene.write()))
         await Promise.all(promises)
     }
 
@@ -77,6 +75,10 @@ class LPMod {
         this._stats.set(stat.STAT_ID, stat)
     }
 
+    removeStat(key) {
+        this._stats.delete(key)
+    }
+
     addAction(action) {
         assert.ok(action instanceof LPAction)
         if (this._actions.has(action.ACTION_UNIQUEID)) {
@@ -86,8 +88,22 @@ class LPMod {
         this._actions.set(action.ACTION_UNIQUEID, action)
     }
 
-    removeStat(key) {
-        this._stats.delete(key)
+    removeAction(key) {
+        this._actions.delete(key)
+    }
+
+    addScene(scene) {
+        const Scene = require('./core/Scene')
+        assert.ok(scene instanceof Scene)
+        if (this._scenes.has(scene.name)) {
+            console.warn(`OVERWRITING SCENE! ${scene.name}`)
+        }
+        scene.modsDir = this.modsDir
+        this._scenes.set(scene.name, scene)
+    }
+
+    removeScene(key) {
+        this._scenes.delete(key)
     }
 
     get MODULE_UNIQUEID() {
