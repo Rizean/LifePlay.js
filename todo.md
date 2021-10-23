@@ -19,13 +19,34 @@
 * isIncest
 
 #### LPQuest
-* AliasName.generateBuildingAlias(buildingtype) - example NatH.generateBuildingAlias(home); NatH.addObjective(bggw_film)
+* AliasName.generateBuildingAlias(buildingtype) - 
+  * B1.removeObjective(skag_awaken)
+  * B2.generateBuildingAlias(stripclub)
+  * B2.addObjective(skag_awaken)
 * AliasName.getActorAlias() returns Actor
 * questEnd()
 * AliasName.setActorAlias(Actor) - example: Damian = generatePerson(bggw_damian); DamianA.setActorAlias(Damian)
 * BuildingAlias.addObjective(Lpactionfilename)
 * BuildingAlias.removeObjective(Lpactionfilename)
 * isQuestCompleted - example isQuestCompleted(legalized)
+
+notes
+```text
+// sttt_start.lpscene
+sttt_stage.setGlobal(0)
+
+B1.generateBuildingAlias(work)
+B1.addObjective(sttt_obj)
+sttt_stage.setGlobal(1)
+
+// sttt_main.lpscene
+stage = sttt_stage.getGlobal()
+If stage == 1 // GET DIRT ON Boss
+sttt_stage.setGlobal(2)
+sttt_stage.setGlobal(3)
+sttt_stage.setGlobal(4)
+
+```
 
 #### LPGlobal
 * ~~GlobalVariableName.clearGlobal() - SugarBabe.clearGlobal()~~
