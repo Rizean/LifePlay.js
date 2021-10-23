@@ -13,10 +13,12 @@
     "example:cinema_with_date_passive": "node ./examples/cinema_with_date_passive.scene",
     "example:optionChoice": "node ./examples/optionChoice",
     "example:simpleScene": "node ./examples/simpleScene",
-    "example:while": "node ./examples/while"
+    "example:while": "node ./examples/while",
+    "example:dev": "nodemon ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js"
   },
   "dependencies": {
     "esprima": "^4.0.1",
+    "nodemon": "^2.0.14",
     "vm2": "^3.9.4"
   }
 }
