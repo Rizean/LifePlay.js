@@ -69,6 +69,21 @@ handlers.ExpressionStatement = (expression, {depth = 0, logs} = {}) => {
     return handlers.getHandler(expression.expression)(expression.expression, {depth, logs})
 }
 
+handlers.FunctionDeclaration = (expression, {depth = 0, logs} = {}) => {
+    logs.push(['FunctionDeclaration', expression])
+    const params = expression.params.map(param => handlers.getHandler(param)(param, {depth, logs})).join(', ')
+    return [
+        `${$pad(depth)}function ${handlers.getHandler(expression.id)(expression.id, {depth, logs})}(${params}) {`,
+        `${handlers.getHandler(expression.body)(expression.body, {depth: depth + 2, logs})}`,
+        `${$pad(depth)}}`
+    ].join('\r\n')
+}
+
+handlers.ReturnStatement = (expression, {depth = 0, logs} = {}) => {
+    logs.push(['FunctionDeclaration', expression])
+    return `return ${handlers.getHandler(expression.argument)(expression.argument, {depth: 0, logs})}`
+}
+
 handlers.TemplateLiteral = (expression, {depth = 0, logs} = {}) => {
     logs.push(['TemplateLiteral', JSON.stringify(expression, null, 2)])
     const {quasis, expressions} = expression
@@ -125,14 +140,14 @@ handlers.VariableDeclaration = (expression, {depth = 0, logs} = {}) => {
     if (declarations.length > 1) throw new Error(`Multiple Variable Declarator not supported!`)
     const declaration = declarations[0]
     if (declaration.init == null) throw new Error('Variable Declarator cannot be null!')
-    return handlers.getHandler(declaration)(declaration, {depth, logs})
+    return `${$pad(depth)}${kind} ${handlers.getHandler(declaration)(declaration, {depth: 0, logs})}`
 
 }
 handlers.VariableDeclarator = (expression, {depth = 0, logs} = {}) => {
     logs.push(['VariableDeclarator', expression])
     const {type, id, init} = expression
     const name = handlers.getHandler(id)(id, {depth, logs})
-    return `${$pad(depth)}var ${name} = ${handlers.getHandler(init)(init, {depth, name, logs})}`
+    return `${name} = ${handlers.getHandler(init)(init, {depth, name, logs})}`
 }
 
 handlers.NewExpression = (expression, {depth = 0, name, logs} = {}) => {
@@ -147,7 +162,7 @@ handlers.ArrowFunctionExpression = (expression, {depth = 0, name, logs} = {}) =>
     const {id, params, body} = expression
     const _params = params.map(param => handlers.getHandler(param)(param, {depth, logs}))
     depth += INDENT
-    return `(${_params.join(', ')}) => {\r\n${handlers.getHandler(body)(body, {depth, logs})}\r\n}`
+    return `(${_params.join(', ')}) => {\r\n${handlers.getHandler(body)(body, {depth, logs})}\r\n${$pad(depth - INDENT)}}`
 }
 
 handlers.Property = (expression, {depth = 0, logs} = {}) => {
@@ -198,14 +213,14 @@ handlers.IfStatement = (expression, {depth = 0, logs} = {}) => {
 
     if (!alternate) {
         return [
-            `${$pad(depth)}scene.$if(${test}, function () {`,
+            `${$pad(depth)}scene.$if(${test}, () => {`,
             `${consequent}`,
             `${$pad(depth)}}).$endIf()`
         ].join('\r\n')
 
     } else {
         const isAltIf = expression.alternate.type === 'IfStatement'
-        alternate = isAltIf ? alternate.trim() : `(()=>{\r\n${alternate}\r\n${$pad(depth)}}).$endIf()`
+        alternate = isAltIf ? alternate.trim() : `(function () {\r\n${alternate}\r\n${$pad(depth)}}).$endIf()`
         if (alternate.trim().startsWith('scene.$if')) alternate = alternate.replace('scene.$if', '$if')
         const out = [
             `${$pad(depth)}scene.$if(${test}, function () {`,
