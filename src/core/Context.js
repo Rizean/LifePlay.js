@@ -142,12 +142,7 @@ module.exports = class Context {
 
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression: expression})
     }
-    // _boolean = (expression, name) => {
-    //     throw new Error('deprecated')
-    //     return this.boolean(expression, name)
-    //
-    //     return new LPBoolean({context: this, name, expression})
-    // }
+
     string = (expression, name) => {
         if (typeof expression === 'string') {
             this.writeLine(`${name} = "${expression}"`)
