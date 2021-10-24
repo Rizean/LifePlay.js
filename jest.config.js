@@ -30,6 +30,7 @@ module.exports = {
         '!src/**/types.js',
         '!src/**/LifePlay.js',
         '!src/**/LPActorTemplate.js',
+        '!src/**/LPAlias.js',
         '!src/**/GenerateLPActor.js',
         '!examples/**/*.js'
     ],
