@@ -38,8 +38,8 @@ module.exports = class LPVariable extends LPObject {
         return new this.constructor({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${a}${this.expression}${b}`})
     }
 
-    write() {
-        this.context.writeLine(`${this.expression}`)
+    write(prefix = '') {
+        this.context.writeLine(`${prefix}${this.expression}`)
         return this
     }
 

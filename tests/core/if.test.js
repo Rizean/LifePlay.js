@@ -3,15 +3,18 @@
 const setupMod = require('../tools/setupMod')
 const Scene = require('../../src/core/Scene')
 const LB = '\r\n'
-test('simple $if()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        const {$if, narrative} = scene
-        $if(true, () => {
-            narrative("simple")
-        }).$endIf()
+
+test('simple $if()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'simple_if'}, (scene) => {
+        scene.start(() => {
+            const {narrative} = scene
+            if (true) {
+                narrative("simple")
+            }
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  If true',
         '    "simple"',
@@ -20,17 +23,20 @@ test('simple $if()', () => {
     ].join(LB))
 })
 
-test('simple $if().$else()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        const {$if, narrative} = scene
-        $if(true, () => {
-            narrative("simple")
-        }).$else(() => {
-            narrative("simple else")
-        }).$endIf()
+test('simple if else', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'simple_if_else'}, (scene) => {
+        scene.start(() => {
+            const {narrative} = scene
+            if (true) {
+                narrative("simple")
+            } else {
+                narrative("simple else")
+            }
+        })
     })
-    expect(scene._code.trim()).toBe([
+
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  If true',
         '    "simple"',
@@ -41,23 +47,30 @@ test('simple $if().$else()', () => {
     ].join(LB))
 })
 
-test('simple $if().$elseIf.$else()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        const {$if, narrative} = scene
-        $if(true, () => {
-            narrative("simple")
-        }).$elseIf(true, () => {
-            narrative("simple else if")
-        }).$else(() => {
-            narrative("simple else")
-        }).$endIf()
+test('simple if elseif else', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'simple_if_elseif_else'}, (scene) => {
+        scene.start(() => {
+            const {narrative} = scene
+            const a = true
+            const b = false
+            if (a) {
+                narrative("simple")
+            } else if (b) {
+                narrative("simple else if")
+            } else {
+                narrative("simple else")
+            }
+        })
     })
-    expect(scene._code.trim()).toBe([
+
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
-        '  If true',
+        '  a = true',
+        '  b = false',
+        '  If a',
         '    "simple"',
-        '  ElseIf true',
+        '  ElseIf b',
         '    "simple else if"',
         '  Else',
         '    "simple else"',
@@ -66,63 +79,32 @@ test('simple $if().$elseIf.$else()', () => {
     ].join(LB))
 })
 
-test('simple $if().$elseIf().$elseIf().$elseIf().$else()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        const {$if, narrative} = scene
-        $if(true, () => {
-            narrative("simple")
-        }).$elseIf(true, () => {
-            narrative("simple else if 1")
-        }).$elseIf(true, () => {
-            narrative("simple else if 2")
-        }).$elseIf(true, () => {
-            narrative("simple else if 3")
-        }).$else(() => {
-            narrative("simple else")
-        }).$endIf()
+test('complex $if()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'complex_if'}, (scene) => {
+        const {$not, random, narrative} = scene;
+        scene.WHO(() => {
+            var Employee1 = scene.getSpecific('Employee')
+            var Employee2 = scene.getSpecific('Employee')
+            $IF(
+                scene.not(Employee1.isDating())
+                    .and(scene.not(Employee2.isDating()))
+                    .and(Employee1.isInterestedIn(Employee2))
+                    .and(Employee2.isInterestedIn(Employee1))
+                    .and(
+                        Employee1.perversion
+                            .add(Employee2.perversion)
+                            .gt(random(75, 150))
+                    )
+            )
+        })
+        scene.start(() => {
+            narrative('test')
+        })
     })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  If true',
-        '    "simple"',
-        '  ElseIf true',
-        '    "simple else if 1"',
-        '  ElseIf true',
-        '    "simple else if 2"',
-        '  ElseIf true',
-        '    "simple else if 3"',
-        '  Else',
-        '    "simple else"',
-        '  EndIf',
-        'sceneEnd()',
-    ].join(LB))
-})
 
-test('complex $if()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.WHO((scene) => {
-        const {$if, $not, random} = scene;
-        var Employee1 = scene.getSpecific('Employee')
-        var Employee2 = scene.getSpecific('Employee')
-        $if(
-            $not(Employee1.isDating())
-                .and($not(Employee2.isDating()))
-                .and(Employee1.isInterestedIn(Employee2))
-                .and(Employee2.isInterestedIn(Employee1))
-                .and(
-                    Employee1.perversion
-                        .add(Employee2.perversion)
-                        .gt(random(75, 150))
-                )
-        )
-    })
-    scene.start((scene) => {
-        const {$if, narrative} = scene
-        narrative('test')
-    })
-    expect(scene._code.trim()).toBe([
-        'WHO: Employee1 = getSpecific(Employee); Employee2 = getSpecific(Employee); If !Employee1.isDating() && !Employee2.isDating() && Employee1.isInterestedIn(Employee2) && Employee2.isInterestedIn(Employee1) && Employee1:perversion + Employee2:perversion > Random(75, 150); ',
+    expect((await scene.toString()).trim()).toBe([
+        'WHO: Employee1 = getSpecific(Employee); Employee2 = getSpecific(Employee); If !(Employee1.isDating()) && !(Employee2.isDating()) && Employee1.isInterestedIn(Employee2) && Employee2.isInterestedIn(Employee1) && Employee1:perversion + Employee2:perversion > Random(75, 150); ',
         '',
         'sceneStart()',
         '  "test"',
@@ -130,35 +112,33 @@ test('complex $if()', () => {
     ].join(LB))
 })
 
-test('complex $if().$elseIf().$elseIf().$elseIf().$else()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        const {$if, narrative, $not, random} = scene;
-        var Employee1 = scene.getSpecific('Employee')
-        var Employee2 = scene.getSpecific('Employee')
+test('very complex if', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'very_complex_if'}, (scene) => {
+        scene.start(() => {
+            const {narrative, random} = scene;
+            var Employee1 = scene.getSpecific('Employee')
+            var Employee2 = scene.getSpecific('Employee')
 
-        $if($not(Employee1.isDating()).and($not(Employee2.isDating())), () => {
-            narrative("!Employee1.isDating() && !Employee2.isDating()")
-
-        }).$elseIf(Employee1.perversion.add(Employee2.perversion).gt(random(75, 150)), () => {
-            narrative("Employee1:perversion + Employee2:perversion > Random(75, 150)")
-
-        }).$elseIf(Employee1.isInterestedIn(Employee2), () => {
-            narrative("Employee1.isInterestedIn(Employee2)")
-
-        }).$elseIf(Employee2.isInterestedIn(Employee1), () => {
-            narrative("Employee2.isInterestedIn(Employee1)")
-
-        }).$else(() => {
-            narrative("not so simple")
-
-        }).$endIf()
+            if (scene.not(Employee1.isDating()).and(scene.not(Employee2.isDating()))) {
+                narrative("!Employee1.isDating() && !Employee2.isDating()")
+            } else if (Employee1.perversion.add(Employee2.perversion).gt(random(75, 150))) {
+                narrative("Employee1:perversion + Employee2:perversion > Random(75, 150)")
+            } else if (Employee1.isInterestedIn(Employee2)) {
+                narrative("Employee1.isInterestedIn(Employee2)")
+            } else if (Employee2.isInterestedIn(Employee1)) {
+                narrative("Employee2.isInterestedIn(Employee1)")
+            } else {
+                narrative("not so simple")
+            }
+        })
     })
-    expect(scene._code.trim()).toBe([
+
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  Employee1 = getSpecific(Employee)',
         '  Employee2 = getSpecific(Employee)',
-        '  If !Employee1.isDating() && !Employee2.isDating()',
+        '  If !(Employee1.isDating()) && !(Employee2.isDating())',
         '    "!Employee1.isDating() && !Employee2.isDating()"',
         '  ElseIf Employee1:perversion + Employee2:perversion > Random(75, 150)',
         '    "Employee1:perversion + Employee2:perversion > Random(75, 150)"',

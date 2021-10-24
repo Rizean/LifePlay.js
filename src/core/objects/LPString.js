@@ -9,7 +9,7 @@ class LPString extends LPVariable {
      * @return {LPString}
      */
     assign(rhs) {
-        this._noChain('assign')
+        // this._noChain('assign')
         if (rhs instanceof LPString) {
             // noinspection JSValidateTypes
             return super.assign(rhs.expression, 'string', LPString)
@@ -25,7 +25,7 @@ class LPString extends LPVariable {
      * @return {LPBoolean}
      */
     isSameString = (otherString, name) => {
-        this._noChain('isSameString')
+        // this._noChain('isSameString')
         const rhs = otherString.expression || `"${otherString}"`
         const expression = `${this.name}.isSameString(${rhs})`
         if (name) {
@@ -42,7 +42,7 @@ class LPString extends LPVariable {
      * @return {LPBoolean}
      */
     isString = (str, name) => {
-        this._noChain('isString')
+        // this._noChain('isString')
         const rhs = str.expression || str
         const expression = `${this.name}.isString("${rhs}")`
         if (name) {

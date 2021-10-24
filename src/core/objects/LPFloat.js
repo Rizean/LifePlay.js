@@ -19,7 +19,7 @@ class LPFloat extends LPVariable {
      */
     _opHelper = ({op, aop, rhs, name, ReturnType = LPFloat, noChain}) => {
         rhs = rhs.expression || rhs
-        if (noChain) this._noChain(noChain)
+        // if (noChain) this._noChain(noChain)
         if (name) {
             this.context.writeLine(`${name} = ${this.expression} ${op} ${rhs}`)
             return new ReturnType({context: this.context, lpMod: this.lpMod, name, expression: name})
@@ -41,7 +41,7 @@ class LPFloat extends LPVariable {
      * @private
      */
     _funcHelper = ({func, noChain = false, name, params = '', ReturnType = LPFloat}) => {
-        if (noChain) this._noChain('floor')
+        // if (noChain) this._noChain('floor')
         const expression = `${this.expression}.${func}(${params})`
         if (name) this.context.writeLine(`${name} = ${expression}`)
         return new ReturnType({context: this.context, lpMod: this.lpMod, name: this.name, expression})
@@ -250,7 +250,7 @@ class LPFloat extends LPVariable {
      * @return {LPFloat} - reference to this for chaining
      */
     setFraternityFees() {
-        this._noChain('setRent')
+        // this._noChain('setRent')
         this.context.writeLine(`${this.name}.setFraternityFees()`)
     }
 
@@ -267,7 +267,7 @@ class LPFloat extends LPVariable {
      * Rent.setRent()
      */
     setRent() {
-        this._noChain('setRent')
+        // this._noChain('setRent')
         this.context.writeLine(`${this.name}.setRent()`)
     }
 
@@ -281,7 +281,7 @@ class LPFloat extends LPVariable {
      * Salary.setSalary()
      */
     setSalary() {
-        this._noChain('setSalary')
+        // this._noChain('setSalary')
         this.context.writeLine(`${this.name}.setSalary()`)
     }
 
@@ -293,7 +293,7 @@ class LPFloat extends LPVariable {
      * scene.narrative("I agreed to pay $1000 per month for tuition")
      */
     setTuition() {
-        this._noChain('setTuition')
+        // this._noChain('setTuition')
         this.context.writeLine(`${this.name}.setTuition()`)
     }
 

@@ -2,52 +2,67 @@ const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 test('LPString.assign', async () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 'test'
-        a = 'test2'
-        a = a
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPString_assign'}, (scene) => {
+        scene.start(() => {
+            let a = 'test'
+            a = 'test2'
+            a = a
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPString', fileName: `LPString_assign`, type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = "test"',
         '  a = "test2"',
         '  a = a',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
+// fixme?
+// test('LPString.add?', async () => {
+//     const lpMod = setupMod()
+//     let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPObject_noChain'}, (scene) => {
+//         scene.start(() => {
+//             const a = "some string" + " some other string"
+//             // const a = "some string" + " some other string"
+//         })
+//     })
+//     await expect(async () => await scene.toString()).rejects.toThrowError('Expected type of "number" or "LPFloat"!')
+// })
 
-test('LPString.isSameString', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 'test'
-        let b = 'test'
-        var c = a.isSameString(b)
-        c = a.isSameString('test')
+test('LPString.isSameString', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPString_isSameString'}, (scene) => {
+        scene.start(() => {
+            let a = 'test'
+            let b = 'test'
+            var c = a.isSameString(b)
+            c = a.isSameString('test')
+        })
     })
-
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  a = "test"`,
         `  b = "test"`,
         `  c = a.isSameString(b)`,
         `  c = a.isSameString("test")`,
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('LPString.isString', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 'test'
-        let c = a.isString('test')
+test('LPString.isString', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPString_isString'}, (scene) => {
+        scene.start(() => {
+            let a = 'test'
+            let c = a.isString('test')
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  a = "test"`,
         `  c = a.isString("test")`,
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })

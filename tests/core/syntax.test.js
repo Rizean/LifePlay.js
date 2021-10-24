@@ -4,6 +4,7 @@ const Scene = require('../../src/core/Scene')
 const LPActor = require('../../src/core/objects/LPActor')
 const LPBoolean = require('../../src/core/objects/LPBoolean')
 const LPBuilding = require('../../src/core/objects/LPBuilding')
+const LPBuildingAlias = require('../../src/core/objects/LPBuildingAlias')
 const LPFloat = require('../../src/core/objects/LPFloat')
 const LPNPC = require('../../src/core/objects/LPNPC')
 const LPObject = require('../../src/core/objects/LPObject')
@@ -28,6 +29,7 @@ test('Syntax Check', async () => {
 
         new LPBoolean({context: scene, lpMod: setupMod()}),
         new LPBuilding({context: scene, lpMod: setupMod()}),
+        new LPBuildingAlias({context: scene, lpMod: setupMod()}),
         new LPFloat({context: scene, lpMod: setupMod()}),
         new LPString({context: scene, lpMod: setupMod()}),
 
