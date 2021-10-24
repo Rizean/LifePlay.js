@@ -1,7 +1,7 @@
 # LifePlay.js
 
 A tool for writing [LifePlay](https://github.com/vinfamy/LifePlay) mods in
-Javascript
+Javascript. See [API](./docs/API.md)
 
 ## Current State
 ![Coverage lines](./coverage/badge-lines.svg)
