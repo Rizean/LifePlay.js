@@ -14,6 +14,7 @@ module.exports = class LPGlobals extends LPObject {
      */
     hookSandbox() {
         global.comment = (...params) => this.comment(...params)
+        global.clearGlobal = (...params) => this.clearGlobal(...params)
         global.enterString = (...params) => this.enterString(...params)
         global.getGlobal = (...params) => this.getGlobal(...params)
         global.getGlobalString = (...params) => this.getGlobalString(...params)
@@ -26,7 +27,7 @@ module.exports = class LPGlobals extends LPObject {
      * Delete this global variable completely.
      */
     clearGlobal(key) {
-        this.lpMod.delete(key)
+        this.lpMod.deleteGlobal(key)
         this.context.writeLine(`${key}.clearGlobal()`)
     }
 

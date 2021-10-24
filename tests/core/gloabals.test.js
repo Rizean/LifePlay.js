@@ -31,6 +31,36 @@ test('Globals setHomeCity()', async () => {
     ].join(LB))
 })
 
+test('Globals clearGlobal(key)', async () => {
+    const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_clearGlobal'}, (scene) => {
+        scene.start(() => {
+            clearGlobal('globalF1')
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  globalF1.clearGlobal()',
+        'sceneEnd()',
+    ].join(LB))
+})
+
+test('Globals comment(comment)', async () => {
+    const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_comment'}, (scene) => {
+        scene.start(() => {
+            comment('This is a comment')
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  // This is a comment',
+        'sceneEnd()',
+    ].join(LB))
+})
+
 test('Globals setGlobal(key, value) and getGlobal(key)', async () => {
     const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
     const lpMod = setupMod()
