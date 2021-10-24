@@ -9,17 +9,18 @@ module.exports = function generateBadCop (scene) {
         badCopIsMale = false
     }
 
-    var BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder'])
+    let BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder'])
     BadCop.dressUniform('police')
 
     if (badCopIsMale) {
         BadCop.likes_vaginal = random(50, 100)
         BadCop.fertility = random(5, 20)
     } else {
-        var BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder_F'])
+        BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder_F'])
         BadCop.likes_tribadism = random(50, 100)
         BadCop.fertility = random(0, 2)
         BadCop.stock_pill = random(5, 20)
+
         // BadCop.dress(Sports-Slip_1_F, Sports-Bra_1_F, Office-Pants_1_F, Office-Top_1_F)
     }
 
