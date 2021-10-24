@@ -13,9 +13,10 @@ module.exports = class LPObject {
         this._lpMod = lpMod
     }
 
-    _noChain = (func) => {
-        if (this._expression !== this.name) throw new Error(`${this.constructor.name}.${func} cannot be chained!`)
-    }
+    // not sure this has any value so removing for now
+    // _noChain = (func) => {
+    //     if (this._expression !== this.name) throw new Error(`${this.constructor.name}.${func} cannot be chained!`)
+    // }
 
     get expression() {
         return this._expression
