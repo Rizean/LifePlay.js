@@ -78,7 +78,7 @@ module.exports = class LPNPC extends LPActor {
      * Prevents this person from ever having NPC-NPC relationships. Mainly used for ex-relative bf/gf so that your gf/ former sister doesn't introduce you to her brother that you apparently haven't met
      * @param {LPActor} actor - optional?
      */
-    blockNPCRelationships = (actor ) => this.context.writeLine(`${this.name}.blockNPCRelationships(${actor.name})`)
+    blockNPCRelationships = (actor) => this.context.writeLine(`${this.name}.blockNPCRelationships(${actor.name})`)
 
     /**
      * Force remove this actor from current memory. Used in rare cases where SceneEnd() (which does this automatically to all actors used in the scene) isn't called.
@@ -140,7 +140,7 @@ module.exports = class LPNPC extends LPActor {
      * @returns {LPBoolean}
      */
     hasRelationship = (types, name) => {
-        types.forEach(type=>{
+        types.forEach(type => {
             if (!RELATIONSHIPS.includes(type.toLowerCase())) throw new Error(`hasRelationship invalid type: ${type}`)
         })
         const expression = `${this.name}.hasRelationship(${types.join(', ')})`
@@ -458,8 +458,7 @@ module.exports = class LPNPC extends LPActor {
     /**
      * Set until what time this person will stay at their current location before AI searches for a new location for them again. The float variable isn't the time of the day,
      * but total hours elapsed since the start of the current game, i.e. HoursElapsed + HoursToStay HoursElapsed being a special variable and HoursToStay is up to you
-     * @param floatTime
-     * @return {void|*}
+     * @param {LPFloat} floatTime
      */
-    setUntil = (floatTime) => this.context.writeLine(`${this.name}.setUntil(${floatTime})`)
+    setUntil = (floatTime) => this.context.writeLine(`${this.name}.setUntil(${floatTime.name})`)
 }

@@ -8,19 +8,23 @@ const LB = '\r\n'
 
 // *** Helpers ***
 
-function npcSceneOneActor(func, ...params) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    var randomActor = scene.getPerson()
-    randomActor.${func}(${params.map(ele => {
+async function npcSceneOneActor(func, ...params) {
+    const script = `module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_${func}(${params?.flat()?.join('_') || ''}'}, (scene) => {
+        scene.start(() => {
+            var randomActor = scene.getPerson()
+            randomActor.${func}(${params.map(ele => {
         if (Array.isArray(ele)) return JSON.stringify(ele)
         return `"${ele}"`
     }).join(', ')})
-}`
-    // console.log('script', script)
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+        })
+    })
+    return scene
+    })()
+`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActor = getPerson()`,
         `  randomActor.${func}(${params?.flat()?.join(', ') || ''})`,
@@ -28,19 +32,23 @@ function npcSceneOneActor(func, ...params) {
     ].join(LB))
 }
 
-function npcSceneOneActorWithVar(func, ...params) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    var randomActor = scene.getPerson()
-    var result = randomActor.${func}(${params.map(ele => {
+async function npcSceneOneActorWithVar(func, ...params) {
+    const script = `module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_${func}'}, (scene) => {
+        scene.start(() => {
+            var randomActor = scene.getPerson()
+            var result = randomActor.${func}(${params.map(ele => {
         if (Array.isArray(ele)) return JSON.stringify(ele)
         return `"${ele}"`
     }).join(', ')})
-}`
-    // console.log('script', script)
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+        })
+    })
+    return scene
+    })()
+`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActor = getPerson()`,
         `  result = randomActor.${func}(${params?.flat()?.join(', ') || ''})`,
@@ -48,17 +56,21 @@ function npcSceneOneActorWithVar(func, ...params) {
     ].join(LB))
 }
 
-function npcSceneTwoActor(func) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    var randomActorOne = scene.getPerson()
-    var randomActorTwo = scene.getPerson()
-    randomActorOne.${func}(randomActorTwo)
-}`
-    // console.log('script', script)
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+async function npcSceneTwoActor(func) {
+    const script = `
+module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_${func}'}, (scene) => {
+        scene.start(() => {
+            var randomActorOne = scene.getPerson()
+            var randomActorTwo = scene.getPerson()
+            randomActorOne.${func}(randomActorTwo)
+        })
+    })
+    return scene
+})()`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActorOne = getPerson()`,
         `  randomActorTwo = getPerson()`,
@@ -73,6 +85,7 @@ test('LPNPC.addDatingFriend()', () => npcSceneOneActor('addDatingFriend'))
 test('LPNPC.addEmployee()', () => npcSceneOneActor('addEmployee'))
 test('LPNPC.addNeighbour()', () => npcSceneOneActor('addNeighbour'))
 test('LPNPC.addToPeopleHere()', () => npcSceneOneActor('addToPeopleHere'))
+test('LPNPC.addProstitute()', () => npcSceneOneActor('addProstitute'))
 test('LPNPC.assignWhat()', () => npcSceneOneActor('assignWhat'))
 test('LPNPC.assignWhere()', () => npcSceneOneActor('assignWhere'))
 test('LPNPC.blockNPCRelationships()', () => npcSceneTwoActor('blockNPCRelationships'))
@@ -83,18 +96,31 @@ test('LPNPC.favoriteHome()', () => npcSceneOneActor('favoriteHome', false))
 test('LPNPC.getUntil()', () => npcSceneOneActorWithVar('getUntil'))
 test('LPNPC.hadSex()', () => npcSceneOneActorWithVar('hadSex'))
 
-test('LPNPC.hasRelationship()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        var randomActor = scene.getPerson()
-        var hasRelationship = randomActor.hasRelationship(['Dating', 'Spouses'])
+test('LPNPC.hasRelationship()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_hasRelationship'}, (scene) => {
+        scene.start(() => {
+            var randomActor = scene.getPerson()
+            var hasRelationship = randomActor.hasRelationship(['Dating', 'Spouses'])
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActor = getPerson()`,
         `  hasRelationship = randomActor.hasRelationship(Dating, Spouses)`,
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
+})
+
+test('LPNPC.hasRelationship() toThrowError', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_hasRelationship_toThrowError'}, (scene) => {
+        scene.start(() => {
+            var randomActor = scene.getPerson()
+            var hasRelationship = randomActor.hasRelationship(['invalid', 'Spouses'])
+        })
+    })
+    await expect(async () => await scene.toString()).rejects.toThrowError('hasRelationship invalid type:')
 })
 
 test('LPNPC.isAffair()', () => npcSceneOneActorWithVar('isAffair'))
@@ -107,23 +133,26 @@ test('LPNPC.isDatingFriend()', () => npcSceneOneActorWithVar('isDatingFriend'))
 test('LPNPC.isDeflowered()', () => npcSceneOneActorWithVar('isDeflowered'))
 test('LPNPC.isDeflowerer()', () => npcSceneOneActorWithVar('isDeflowerer'))
 test('LPNPC.isEmployee()', () => npcSceneOneActorWithVar('isEmployee'))
+test('LPNPC.isExRelative()', () => npcSceneOneActorWithVar('isExRelative'))
 test('LPNPC.isLandlord()', () => npcSceneOneActorWithVar('isLandlord'))
 test('LPNPC.isMarried()', () => npcSceneOneActorWithVar('isMarried'))
 test('LPNPC.isNeighbour()', () => npcSceneOneActorWithVar('isNeighbour'))
-// test('LPNPC.isRelationshipWith()', () => npcSceneOneActorWithVar('isRelationshipWith'))
-test('LPNPC.isRelationshipWith()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        var randomActorA = scene.getPerson()
-        var randomActorB = scene.getPerson()
-        var hasRelationship = randomActorA.isRelationshipWith(randomActorB, ['Dating', 'Spouses'])
+
+test('LPNPC.isRelationshipWith()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_isRelationshipWith'}, (scene) => {
+        scene.start(() => {
+            var randomActorA = scene.getPerson()
+            var randomActorB = scene.getPerson()
+            var hasRelationship = randomActorA.isRelationshipWith(randomActorB, ['Dating', 'Spouses'])
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActorA = getPerson()`,
         `  randomActorB = getPerson()`,
         `  hasRelationship = randomActorA.isRelationshipWith(randomActorB, Dating, Spouses)`,
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
@@ -143,18 +172,20 @@ test('LPNPC.removeEmployee()', () => npcSceneOneActor('removeEmployee'))
 test('LPNPC.removeNeighbour()', () => npcSceneOneActor('removeNeighbour'))
 test('LPNPC.removeProstitute()', () => npcSceneOneActor('removeProstitute'))
 test('LPNPC.saveAndDelete()', () => npcSceneOneActor('saveAndDelete'))
-// test('LPNPC.setActorAlias()', () => npcSceneOneActor('setActorAlias'))
-test('LPNPC.setActorAlias()', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        var randomActorA = scene.getPerson()
-        randomActorA.setActorAlias('Eric')
+
+test('LPNPC.setActorAlias()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_setActorAlias'}, (scene) => {
+        scene.start(() => {
+            var randomActorA = scene.getPerson()
+            randomActorA.setActorAlias('Eric')
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  randomActorA = getPerson()`,
         `  randomActorA.setActorAlias(Eric)`,
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
@@ -170,3 +201,18 @@ test('LPNPC.setRelativeType()', () => npcSceneOneActor('setRelativeType', 'Child
 test('LPNPC.setSameMajor()', () => npcSceneOneActor('setSameMajor'))
 test('LPNPC.setSubject()', () => npcSceneOneActor('setSubject'))
 // test('LPNPC.setUntil()', () => npcSceneOneActor('setUntil'))
+test('LPNPC.setUntil()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPNPC_setUntil'}, (scene) => {
+        scene.start(() => {
+            var until = scene.hoursElapsed + scene.random(1, 3)
+            scene.CurrentCompanion.setUntil(until)
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        `  until = hoursElapsed + Random(1, 3)`,
+        `  CurrentCompanion.setUntil(until)`,
+        'sceneEnd()',
+    ].join(LB))
+})
