@@ -1,5 +1,4 @@
 module.exports = function generateBadCop (scene) {
-    console.log('*********** generateBadCop')
     const {Player, random, generatePersonTemporary} = scene
     let badCopIsMale = true
     if (Player.isInterestedInWomen() && Player.isInterestedInMen()) {
@@ -11,14 +10,12 @@ module.exports = function generateBadCop (scene) {
     }
 
     var BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder'])
-    console.log('*********** generateBadCop 2')
     BadCop.dressUniform('police')
 
     if (badCopIsMale) {
         BadCop.likes_vaginal = random(50, 100)
         BadCop.fertility = random(5, 20)
     } else {
-        console.log('*********** generateBadCop 3')
         var BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder_F'])
         BadCop.likes_tribadism = random(50, 100)
         BadCop.fertility = random(0, 2)
