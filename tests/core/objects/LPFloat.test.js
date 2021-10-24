@@ -4,525 +4,513 @@ const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
-test('creates float with value 1', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        'sceneEnd()'
-    ].join(LB))
-})
-
 // ADD
-test('float.add', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a + b
-        let d = a + 5
+test('float.add', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_add'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            let c = a + b
+            let d = a + 5
+            c = a + b + 32 + 17
+            d = a + 31 + 18
+            let e = a + 31 + 18 + a + 3 + c
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a + b',
         '  d = a + 5',
-        'sceneEnd()'
-    ].join(LB))
-})
-
-test('float.add chaining', async () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a + b + 32 + 17
-        let d = a + 31 + 18
-    })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_add_chaining', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        '  b = 2',
         '  c = a + b + 32 + 17',
         '  d = a + 31 + 18',
-        'sceneEnd()'
+        '  e = a + 31 + 18 + a + 3 + c',
+        'sceneEnd()',
     ].join(LB))
+
 })
 
-test('float.add stats', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        var Employee1 = scene.getSpecific('Employee')
-        var Employee2 = scene.getSpecific('Employee')
-        var c = Employee1.perversion.add(Employee2.perversion) + 1
+
+test('float.add stats', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_stats'}, (scene) => {
+        scene.start(() => {
+            var Employee1 = scene.getSpecific('Employee')
+            var Employee2 = scene.getSpecific('Employee')
+            var c = Employee1.perversion.add(Employee2.perversion) + 1
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  Employee1 = getSpecific(Employee)',
         '  Employee2 = getSpecific(Employee)',
         '  c = Employee1:perversion + Employee2:perversion + 1',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 test('float.addEq', async () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a += b
-        a += b + 42
-        a += 52
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_addEq'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            a += b
+            a += b + 42
+            a += 52
+            a += b + 3 + b + 2
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_addEq', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  a += b',
         '  a += b + 42',
         '  a += 52',
-        'sceneEnd()'
+        '  a += b + 3 + b + 2',
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.addEq with rhs chaining', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a += b + 3
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        '  b = 2',
-        '  a += b + 3',
-        'sceneEnd()'
-    ].join(LB))
-})
 
 // SUB
-test('float.sub', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a - b
+test('float.sub', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_sub'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            let c = a - b
+            c = a - b - 3
+            let d = a - 8 - 7 + c
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a - b',
-        'sceneEnd()'
-    ].join(LB))
-})
-
-test('float.sub chaining', async () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a - b - 3
-        let d = a - 8 - 7
-    })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_sub_chaining', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        '  b = 2',
         '  c = a - b - 3',
-        '  d = a - 8 - 7',
-        'sceneEnd()'
+        '  d = a - 8 - 7 + c',
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.subEq', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a -= b
-        a -= 5
+test('float.subEq', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_subEq'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            a -= b
+            a -= b + 1
+            a -= 5 - b
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  a -= b',
-        '  a -= 5',
-        'sceneEnd()'
+        '  a -= b + 1',
+        '  a -= 5 - b',
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.subEq with rhs chaining', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a -= b + 1
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        '  b = 2',
-        '  a -= b + 1',
-        'sceneEnd()'
-    ].join(LB))
-})
 
 // MUL
-test('float mul', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a * b
+test('float mul', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_mul'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2 * 2
+            let c = a * b
+            c = 3 * a * b * 3 * a
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
-        '  b = 2',
+        '  b = 2 * 2',
         '  c = a * b',
-        'sceneEnd()'
+        '  c = 3 * a * b * 3 * a',
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.mul chaining', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a * b * 3
-    })
-    expect(scene._code.trim()).toBe([
-        'sceneStart()',
-        '  a = 1',
-        '  b = 2',
-        '  c = a * b * 3',
-        'sceneEnd()'
-    ].join(LB))
-})
 
-test('float.mulEq', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a *= b
-        a *= 5
-        a *= b * 2
+test('float.mulEq', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_mulEq'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            a *= 2 * b
+            a *= b
+            a *= 5
+            a *= b * 2
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
+        '  a *= 2 * b',
         '  a *= b',
         '  a *= 5',
         '  a *= b * 2',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 // DIV
-test('float.div', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a / b
-        c = a / b / 3
+test('float.div', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_div'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            let c = 3 / a / b
+            c = a / b / 3
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
-        '  c = a / b',
+        '  c = 3 / a / b',
         '  c = a / b / 3',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 
-test('float.divEq', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        a /= b
-        a /= 5
+test('float.divEq', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_divEq'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            a /= 3 * b / a
+            a /= b / 5 * 3
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
-        '  a /= b',
-        '  a /= 5',
-        'sceneEnd()'
+        '  a /= 3 * b / a',
+        '  a /= b / 5 * 3',
+        'sceneEnd()',
     ].join(LB))
 })
 
 
 // Logical
 test('float.gt', async () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        var c = a > b
-        c = a > 5
-        c = a > b && a > a
-        c = a > b && a > a && a > a
-        c = a > b || a > a
-        c = a > b || a > a || a > a
-        c = a > b && a > a || a > a
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_gt'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            var c = a > b
+            c = a > 5
+            c = 4 > a && 5 > c
+            c = a > b && a > a
+            c = a > b && a > a && a > a
+            c = a > b || a > a
+            c = a > b || a > a || a > a
+            c = a > b && a > a || a > a
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: 'float_gt', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a > b',
         '  c = a > 5',
+        '  c = 4 > a && 5 > c',
         '  c = a > b && a > a',
         '  c = a > b && a > a && a > a',
         '  c = a > b || a > a',
         '  c = a > b || a > a || a > a',
         '  c = a > b && a > a || a > a',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
+
 })
 
 
-test('float.gte', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        let c = a >= b
-        c = a >= 5
+test('float.gte', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_gte'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            let c = a >= b
+            c = a >= 5
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a >= b',
         '  c = a >= 5',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.lt', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        var c = a < b
-        c = a < 5
+test('float.lt', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_lt'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            var c = a < b
+            c = a < 5
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a < b',
         '  c = a < 5',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.lte', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        var c = a <= b
-        c = a <= 5
+test('float.lte', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_lte'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            var c = a <= b
+            c = a <= 5
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a <= b',
         '  c = a <= 5',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.ne', () => {
-    const scene = new Scene({lpMod: setupMod()})
-
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        var c = a != b
-        c = a !== 5
+test('float.ne', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_ne'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            var c = a != b
+            c = a !== 5
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a != b',
         '  c = a != 5',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.eq', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = 2
-        var c = a == b
-        c = a === 5
+test('float.eq', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_eq'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = 2
+            var c = a == b
+            c = a === 5
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = 2',
         '  c = a == b',
         '  c = a == 5',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 // Other
-test('float.floor', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b =  a.floor()
+test('float.floor', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_floor'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = a.floor()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = a.floor()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 
 test('float.power', async () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = a.power(3)
-        b = a ** 3
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_power'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = a.power(3)
+            b = a ** 3
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core/objects/LPFloat', fileName: `LPFloat_power`, type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = a.power(3)',
         '  b = a.power(3)',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.round', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = a.round()
+test('float.round', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_round'}, (scene) => {
+        scene.start(() => {
+            let a = 1.327
+            let b = a.round()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
-        '  a = 1',
+        '  a = 1.327',
         '  b = a.round()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.convertToLocalCurrency', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        let b = a.convertToLocalCurrency()
+test('float.convertToLocalCurrency', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_convertToLocalCurrency'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            let b = a.convertToLocalCurrency()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  b = a.convertToLocalCurrency()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.setRent', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        a.setRent()
+test('float.setFraternityFees', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_setFraternityFees'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            a.setFraternityFees()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  a = 1',
+        '  a.setFraternityFees()',
+        'sceneEnd()',
+    ].join(LB))
+})
+
+test('float.setRent', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_setRent'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            a.setRent()
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  a.setRent()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.setSalary', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        a.setSalary()
+test('float.setSalary', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_setSalary'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            a.setSalary()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  a.setSalary()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.setTuition', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        a.setTuition()
+test('float.setTuition', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_setTuition'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            a.setTuition()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  a.setTuition()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
 // this is mostly for coverage
-test('float.isStat', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        // a is turned into an LPFloat so this is valid but very weird :D
-        a.isStat = true
-        a.assign(5)
-        scene.narrative(`a isStat = ${a.isStat}`)
+test('float.isStat', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_isStat'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            // a is turned into an LPFloat so this is valid but very weird :D
+            a.isStat = true
+            a.assign(5)
+            scene.narrative(`a isStat = ${a.isStat}`)
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  a => 5',
         '  "a isStat = true"',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })
 
-test('float.write', () => {
-    const scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        let a = 1
-        a.write()
+test('float.write', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPFloat_write'}, (scene) => {
+        scene.start(() => {
+            let a = 1
+            a.write()
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  a = 1',
         '  a',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 })

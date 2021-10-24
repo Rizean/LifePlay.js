@@ -4,8 +4,6 @@ const LPBoolean = require('./LPBoolean')
 class LPFloat extends LPVariable {
     constructor({context, lpMod, value = Number.NaN, name, expression, isStat = false}) {
         super({context, lpMod, name, expression: expression || name})
-        // if (value !== null) this.isValid(value)
-        // todo is this.value needed?
         this.value = value
         this._isStat = isStat
     }
@@ -251,11 +249,10 @@ class LPFloat extends LPVariable {
      * @param {number|LPFloat} fratFee
      * @return {LPFloat} - reference to this for chaining
      */
-    setFraternityFees(fratFee) {
-        const [, name] = arguments
-        this._funcHelper({func: 'setFraternityFees', noChain: true, name, params: `${fratFee.expression || fratFee}`, ReturnType: LPFloat})
+    setFraternityFees() {
+        this._noChain('setRent')
+        this.context.writeLine(`${this.name}.setFraternityFees()`)
     }
-
 
     /**
      * Set this as your current rent.

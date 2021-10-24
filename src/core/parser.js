@@ -114,17 +114,41 @@ handlers.BinaryExpression = ({operator, left, right}, {depth = 0, name, logs} = 
     const lhs = handlers.getHandler(left)(left, {depth, logs})
     const rhs = handlers.getHandler(right)(right, {depth, logs})
     name = name ? `, "${name}"` : ''
-    if (operator === '<') return `${lhs}.lt(${rhs}${name})`
-    if (operator === '<=') return `${lhs}.lte(${rhs}${name})`
-    if (operator === '>') return `${lhs}.gt(${rhs}${name})`
-    if (operator === '>=') return `${lhs}.gte(${rhs}${name})`
-    if (operator === '+') return `${lhs}.add(${rhs}${name})`
+    if (operator === '<') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).lt(${rhs}${name})`
+        return `${lhs}.lt(${rhs}${name})`
+    }
+    if (operator === '<=') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).lte(${rhs}${name})`
+        return `${lhs}.lte(${rhs}${name})`
+    }
+    if (operator === '>') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).gt(${rhs}${name})`
+        return `${lhs}.gt(${rhs}${name})`
+    }
+    if (operator === '>=') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).gte(${rhs}${name})`
+        return `${lhs}.gte(${rhs}${name})`
+    }
+    if (operator === '+') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).add(${rhs}${name})`
+        return `${lhs}.add(${rhs}${name})`
+    }
     if (operator === '+=') return `${lhs}.addEq(${rhs}${name})`
-    if (operator === '-') return `${lhs}.sub(${rhs}${name})`
+    if (operator === '-') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).sub(${rhs}${name})`
+        return `${lhs}.sub(${rhs}${name})`
+    }
     if (operator === '-=') return `${lhs}.subEq(${rhs}${name})`
-    if (operator === '/') return `${lhs}.div(${rhs}${name})`
+    if (operator === '/') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).div(${rhs}${name})`
+        return `${lhs}.div(${rhs}${name})`
+    }
     if (operator === '/=') return `${lhs}.divEq(${rhs}${name})`
-    if (operator === '*') return `${lhs}.mul(${rhs}${name})`
+    if (operator === '*') {
+        if (left.type === 'Literal') return `scene.float(${lhs}, ${lhs}, true).mul(${rhs}${name})`
+        return `${lhs}.mul(${rhs}${name})`
+    }
     if (operator === '*=') return `${lhs}.mulEq(${rhs}${name})`
     if (operator === '==') return `${lhs}.eq(${rhs}${name})`
     if (operator === '===') return `${lhs}.eq(${rhs}${name})`
@@ -246,7 +270,7 @@ handlers.AssignmentExpression = (expression, {depth = 0, logs} = {}) => {
     if (operator === '/=') return `${handlers.getHandler(left)(left, {logs, name})}.divEq(${handlers.getHandler(right)(right, {depth, logs})})`
     if (operator === '=') {
         if (left.type === 'Identifier') {
-            return `${handlers.getHandler(left)(left, {logs, name})}.assign(${handlers.getHandler(right)(right, {depth, logs})}, "${name}")`
+            return `${$pad(depth)}${handlers.getHandler(left)(left, {logs, name})}.assign(${handlers.getHandler(right)(right, {depth, logs})}, "${name}")`
         }
         return `${handlers.getHandler(left)(left, {logs, name})} = ${handlers.getHandler(right)(right, {depth, logs})}`
     }
