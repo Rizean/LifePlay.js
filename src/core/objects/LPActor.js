@@ -86,9 +86,9 @@ class LPActor extends LPObject {
         return super.name;
     }
 
-    set name(value) {
-        super._name = value
-    }
+    // set name(value) {
+    //     super._name = value
+    // }
 
     /**
      * Make the actor do something. If no parameter is given current animation will be stopped and actor will go idle.
@@ -109,7 +109,7 @@ class LPActor extends LPObject {
      * @param filter
      */
     animateFnt = (x, y, z, filter) => {
-        this.context.writeLine(`${this.name}.animate(${x}, ${y}, ${z}, ${filter})`)
+        this.context.writeLine(`${this.name}.animateFnt(${x}, ${y}, ${z}, ${filter})`)
     }
 
     /**
@@ -965,11 +965,11 @@ class LPActor extends LPObject {
      */
     wantsBabies = (name) => this._isHelper('wantsBabies', [], name)
 
-    write() {
-        this.context.writeLine(`${this.expression}`)
-        return this
-        // this._expression = this.name
-    }
+    // write() {
+    //     this.context.writeLine(`${this.expression}`)
+    //     return this
+    //     // this._expression = this.name
+    // }
 
     /****STATS-GETTER-SETTERS****/
 
