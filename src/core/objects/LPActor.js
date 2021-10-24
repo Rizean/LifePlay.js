@@ -6,10 +6,11 @@ const LPFloat = require('./LPFloat')
 const LPBoolean = require('./LPBoolean')
 const LPBuilding = require('./LPBuilding')
 const LPString = require('./LPString')
+const LPVariable = require('./LPVariable')
 const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
 let LPNPC = undefined
 
-class LPActor extends LPObject {
+class LPActor extends LPVariable {
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
 
@@ -68,6 +69,10 @@ class LPActor extends LPObject {
         this._stock_tea = new LPFloat({context, lpMod, name: `${this.name}:stock_tea`, isStat: true})
         this._stock_tobacco = new LPFloat({context, lpMod, name: `${this.name}:stock_tobacco`, isStat: true})
         this._stock_video = new LPFloat({context, lpMod, name: `${this.name}:stock_video`, isStat: true})
+    }
+
+    assign(rhs) {
+        return super.assign(rhs, null, LPActor)
     }
 
     _isHelper(func, params = [], nameStr) {
