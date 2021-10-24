@@ -1,14 +1,11 @@
 const LPObject = require('./LPObject')
 
-/**
- * Class representing a LifePlay variable.
- * @type {LPVariable}
- */
 module.exports = class LPVariable extends LPObject {
     /**
      * Assigns the value of rhs to this
      * @param {boolean|string|number|LPObject} rhs
      * @return {LPObject|*}
+     * @extends LPObject
      */
     assign(rhs) {
         const [, type, instanceType, name] = arguments
@@ -34,6 +31,14 @@ module.exports = class LPVariable extends LPObject {
         return newThis
     }
 
+    /**
+     *
+     * @param a
+     * @param b
+     * @param name
+     * @return {LPVariable}
+     * @private
+     */
     _enclose = (a, b, name) => {
         const expression = `${a}${this.expression}${b}`
         if (name) {
@@ -43,16 +48,14 @@ module.exports = class LPVariable extends LPObject {
         return new this.constructor({context: this.context, lpMod: this.lpMod, name: this.name, expression: `${a}${this.expression}${b}`})
     }
 
+    /**
+     *
+     * @param prefix
+     * @return {LPVariable}
+     * @private
+     */
     write(prefix = '') {
         this.context.writeLine(`${prefix}${this.expression}`)
         return this
     }
-
-    // paren = (name) => {
-    //     return this._enclose('(', ')', name)
-    // }
-    //
-    // squareBrackets = (name) => {
-    //     return this._enclose('[', ']', name)
-    // }
 }

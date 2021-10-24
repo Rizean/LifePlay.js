@@ -6,11 +6,12 @@ const LPString = require('./LPString')
 const LPFloat = require('./LPFloat')
 const LPBoolean = require('./LPBoolean')
 
-/**
- * Class representing a LifePlay NPC Actor.
- * @type {LPNPC}
- */
 class LPNPC extends LPActor {
+    /**
+     * @classdesc Class representing a LifePlay NPC Actor.
+     * @class LPNPC
+     * @extends LPActor
+     */
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
     }
@@ -47,7 +48,6 @@ class LPNPC extends LPActor {
     addProstitute = () => this.context.writeLine(`${this.name}.addProstitute()`)
     /**
      * todo
-     * @return {void|*}
      */
     addToPeopleHere = () => this.context.writeLine(`${this.name}.addToPeopleHere()`)
 
@@ -86,13 +86,11 @@ class LPNPC extends LPActor {
 
     /**
      * Force remove this actor from current memory. Used in rare cases where SceneEnd() (which does this automatically to all actors used in the scene) isn't called.
-     * @return {void|*}
      */
     delete = () => this.context.writeLine(`${this.name}.delete()`)
 
     /**
      * Force remove this actor completely from the game. They will no longer be called on in scenes or accessible from the Contacts menu. Used in rare cases to kill off characters or characters moving to a new city etc ...
-     * @return {void|*}
      */
     deletePerson = () => this.context.writeLine(`${this.name}.deletePerson()`)
 
@@ -116,7 +114,6 @@ class LPNPC extends LPActor {
      *      Actor.favoriteHome(false)
      * }).$endIf()
      * @param {boolean} hasFavorite
-     * @return {void|*}
      */
     favoriteHome = (hasFavorite) => {
         this.context.writeLine(`${this.name}.favoriteHome(${hasFavorite})`)
@@ -229,13 +226,11 @@ class LPNPC extends LPActor {
 
     /**
      * Returns true if actor has been deflowered the Player.
-     * @return {void|*}
      */
     isDeflowerer = (name) => this._isHelper('isDeflowerer', [], name)
 
     /**
      * Returns true if actor is an employee of the Player.
-     * @return {void|*}
      */
     isEmployee = (name) => this._isHelper('isEmployee', [], name)
 
@@ -302,7 +297,6 @@ class LPNPC extends LPActor {
 
     /**
      * This turns a temporary actor (generatePersonTemporary) into a permanent actor that persists after the current scene ends. Does nothing if called on an already permanent actor.
-     * @return {void|*}
      */
     makePermanent = () => this.context.writeLine(`${this.name}.makePermanent()`)
 
@@ -317,61 +311,51 @@ class LPNPC extends LPActor {
 
     /**
      * Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-     * @return {void|*}
      */
     randomizeFace = () => this.context.writeLine(`${this.name}.randomizeFace()`)
 
     /**
      * Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-     * @return {void|*}
      */
     randomizeHairs = () => this.context.writeLine(`${this.name}.randomizeHairs()`)
 
     /**
      * Randomize skin colour and nose / eyes racial features
-     * @return {void|*}
      */
     randomizeRace = () => this.context.writeLine(`${this.name}.randomizeRace()`)
 
     /**
      * Randomize dick and tits for this character
-     * @return {void|*}
      */
     randomizeSexy = () => this.context.writeLine(`${this.name}.randomizeSexy()`)
 
     /**
      * Remove this actor from the list of colleague. Will remain acquaintance at least though.
-     * @return {void|*}
      */
     removeColleague = () => this.context.writeLine(`${this.name}.removeColleague()`)
 
     /**
      * Remove this actor from the list of your significant other's friends. Will remain acquaintance at least though.
-     * @return {void|*}
      */
     removeDatingFriend = () => this.context.writeLine(`${this.name}.removeDatingFriend()`)
 
     /**
      * Fire this employee
-     * @return {void|*}
      */
     removeEmployee = () => this.context.writeLine(`${this.name}.removeEmployee()`)
 
     /**
      * Remove this actor from the list of your neighbours. Will remain acquaintance at least though.
-     * @return {void|*}
      */
     removeNeighbour = () => this.context.writeLine(`${this.name}.removeNeighbour()`)
 
     /**
      * Remove this actor from the list of your prostitute.
-     * @return {void|*}
      */
     removeProstitute = () => this.context.writeLine(`${this.name}.removeProstitute()`)
 
     /**
      * Force remove this actor from current memory, but saves any (stat) changes made to them in this scene first. Used for party scenes to avoid bloating.
-     * @return {void|*}
      */
     saveAndDelete = () => this.context.writeLine(`${this.name}.saveAndDelete()`)
 
@@ -389,50 +373,42 @@ class LPNPC extends LPActor {
 
     /**
      * Make this person your boss. Current boss is no longer boss and becomes acquaintance.
-     * @return {void|*}
      */
     setBoss = () => this.context.writeLine(`${this.name}.setBoss()`)
 
     /**
      * Make this person the boss of your crime family.
-     * @return {void|*}
      */
     setCrimeBoss = () => this.context.writeLine(`${this.name}.setCrimeBoss()`)
 
     /**
      * Make this person your significant other. Current SO is no longer dating you and becomes acquaintance. Also clears out all friends of previous SOs and affairs, who all become acquaintances.
-     * @return {void|*}
      */
     setDating = () => this.context.writeLine(`${this.name}.setDating()`)
 
     /**
      * Something to do with Poly...
-     * @return {void|*}
      */
     setDatingID = () => this.context.writeLine(`${this.name}.setDatingID()`)
 
     /**
      * Set the Major for the NPC to be a random subject but not the same as the player, both for teaching and studying.
-     * @return {void|*}
      */
     setDifferentMajor = () => this.context.writeLine(`${this.name}.setDifferentMajor()`)
 
     /**
      * Make this person your landlord. Current landlord is no longer landlord and becomes acquaintance.
-     * @return {void|*}
      */
     setLandlord = () => this.context.writeLine(`${this.name}.setLandlord()`)
 
     /**
      * flags or unflags an actor as living with the player
      * @param {boolean} isLivingWith
-     * @return {void|*}
      */
     setLivingWithPlayer = (isLivingWith) => this.context.writeLine(`${this.name}.setLivingWithPlayer(${isLivingWith})`)
 
     /**
      * Make this person your personal trainer. Current personal trainer is no longer PT and becomes acquaintance.
-     * @return {void|*}
      */
     setPT = () => this.context.writeLine(`${this.name}.setPT()`)
 
@@ -443,19 +419,16 @@ class LPNPC extends LPActor {
      * Actor2.setRelativeType("Child")
      *
      * @param relativeType
-     * @return {void|*}
      */
     setRelativeType = (relativeType) => this.context.writeLine(`${this.name}.setRelativeType(${relativeType})`)
 
     /**
      * Set the Major for the NPC to be the same as the player, both for teaching and studying.
-     * @return {void|*}
      */
     setSameMajor = () => this.context.writeLine(`${this.name}.setSameMajor()`)
 
     /**
      * Pick a random subject for a lecturer to teach that matches their major.
-     * @return {void|*}
      */
     setSubject = () => this.context.writeLine(`${this.name}.setSubject()`)
 
@@ -468,3 +441,8 @@ class LPNPC extends LPActor {
 }
 
 module.exports = LPNPC
+
+/**
+ * @external LPActor
+ * @see ./LPActor.md
+ */

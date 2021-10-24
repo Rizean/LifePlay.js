@@ -3,11 +3,21 @@ const path = require('path')
 const assert = require('assert')
 const ensureDirectory = require('../libs/ensureDirectory')
 
-/**
- * Class representing a LifePlay Stat.
- * @type {LPStat}
- */
 class LPStat {
+    /**
+     * @classdesc Class representing a LifePlay Stat.
+     * @param STAT_ID
+     * @param STAT_NAME
+     * @param PLAYER_ONLY
+     * @param HIGHER_BETTER
+     * @param STAT_MIN
+     * @param STAT_MAX
+     * @param DAILY_CHANGE
+     * @param DEFAULT_VALUE
+     * @param NPC_ONLY
+     * @param modsDir
+     * @param filePath
+     */
     constructor({STAT_ID, STAT_NAME, PLAYER_ONLY, HIGHER_BETTER, STAT_MIN, STAT_MAX, DAILY_CHANGE, DEFAULT_VALUE, NPC_ONLY, modsDir, filePath = 'stats'}) {
         PLAYER_ONLY = PLAYER_ONLY.toString()
         NPC_ONLY = NPC_ONLY.toString()

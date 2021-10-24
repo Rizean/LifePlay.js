@@ -7,11 +7,12 @@ const LPFloat = require('../objects/LPFloat')
 const LPBoolean = require('../objects/LPBoolean')
 const LPNPC = require('../objects/LPNPC')
 
-/**
- * Class representing a LifePlay Player.
- * @type {LPPlayer}
- */
 class LPPlayer extends LPActor {
+    /**
+     * @classdesc Class representing a LifePlay Player.
+     * @class LPPlayer
+     * @extends LPActor
+     */
     constructor({context, lpMod}) {
         super({context, lpMod, name: 'Player'})
     }
@@ -34,7 +35,6 @@ class LPPlayer extends LPActor {
     /**
      * Remove this actor from your contact list.
      * @param {LPActor} actor
-     * @return {void|*}
      */
     blockContact = (actor) => this.context.writeLine(`blockContact(${actor.name})`)
 
@@ -45,7 +45,6 @@ class LPPlayer extends LPActor {
      * "We then went on to discuss potential candidates."
      * chooseContact()
      * Bull = scene.getSpecific(chooseContact)
-     * @return {void|*}
      */
     chooseContact = () => this.context.writeLine(`chooseContact()`)
 
@@ -56,7 +55,6 @@ class LPPlayer extends LPActor {
      * Player.setMajor()
      * scene.narration("I just selected my <Player.Major> as my major.")
      *
-     * @return {void|*}
      */
     chooseMajor = () => this.context.writeLine(`chooseMajor()`)
 
@@ -65,7 +63,6 @@ class LPPlayer extends LPActor {
      * @example
      * contactSTD()
      * narration("Oh no, I have a STD.")
-     * @return {void|*}
      */
     contractSTD = () => this.context.writeLine(`contractSTD()`)
 
@@ -78,7 +75,6 @@ class LPPlayer extends LPActor {
      *     Player.dialog("Maybe I can move in with my girlfriend instead?")
      *   }
      * }
-     * @return {void|*}
      */
     datingHasHome = () => this.context.writeLine(`datingHasHome()`)
 
@@ -99,7 +95,6 @@ class LPPlayer extends LPActor {
      * @example
      * scene.narration("We already hung out for the whole afternoon. It's time to separate.")
      * Player.endDate()
-     * @return {void|*}
      */
     endDate = () => this.context.writeLine(`endDate()`)
 
@@ -108,7 +103,6 @@ class LPPlayer extends LPActor {
      * @example
      * Player.endOpenRelationship()
      * Player.sex(["NotMyGF"]) // This will NOT be the same as SexNoAffair, your GF could catch you and get upset
-     * @return {void|*}
      */
     endOpenRelationship = () => this.context.writeLine(`endOpenRelationship()`)
 
@@ -118,13 +112,11 @@ class LPPlayer extends LPActor {
      * scene.narration("And I did it! The prison guards were long left behind. Usain Bolt would be proud of that run!")
      * scene.narration("My prison escape was close, but ultimately successful. I'm a free <Player.man_or_woman> again!")
      * Player.endPrison()
-     * @return {void|*}
      */
     endPrison = () => this.context.writeLine(`endPrison()`)
 
     /**
      * Displays a text box so that the player can type in this business's name.
-     * @return {void|*}
      */
     enterBusinessName = () => this.context.writeLine(`enterBusinessName()`)
 
@@ -144,7 +136,6 @@ class LPPlayer extends LPActor {
      * @example
      * Dating.dialog("Alright, after everything we've been through, I guess I can forgive you this time ...", "Crying")
      * Player.forgiveAffairs()
-     * @return {void|*}
      */
     forgiveAffairs = () => this.context.writeLine(`forgiveAffairs()`)
 
@@ -154,7 +145,6 @@ class LPPlayer extends LPActor {
      * var Child = Player.getAnyRelative("Child")
      * @see childcare.lpsecne
      * @param relativeType
-     * @return {void|*}
      */
     getAnyRelative(relativeType) {
         const [_, name] = arguments
@@ -171,7 +161,6 @@ class LPPlayer extends LPActor {
      *
      * // is the same as
      * CurrentCompanion.dress()
-     * @return {void|*}
      */
     getCompanion() {
         const [name] = arguments
@@ -182,7 +171,6 @@ class LPPlayer extends LPActor {
 
     /**
      * Get the current companion, regardless of whether they are human or not.
-     * @return {void|*}
      */
     getCompanionAny() {
         const [name] = arguments
@@ -193,7 +181,6 @@ class LPPlayer extends LPActor {
 
     /**
      * Get the current companion, but only if they are a creature.
-     * @return {void|*}
      */
     getCompanionCreature() {
         const [name] = arguments
@@ -207,7 +194,6 @@ class LPPlayer extends LPActor {
      * @example
      * Priest.dialog("I now pronounce you man and wife.")
      * Player.getMarried()
-     * @return {void|*}
      */
     getMarried = () => this.context.writeLine(`getMarried()`)
 
@@ -318,7 +304,6 @@ class LPPlayer extends LPActor {
      * @example
      * scene.narration("The court-appointed lawyer didn't do me much good. I got the expected sentence and was sent on my way to jail.")
      * Player.imprison()
-     * @return {void|*}
      */
     imprison = () => this.context.writeLine(`imprison()`)
 
@@ -372,7 +357,6 @@ class LPPlayer extends LPActor {
 
     /**
      * Break up with current boyfriend / girlfriend. All affairs and SO's friends are cleared and become acquaintances.
-     * @return {void|*}
      */
     loseDating() {
         return this._playerFunction('loseDating', '', '', null)
@@ -380,49 +364,41 @@ class LPPlayer extends LPActor {
 
     /**
      * The player moves out of their current home. Set rent to 0. Landlord and neighbours become acquaintances. If the player's SO has a home, they'll move in with them instead.
-     * @return {void|*}
      */
     loseHome = () => this.context.writeLine(`loseHome()`)
 
     /**
      * Your SO moves out of their home, and in with you.
-     * @return {void|*}
      */
     loseHomeDating = () => this.context.writeLine(`loseHomeDating()`)
 
     /**
      * The player stops working at their current company. Set salary to 0. Boss and colleagues become acquaintances.
-     * @return {void|*}
      */
     loseJob = () => this.context.writeLine(`loseJob()`)
 
     /**
      * The player fires their current personal trainer.
-     * @return {void|*}
      */
     losePT = () => this.context.writeLine(`losePT()`)
 
     /**
      * Move into the current building and make it your new fraternity / sorority
-     * @return {void|*}
      */
     moveFraternity = () => this.context.writeLine(`moveFraternity()`)
 
     /**
      * Move into the current building and make it your new home. Remember to use SetLandlord() and SetRent() separately.
-     * @return {void|*}
      */
     moveHome = () => this.context.writeLine(`moveHome()`)
 
     /**
      * Get hired at this current building and make it our new workplace. Remember to use setBoss() and SetSalary() separately.
-     * @return {void|*}
      */
     moveJobs = () => this.context.writeLine(`moveJobs()`)
 
     /**
      * Enroll into the current building and make it your new university
-     * @return {void|*}
      */
     moveSchools = () => this.context.writeLine(`moveSchools()`)
 
@@ -455,37 +431,31 @@ class LPPlayer extends LPActor {
 
     /**
      * Leave your crime family
-     * @return {void|*}
      */
     quitCrime = () => this.context.writeLine(`quitCrime()`)
 
     /**
      * Drop out of the fraternity
-     * @return {void|*}
      */
     quitFraternity = () => this.context.writeLine(`quitFraternity()`)
 
     /**
      * Quit your lecturing job
-     * @return {void|*}
      */
     quitLecturing = () => this.context.writeLine(`quitLecturing()`)
 
     /**
      * Leave your medical career
-     * @return {void|*}
      */
     quitMedical = () => this.context.writeLine(`quitMedical()`)
 
     /**
      * Drop out of university
-     * @return {void|*}
      */
     quitSchool = () => this.context.writeLine(`quitSchool()`)
 
     /**
      * Remove all clothes from your inventory that were added during this scene. Used for modelling shoots.
-     * @return {void|*}
      */
     removeAddedClothes = () => this.context.writeLine(`removeAddedClothes()`)
 
@@ -497,7 +467,6 @@ class LPPlayer extends LPActor {
      * Player.selectNPC()
      * var Guest1 = Player.getSelectedNPC()
      * @param tag
-     * @return {void|*}
      */
     selectNPC(tag = '') {
         return this._playerFunction('selectNPC', tag, arguments[1], LPBoolean)
@@ -527,7 +496,6 @@ class LPPlayer extends LPActor {
      * Player.setMajor()
      * scene.narration("I just selected my <Player.Major> as my major.")
      *
-     * @return {void|*}
      */
     setMajor = () => this.context.writeLine('setMajor()')
 
@@ -584,26 +552,22 @@ class LPPlayer extends LPActor {
 
     /**
      * Make the current building your business.
-     * @return {void|*}
      */
     startBusiness = () => this.context.writeLine(`startBusiness()`)
 
     /**
      * Start hanging out with this person (make them your current companion)
-     * @return {void|*}
      */
     startDate = () => this.context.writeLine(`startDate()`)
 
     /**
      * Make your current relationship/ marriage an open one (no cheating consequences and unlocks a number of scenes). Resets when you end this current
      * relationship and any new relationship will start off as closed.
-     * @return {void|*}
      */
     startOpenRelationship = () => this.context.writeLine(`startOpenRelationship()`)
 
     /**
      * Make the current building no longer your business.
-     * @return {void|*}
      */
     stopBusiness = () => this.context.writeLine(`stopBusiness()`)
 }

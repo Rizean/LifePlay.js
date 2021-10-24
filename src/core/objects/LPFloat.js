@@ -4,6 +4,7 @@ const LPBoolean = require('./LPBoolean')
 /**
  * Class representing a LifePlay float.
  * @type {LPFloat}
+ * @inheritdoc
  */
 class LPFloat extends LPVariable {
     constructor({context, lpMod, value = Number.NaN, name, expression, isStat = false}) {
@@ -15,13 +16,14 @@ class LPFloat extends LPVariable {
     /**
      * Operator helper function
      * @param op
+     * @param aop
      * @param rhs
      * @param name
      * @param ReturnType
      * @return {LPFloat|*}
      * @private
      */
-    _opHelper = ({op, aop, rhs, name, ReturnType = LPFloat, noChain}) => {
+    _opHelper = ({op, aop, rhs, name, ReturnType = LPFloat}) => {
         rhs = rhs.expression || rhs
         // if (noChain) this._noChain(noChain)
         if (name) {
@@ -53,6 +55,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this + rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPFloat}
      */
@@ -63,6 +66,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this - rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPFloat}
      */
@@ -74,6 +78,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this / rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPFloat}
      */
@@ -84,6 +89,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this * rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPFloat}
      */
@@ -94,6 +100,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this += rhs
+     * @private
      * @param {string=} name optional name handled by parser
      * @param {number|LPObject} rhs
      */
@@ -103,6 +110,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this -= rhs
+     * @private
      * @param {number|LPObject} rhs
      */
     subEq(rhs) {
@@ -111,6 +119,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this *= rhs
+     * @private
      * @param {number|LPObject} rhs
      */
     mulEq(rhs) {
@@ -119,6 +128,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this /= rhs
+     * @private
      * @param {number|LPObject} rhs
      */
     divEq(rhs) {
@@ -127,6 +137,7 @@ class LPFloat extends LPVariable {
 
     /**
      * Assigns the value of n to this
+     * @private
      * @param {number|LPObject} n
      * @return {LPFloat}
      */
@@ -142,6 +153,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this > rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -152,6 +164,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this >= rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -162,6 +175,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this < rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -173,6 +187,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this <= rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -183,6 +198,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this != rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -193,6 +209,7 @@ class LPFloat extends LPVariable {
 
     /**
      * this == rhs
+     * @private
      * @param {number|LPObject} rhs
      * @return {LPBoolean}
      */
@@ -241,7 +258,7 @@ class LPFloat extends LPVariable {
      */
     convertToLocalCurrency() {
         const [name] = arguments
-        this._funcHelper({func: 'convertToLocalCurrency', noChain: true, name, params: ``, ReturnType: LPFloat})
+        return this._funcHelper({func: 'convertToLocalCurrency', noChain: true, name, params: ``, ReturnType: LPFloat})
     }
 
     /**
@@ -250,8 +267,6 @@ class LPFloat extends LPVariable {
      * var FratFee = float('FratFee', 1000)
      * FratFee.setFraternityFees()
      * scene.narrative("I agreed to pay $1000 per month for fraternity fees")
-     * @param {number|LPFloat} fratFee
-     * @return {LPFloat} - reference to this for chaining
      */
     setFraternityFees() {
         // this._noChain('setRent')
@@ -301,6 +316,10 @@ class LPFloat extends LPVariable {
         this.context.writeLine(`${this.name}.setTuition()`)
     }
 
+    /**
+     * @private
+     * @return {boolean}
+     */
     get isStat() {
         return this._isStat
     }

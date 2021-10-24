@@ -13,11 +13,6 @@
   },
   "scripts": {
     "test": "jest",
-    "test:badges": "jest && jest-coverage-badges",
-    "example:cinema_with_date_passive": "node ./examples/cinema_with_date_passive.scene",
-    "example:optionChoice": "node ./examples/optionChoice",
-    "example:simpleScene": "node ./examples/simpleScene",
-    "example:while": "node ./examples/while",
     "example:test": "set NODE_ENV=test && nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js",
     "example:dev": "nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js",
     "docs": "docs.sh"

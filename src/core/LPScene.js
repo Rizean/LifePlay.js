@@ -25,7 +25,7 @@ const ensureDirectory = require('../libs/ensureDirectory')
  */
 class LPScene extends Context {
     /**
-     *
+     * @classdesc Class representing a LifePlay Scene.
      * @param lpMod
      * @param name
      * @param modsDir

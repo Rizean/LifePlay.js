@@ -3,11 +3,25 @@ const path = require('path')
 const assert = require('assert')
 const ensureDirectory = require('../libs/ensureDirectory')
 
-/**
- * Class representing a LifePlay Action.
- * @type {LPAction}
- */
 class LPAction {
+    /**
+     * @classdesc Class representing a LifePlay Action.
+     * @param ACTION_UNIQUEID
+     * @param ACTION_NAME
+     * @param WHERE
+     * @param WHEN
+     * @param MINUTES
+     * @param TIMEOUT_MINUTES
+     * @param ALSO_TIMEOUT
+     * @param EFFECTS
+     * @param CONDITIONS
+     * @param MOVE_FIRST
+     * @param SCENE_ALWAYS
+     * @param ANIMATION
+     * @param WHO
+     * @param modsDir
+     * @param filePath
+     */
     constructor({ACTION_UNIQUEID, ACTION_NAME, WHERE, WHEN, MINUTES, TIMEOUT_MINUTES, ALSO_TIMEOUT, EFFECTS = '', CONDITIONS = '', MOVE_FIRST, SCENE_ALWAYS, ANIMATION, WHO = '', modsDir, filePath = 'actions'}) {
         MOVE_FIRST = MOVE_FIRST.toString()
         const isNumber = (n) => Number.parseInt(n).toString() === n.toString()

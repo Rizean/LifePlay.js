@@ -5,11 +5,17 @@ const ensureDirectory = require('../libs/ensureDirectory')
 const LPStat = require('./LPStat')
 const LPAction = require('./LPAction')
 
-/**
- * Class representing a LifePlay Mod.
- * @type {LPMod}
- */
 class LPMod {
+    /**
+     * @classdesc Class representing a LifePlay Mod.
+     * @param MODULE_UNIQUEID
+     * @param MODULE_NAME
+     * @param MODULE_AUTHOR
+     * @param MODULE_LINK
+     * @param MODULE_DESCRIPTION
+     * @param MODULE_REQUIREMENTS
+     * @param modsDir
+     */
     constructor({MODULE_UNIQUEID, MODULE_NAME = '', MODULE_AUTHOR = '', MODULE_LINK = '', MODULE_DESCRIPTION = '', MODULE_REQUIREMENTS = '', modsDir}) {
         assert.match(MODULE_UNIQUEID, /\w+/, `Expected MODULE_UNIQUEID to be a string. Received: ${MODULE_UNIQUEID}`)
         assert.ok(!(modsDir == null))

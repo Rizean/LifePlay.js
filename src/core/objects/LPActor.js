@@ -10,11 +10,13 @@ const LPVariable = require('./LPVariable')
 const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
 let LPNPC = undefined
 
-/**
- * Class representing a LifePlay Actor.
- * @type {LPActor}
- */
 class LPActor extends LPVariable {
+    /**
+     * @classdesc Class representing a LifePlay Actor.
+     * @class LPActor
+     * @extends LPVariable
+     * @private
+     */
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
 
@@ -125,7 +127,6 @@ class LPActor extends LPVariable {
      * Animates a pair of actors
      * @param {LPActor} secondActor
      * @param {string} animation - can be one of Kissing, Vaginal, ...?
-     * @return {void|*}
      */
     animatePair = (secondActor, animation) => {
         this.context.writeLine(`animatePair(${this.name}, ${secondActor.name}, ${animation})`)
@@ -184,7 +185,6 @@ class LPActor extends LPVariable {
      * actor2.dress()
      * actor2.show(2)
      * @param {LPActor} actor
-     * @return {void|*}
      */
     cloneFrom = (actor) => {
         this.context.writeLine(`${this.name}.cloneFrom(${actor.name})`)
@@ -198,7 +198,6 @@ class LPActor extends LPVariable {
      * Mom.dialog("Hey, wake up, sleepy head! You're about to be late for work!", "Angry")
      * Player.CloseEyes(false)
      * @param {boolean} isClosed
-     * @return {void|*}
      */
     closeEyes = (isClosed) => this.context.writeLine(`${this.name}.closeEyes(${isClosed})`)
 
@@ -304,7 +303,6 @@ class LPActor extends LPVariable {
      * Player.strip()
      * Player.endPregnancy()
      * scene.narration("Thankfully the procedure went according to plans, with no lasting impact on my future health and fertility.")
-     * @return {void|*}
      */
     endPregnancy = () => this.context.writeLine(`${this.name}.endPregnancy()`)
 
@@ -370,7 +368,6 @@ class LPActor extends LPVariable {
      * scene.narration("The value of SomeVariable is <val>.")
      *
      * @param varOrTag
-     * @return {void|*}
      */
     getActorVar = (varOrTag, name) => {
         this.context.writeLine(`${name} = ${this.name}.getActorVar(${varOrTag})`)
@@ -505,7 +502,6 @@ class LPActor extends LPVariable {
 
     /**
      * Hide the actor or player from the player's view. Opposite to show().
-     * @return {void|*}
      */
     hide = () => this.context.writeLine(`${this.name}.hide()`)
 
@@ -514,7 +510,6 @@ class LPActor extends LPVariable {
      * @example
      * Player.impregnate() // Oh no, I'm Virgin Mary now.
      * @param {LPActor=} target - optional - if target is provided then this Actor will impregnate target actor
-     * @return {void|*}
      */
     impregnate = (target) => this.context.writeLine(`${this.name}.impregnate(${target ? target.name : ''})`)
 
@@ -846,21 +841,18 @@ class LPActor extends LPVariable {
      * The actor can be the Player or any other actor.
      * @param {string} key
      * @param {number|LPFloat} value
-     * @return {void|*}
      */
     modifyActorVar = (key, value) => this.context.writeLine(`${this.name}.modifyActorVar(${key}, ${value?.name || value})`)
 
     /**
      * Multiply the actors salary by value ie salary of 100 * value of 1.1 would become 110.
      * @param {number|LPFloat} value
-     * @return {void|*}
      */
     modifySalary = (value) => this.context.writeLine(`${this.name}.modifySalary(${value})`)
 
     /**
      * Moves this actor towards actor and head tracks actor.
      * @param {LPActor} actor
-     * @return {void|*}
      */
     moveToPerson = (actor) => this.context.writeLine(`${this.name}.moveToPerson(${actor.name})`)
 
@@ -868,7 +860,6 @@ class LPActor extends LPVariable {
      * Make this actor move toward another actors position.
      * @param {LPActor} actor
      * @param {number|LPFloat} distance - Distance to stay away from 'target'. 0 = Move to exact the same spot as 'target'.
-     * @return {void|*}
      */
     moveToPersonStand = (actor, distance = 100) => this.context.writeLine(`${this.name}.moveToPersonStand(${actor.name}, ${distance?.name || distance})`)
 
@@ -888,14 +879,12 @@ class LPActor extends LPVariable {
      * scene.narration("The value of SomeVariable is <val>.")
      * @param name
      * @param value
-     * @return {void|*}
      */
     setActorVar = (name, value) => this.context.writeLine(`${this.name}.setActorVar(${name}, ${value})`)
 
     /**
      * Change an actor's current location. Used with findNearbyBuilding or getBuilding(Home) or getBuilding(Work), mostly in lpai files.
      * @param {LPBuilding} buildingVariable
-     * @return {void|*}
      */
     setCurrentLocation = (buildingVariable) => this.context.writeLine(`${this.name}.setCurrentLocation(${buildingVariable.name})`)
 
@@ -907,14 +896,12 @@ class LPActor extends LPVariable {
     /**
      * Make this Actor remember that they used to be related to the actor.
      * @param {LPActor} actor
-     * @return {void|*}
      */
     setExRelative = (actor) => this.context.writeLine(`${this.name}.setExRelative(${actor.name})`)
 
     /**
      * Set the job for this NPC. Only Doctor and Nurse are available now
      * @param job
-     * @return {void|*}
      */
     setJob = (job) => this.context.writeLine(`${this.name}.setJob(${job})`)
 
@@ -922,20 +909,17 @@ class LPActor extends LPVariable {
      * Morph list can be found in any lpcharacter file.
      * @param morphName
      * @param value
-     * @return {void|*}
      */
     setMorphValue = (morphName, value) => this.context.writeLine(`${this.name}.setMorphValue(${morphName}, ${value})`)
 
     /**
      * Prevents an Actor from redressing. May not work on player.
-     * @return {void|*}
      */
     setNoRedress = () => this.context.writeLine(`${this.name}.setNoRedress()`)
 
     /**
      * If wantsBaby is true then the actor wants a baby
      * @param wantsBaby
-     * @return {void|*}
      */
     setWantsBabies = (wantsBaby = false) => this.context.writeLine(`${this.name}.setWantsBabies(${wantsBaby})`)
 
@@ -944,26 +928,22 @@ class LPActor extends LPVariable {
      * The order in which roles are given to actors for the sex scene (important for descriptions and dirtytalk) depends largely on gender and domincance. Males are given roles before transsexuals, then women. Between people of the same gender, the most dominant one (lowest submission stat) is given a role first.
      * However, the order of the actor parameters to the Sex() function matters somewhat in group sex: Sex(Male1, Player, Male2) will be different from Sex(Male2, Player, Male1).
      * @param {LPActor[]} actors
-     * @return {void|*}
      */
     sex = (actors) => this.context.writeLine(`sex(${this.name}, ${actors.map(actor => actor.name).join(', ')})`)
 
     /**
      * Show this actor on screen. The player's default position is 0. 1 - 6 is counted from right to left of the screen.
      * @param positionIndex
-     * @return {void|*}
      */
     show = (positionIndex = 0) => this.context.writeLine(`${this.name}.show(${positionIndex})`)
 
     /**
      * Strip this actor of all clothes
-     * @return {void|*}
      */
     strip = () => this.context.writeLine(`${this.name}.strip()`)
 
     /**
      * Strip this actor of a single currently equipped piece of clothes (but still follows logical order, so no stripping underwear before outerwear etc). Used for strip poker.
-     * @return {void|*}
      */
     stripOne = () => this.context.writeLine(`${this.name}.stripOne()`)
 
