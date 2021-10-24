@@ -24,6 +24,7 @@ class LPMod {
         this._actions = new Map()
         this._globals = new Map()
         this._scenes = new Map()
+        this._functions = new Map()
     }
 
 
@@ -94,16 +95,33 @@ class LPMod {
 
     addScene(scene) {
         const Scene = require('./core/Scene')
-        assert.ok(scene instanceof Scene)
+        // assert.ok(scene instanceof Scene) // fixme
+        console.log('addScene 1', scene.name)
+        scene._lpMod = this
+        console.log('addScene 2',scene.name)
         if (this._scenes.has(scene.name)) {
             console.warn(`OVERWRITING SCENE! ${scene.name}`)
         }
         scene.modsDir = this.modsDir
         this._scenes.set(scene.name, scene)
+        console.log('addScene 3', this._scenes.get(scene.name).name)
     }
 
     removeScene(key) {
         this._scenes.delete(key)
+    }
+
+    addFunction(key, func) {
+        if (this._functions.has(key)) {
+            console.warn(`OVERWRITING FUNCTION! ${key}`)
+        }
+        const parser = require('./core/parser')
+        const {intermediate, parsed, logs} = parser('' + func)
+        this._functions.set(key, eval(`(${intermediate})`))
+    }
+
+    getFunction(key) {
+        return this._functions.get(key)
     }
 
     get MODULE_UNIQUEID() {

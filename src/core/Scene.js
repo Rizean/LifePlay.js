@@ -24,7 +24,7 @@ module.exports = class Scene extends Context {
      *
      * @param script
      */
-    constructor({lpMod, name, modsDir, filePath = 'scenes'}) {
+    constructor({lpMod, name, modsDir, filePath = 'scenes'}, script) {
         super({lpMod})
         this._player = new LPPlayer({context: this, lpMod})
         this._what = 'WHAT:'
@@ -38,12 +38,18 @@ module.exports = class Scene extends Context {
         this._CurrentCompanion = new LPNPC({context: this, lpMod, name: 'CurrentCompanion'})
         this._shouldWriteHeader = true
         this.actionDuration = new LPFloat({context: this, lpMod, name: 'actionDuration'})
+        this.hoursElapsed = new LPFloat({context: this, lpMod, name: 'hoursElapsed'})
         this._lpMod = lpMod
         this._name = name
         this._modsDir = modsDir
         this._filePath = filePath
+        this._scripts = []
+        this._script = script
 
+        // this.generatePersonTemporary.bind(this)
+        this.narrative.bind(this)
     }
+
 
     /**
      * WHAT
@@ -85,7 +91,8 @@ module.exports = class Scene extends Context {
         // todo this._who = 'WHO:'
         this._inline = true
         this._code += `WHO: `
-        if (typeof script === 'function') super.buildV2({}, script, this)
+        // if (typeof script === 'function') super.buildV2({}, script, this)
+        if (typeof script === 'function') this.$script(script)
         else if (typeof script === 'string') this._code += script
         this._code += LINE_ENDDING
         this._inline = false
@@ -105,7 +112,9 @@ module.exports = class Scene extends Context {
         // todo this._other = 'OTHER:'
         this._inline = true
         this._code += `OTHER: `
-        if (script) super.buildV2({}, script, this)
+        const $IF = (rhs) => this.writeLine(`If ${rhs.expression || rhs}`)
+        // if (script) script(this, $IF)
+        if (script) this.$script(script, $IF)
         this._code = this._code.trim() + LINE_ENDDING
         this._inline = false
     }
@@ -129,19 +138,25 @@ module.exports = class Scene extends Context {
      * @param {[LPActor]} actors
      * @return {void|*}
      */
-    addNpcRelationship = (type, actors) => this.writeLine(`addNpcRelationship(${type}, ${actors.map(actor => actor.name).join(', ')})`)
+    addNpcRelationship(type, actors) {
+        this.writeLine(`addNpcRelationship(${type}, ${actors.map(actor => actor.name).join(', ')})`)
+    }
 
     /**
      * Not documented and not used. No idea what it does.
      * @return {void|*}
      */
-    assignHome = () => this.writeLine(`assignHome()`)
+    assignHome() {
+        this.writeLine(`assignHome()`)
+    }
 
     /**
      * Assigns residents to a location. Need for Actor.assignWhat() and Actor.assignWhere()
      * @return {void|*}
      */
-    assignResidents = () => this.writeLine(`assignResidents()`)
+    assignResidents() {
+        this.writeLine(`assignResidents()`)
+    }
 
     /**
      * Block all pregnancies for all sex scenes in this current scene.
@@ -151,7 +166,9 @@ module.exports = class Scene extends Context {
      * scene.sex(Player, Actor) // No pregnancies can result from this sex scene
      * @return {void|*}
      */
-    blockPregnancy = () => this.writeLine(`blockPregnancy()`)
+    blockPregnancy() {
+        this.writeLine(`blockPregnancy()`)
+    }
 
     /**
      * Makes the camera focus on the given actor.
@@ -161,12 +178,16 @@ module.exports = class Scene extends Context {
      * @param {LPActor} actor
      * @return {void|*}
      */
-    cameraFocus = (actor) => this.writeLine(`cameraFocus(${actor.name})`)
+    cameraFocus(actor) {
+        this.writeLine(`cameraFocus(${actor.name})`)
+    }
 
     /**
      * Locks a camera?
      */
-    cameraLock = () => this.writeLine(`cameraLock()`)
+    cameraLock() {
+        this.writeLine(`cameraLock()`)
+    }
 
     /**
      * Moves and rotates the camera.
@@ -181,7 +202,7 @@ module.exports = class Scene extends Context {
      * @param rz
      * @return {void|*}
      */
-    cameraMove = (x, y, z, rx, ry, rz) => {
+    cameraMove(x, y, z, rx, ry, rz) {
         if (rx && ry && rz) return this.writeLine(`cameraMove(${x}, ${y}, ${z}, ${rx}, ${ry}, ${rz})`)
         if (rx && ry) return this.writeLine(`cameraMove(${x}, ${y}, ${z}, ${rx}, ${ry})`)
         if (rx) return this.writeLine(`cameraMove(${x}, ${y}, ${z}, ${rx})`)
@@ -191,17 +212,23 @@ module.exports = class Scene extends Context {
     /**
      * Unlocks a camera?
      */
-    cameraUnlock = () => this.writeLine(`cameraUnlock()`)
+    cameraUnlock() {
+        this.writeLine(`cameraUnlock()`)
+    }
 
     /**
      * Clears a background set by scene.setBackground3D("Modules/nn_PornEmpire/Rooms/nn_pe_office_1.lpworld")
      */
-    clearBackground3d = () => this.writeLine(`clearBackground3d()`)
+    clearBackground3d() {
+        this.writeLine(`clearBackground3d()`)
+    }
 
     /**
      * So that GetSpecific() GetPerson() etc can return the same actor again if they're already called by a previous get functions in the same scene
      */
-    clearGetList = () => this.writeLine(`clearGetList()`)
+    clearGetList() {
+        this.writeLine(`clearGetList()`)
+    }
 
     /**
      * Use this to toggle the 'dress code' of the scene.
@@ -215,26 +242,34 @@ module.exports = class Scene extends Context {
      *
      * // 1 and 2 are wearing suits while 3 is looking like a bum
      */
-    dressFormal = () => this.writeLine(`dressFormal()`)
+    dressFormal() {
+        this.writeLine(`dressFormal()`)
+    }
 
     /**
      * Causes two actors to face each other.
      * @param actorOne
      * @param actorTwo
      */
-    faceEachOther = (actorOne, actorTwo) => this.writeLine(`faceEachOther(${actorOne.name}, ${actorTwo.name})`)
+    faceEachOther(actorOne, actorTwo) {
+        this.writeLine(`faceEachOther(${actorOne.name}, ${actorTwo.name})`)
+    }
 
     /**
      * Filter erotic descriptions, name the lpdesc file with the suffix _restricted if you only want that file to be used specifically when FilterDesc calls for it
      * @param {string} filenameOfLPDescFile
      */
-    filterDesc = (filenameOfLPDescFile) => this.writeLine(`filterDesc(${filenameOfLPDescFile})`)
+    filterDesc(filenameOfLPDescFile) {
+        this.writeLine(`filterDesc(${filenameOfLPDescFile})`)
+    }
 
     /**
      * Filter Dirty talks, name the lptalk file with the suffix _restricted if you only want that file to be used specifically when FilterTalk calls for it
      * @param {string} filenameOfLPDescFile
      */
-    filterTalk = (filenameOfLPDescFile) => this.writeLine(`filterTalk(${filenameOfLPDescFile})`)
+    filterTalk(filenameOfLPDescFile) {
+        this.writeLine(`filterTalk(${filenameOfLPDescFile})`)
+    }
 
     /**
      * Limit a sex scene to animations that have the specified tag.
@@ -250,7 +285,9 @@ module.exports = class Scene extends Context {
      * scene.sex(Player, Girlfriend)
      * @param filterType
      */
-    filter = (filterType) => this.writeLine(`filter(${filterType})`)
+    filter(filterType) {
+        this.writeLine(`filter(${filterType})`)
+    }
 
     /**
      * Find a building near to another building that is of a certain type. Used with setCurrentLocation()
@@ -260,7 +297,7 @@ module.exports = class Scene extends Context {
      * scene.moveTo(loc)
      * @return {LPBuilding}
      */
-    findNearbyBuilding = (types, name) => {
+    findNearbyBuilding(types, name) {
         const expression = `findNearbyBuilding(${types.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBuilding({context: this, lpMod: this.lpMod, name, expression})
@@ -275,7 +312,9 @@ module.exports = class Scene extends Context {
      * scene.followUp("death")
      * @param sceneID
      */
-    followUp = (sceneID) => this.writeLine(`followUp(${sceneID})`)
+    followUp(sceneID) {
+        this.writeLine(`followUp(${sceneID})`)
+    }
 
     /**
      * Returns whether a scene was force triggered with an action that has the SCENE_ALWAYS field filled (which overrides the conditions at the top of a scene). Use it to know if the scene was consciously triggered by the player or randomly triggered.
@@ -295,7 +334,7 @@ module.exports = class Scene extends Context {
      * }).$endif()
      * @return {LPBoolean}
      */
-    forcedTrigger = (name) => {
+    forcedTrigger(name) {
         const expression = `forcedTrigger()`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
@@ -309,7 +348,7 @@ module.exports = class Scene extends Context {
      * let Actor = scene.generateCreature(Dogs)
      * scene.narrative("<Actor.name> is my new dog.")
      */
-    generateCreature = (optionalRace = '', name) => {
+    generateCreature(optionalRace = '', name) {
         const expression = `generateCreature(${optionalRace})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPActor({context: this, lpMod: this.lpMod, name, expression})
@@ -327,7 +366,7 @@ module.exports = class Scene extends Context {
      * })
      * scene.narrative("<Actor.name> is my new bitch, literally.")
      */
-    generateCreatureTemporary = (optionalRace = '', name) => {
+    generateCreatureTemporary(optionalRace = '', name) {
         const expression = `generateCreatureTemporary(${optionalRace})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPActor({context: this, lpMod: this.lpMod, name, expression})
@@ -343,7 +382,7 @@ module.exports = class Scene extends Context {
      * Actor.show(2)
      * Player.exchangeContact(Actor) // this will succeed because this is a permanent actor
      */
-    generatePerson = (presets = [], name) => {
+    generatePerson(presets = [], name) {
         const expression = `generatePerson(${presets.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPActor({context: this, lpMod: this.lpMod, name, expression})
@@ -359,8 +398,9 @@ module.exports = class Scene extends Context {
      * Actor.show(2)
      * Player.exchangeContact(Actor) // this will succeed because this is a permanent actor
      */
-    generatePersonTemporary = (presets = [], name) => {
+    generatePersonTemporary(presets = [], name) {
         const expression = `generatePersonTemporary(${presets.join(', ')})`
+        // console.log('generatePersonTemporary > scene', this)
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPActor({context: this, lpMod: this.lpMod, name, expression})
     }
@@ -370,7 +410,7 @@ module.exports = class Scene extends Context {
      * @param {LPString|string} aliasStr
      * @return {LPNPC}
      */
-    getActorAlias = (aliasStr, name) => {
+    getActorAlias(aliasStr, name) {
         aliasStr = aliasStr.name || aliasStr
         const expression = `${aliasStr}.getActorAlias()`
         if (name) this.writeLine(`${name} = ${expression}`)
@@ -383,7 +423,7 @@ module.exports = class Scene extends Context {
      * var Actor4 = scene.getAssignee("living room")
      * @param location
      */
-    getAssignee = (location, name) => {
+    getAssignee(location, name) {
         const expression = `getAssignee(${location})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
@@ -392,7 +432,7 @@ module.exports = class Scene extends Context {
     /**
      * Get a random creature NPC. This function is very simple right now with the first implementation of creature NPCs, but it will most likely evolve over time.
      */
-    getCreature = (name) => {
+    getCreature(name) {
         const expression = `getCreature()`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
@@ -421,7 +461,7 @@ module.exports = class Scene extends Context {
      *
      * @return {LPActor|undefined}
      */
-    getPerson = (hasContactExchangedOrTag = '', name) => {
+    getPerson(hasContactExchangedOrTag = '', name) {
         const expression = `getPerson(${hasContactExchangedOrTag})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
@@ -432,7 +472,7 @@ module.exports = class Scene extends Context {
      * @param {boolean|undefined} isPermanent If true only permanent actors will be returned. If false only temporary NPCs will be returned. If omitted all NPCs will be returned.
      * @return {LPNPC}
      */
-    getPersonHere = (isPermanent, name) => {
+    getPersonHere(isPermanent, name) {
         let expression = `getPersonHere()`
         if (typeof isPermanent === 'boolean' && isPermanent) expression = `getPersonHere(true)`
         else if (typeof isPermanent === 'boolean' && !isPermanent) expression = `getPersonHere(false)`
@@ -446,7 +486,7 @@ module.exports = class Scene extends Context {
      * @param {[string]|undefined} types - Dating, Spouses, Siblings, ParentChild, Cousins, BossEmployee, Colleagues
      * @return {[LPNPC]|undefined}
      */
-    getRelatedPeople = (types = [], name) => {
+    getRelatedPeople(types = [], name) {
         const expression = `getRelatedPeople(${types.join(', ')})`
         if (name) this.writeLine(`${name} = ${expression}`)
         // FIXME this is special as it returns an array of npcs?
@@ -460,7 +500,7 @@ module.exports = class Scene extends Context {
      * Alternatively, you can input an ID number or a float variable containing it to get the actor with that ID.
      * @return {LPNPC}
      */
-    getSpecific = (keywordOrID, name) => {
+    getSpecific(keywordOrID, name) {
         const expression = `getSpecific(${keywordOrID})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPNPC({context: this, lpMod: this.lpMod, name, expression})
@@ -471,7 +511,7 @@ module.exports = class Scene extends Context {
      * @param modID
      * @return {void|*}
      */
-    isModEnabled = (modID, name) => {
+    isModEnabled(modID, name) {
         const expression = `isModEnabled(${modID})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
@@ -482,7 +522,7 @@ module.exports = class Scene extends Context {
      * @param {string} quest
      * @return {LPBoolean}
      */
-    isQuestCompleted = (quest, name) => {
+    isQuestCompleted(quest, name) {
         const expression = `isQuestCompleted(${quest})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
@@ -493,20 +533,24 @@ module.exports = class Scene extends Context {
      * @param {LPString|string} sceneID
      * @return {LPBoolean}
      */
-    isTimingOut = (sceneID, name) => {
+    isTimingOut(sceneID, name) {
         const expression = `isTimingOut(${sceneID})`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
-    narrative = (text) => this.writeLine(`"${text}"`)
+    narrative = (text) => {
+        this.writeLine(`"${text}"`)
+    }
 
 
     /**
      * Opens a menu.
      * @param {string} text - ModManager, Stat, CharGen, Contacts, City, Inventory
      */
-    openMenu = (text) => this.writeLine(`openMenu()`)
+    openMenu(text) {
+        this.writeLine(`openMenu()`)
+    }
 
     /**
      * Use to pass time during a scene.
@@ -517,7 +561,7 @@ module.exports = class Scene extends Context {
      * @param {number} hoursMax
      * @return {Scene} scene for chaining
      */
-    passTime = (hoursMin, hoursMax) => {
+    passTime(hoursMin, hoursMax) {
         this.writeLine(`passTime(${hoursMin}, ${hoursMax})`)
     }
 
@@ -525,7 +569,7 @@ module.exports = class Scene extends Context {
      * No idea what this does but is used when buying or selling.
      * @return {Scene} scene for chaining
      */
-    preciseModify = () => {
+    preciseModify() {
         this.writeLine(`preciseModify()`)
         return this
     }
@@ -534,7 +578,7 @@ module.exports = class Scene extends Context {
      * Ends the current quest
      * @return {Scene} scene for chaining
      */
-    questEnd = () => {
+    questEnd() {
         this.writeLine(`questEnd()`)
         return this
     }
@@ -545,7 +589,7 @@ module.exports = class Scene extends Context {
      * @param {[LPActor]} actors
      * @return {Scene}
      */
-    removeNpcRelationship = (actors) => {
+    removeNpcRelationship(actors) {
         this.writeLine(`removeNpcRelationship(${actors.map(actor => actor.name).join(', ')})`)
         return this
     }
@@ -554,7 +598,7 @@ module.exports = class Scene extends Context {
      * Reset the tutorials? Not sure only used in TF.
      * @return {Scene}
      */
-    resetTutorials = () => {
+    resetTutorials() {
         this.writeLine(`resetTutorials()`)
         return this
     }
@@ -563,7 +607,7 @@ module.exports = class Scene extends Context {
      * Saves the player before Player.changeSex()? Not sure only used in TF.
      * @return {Scene}
      */
-    saveOldPlayer = () => {
+    saveOldPlayer() {
         this.writeLine(`saveOldPlayer()`)
         return this
     }
@@ -579,12 +623,13 @@ module.exports = class Scene extends Context {
      * @param {Script~scene} script
      * @return {Scene} scene for chaining
      */
-    start = (script) => {
+    start(script) {
         this.writeLine(``)
         this.writeLine(`sceneStart()`)
         if (typeof script === 'function') {
             this.codeDepth += 2
-            const result = super.buildV2({}, '' + script, this)
+            // const result = super.buildV2({}, '' + script, this)
+            script(this)
             this.codeDepth -= 2
             this.writeLine(`sceneEnd()`)
             this.writeLine(``)
@@ -595,7 +640,7 @@ module.exports = class Scene extends Context {
      * End the current scene and loads the last save. Used for game-over.
      * @return {Scene} scene for chaining
      */
-    sceneEndLoadLastSave = () => {
+    sceneEndLoadLastSave() {
         this.writeLine(`sceneEndLoadLastSave()`)
         return this
     }
@@ -604,22 +649,27 @@ module.exports = class Scene extends Context {
      * Lock an actor onto a miniscreen, for telephone call and thought sequence. While being locked, every Show() called on the Actor will not move them into the environment but stuck at the miniscreen instead
      * @param actor
      */
-    secondScreen = (actor) => this.writeLine(`secondScreen(${actor.name})`)
+    secondScreen(actor) {
+        this.writeLine(`secondScreen(${actor.name})`)
+    }
 
     /**
      * Same as SecondScreen(), but does nothing if the actor is already currently seen in the environment (So that they don't disappear from the player's current location and get on the phone remotely instead).
      * @param actor
      */
-    secondScreenIfHidden = (actor) => this.writeLine(`secondScreenIfHidden(${actor.name})`)
+    secondScreenIfHidden(actor) {
+        this.writeLine(`secondScreenIfHidden(${actor.name})`)
+    }
 
     /**
      * Set the background image. Check all_where.txt for full list. This is also important for dress() which decides how to dress the actor appropriately based on the background (suits for work, sport clothes for sports_centre etc)
      * @param where
      */
-    setBackground = (where) => {
+    setBackground(where) {
         if (!isValidLocation(where)) throw new Error(`Invalid location! "${where}"`)
         this.writeLine(`setBackground(${where})`)
     }
+
     /**
      * Set the background as a 3D room for the current scene.
      * @example
@@ -627,7 +677,7 @@ module.exports = class Scene extends Context {
      * scene.setBackground3D("Modules/nn_PornEmpire/Rooms/nn_pe_office_1.lpworld")
      * @param scene3dPath
      */
-    setBackground3D = (scene3dPath) => {
+    setBackground3D(scene3dPath) {
         // console.warn(`setBackground3D(${scene3dPath}) Warning, scene3dPath not validated.`)
         this.writeLine(`setBackground3D(${scene3dPath})`)
     }
@@ -636,7 +686,7 @@ module.exports = class Scene extends Context {
      * Same as setBackground(), but some extra parameters like livingroom, kitchen, stable, hallway
      * @param {string} where - livingroom, kitchen, stable, hallway
      */
-    setBackgroundCustom = (where) => {
+    setBackgroundCustom(where) {
         // if (!isValidLocation(where)) console.warn(`setBackgroundCustom(${where}) Warning, Unknown location!`)
         this.writeLine(`setBackgroundCustom(${where})`)
     }
@@ -648,7 +698,9 @@ module.exports = class Scene extends Context {
      * parameters to the sex() function matters somewhat in group sex: Sex(Male1, Player, Male2) will be different from Sex(Male2, Player, Male1).
      * @param actors
      */
-    sex = (actors) => this.writeLine(`sex(${actors.map(({name}) => name).join(', ')})`)
+    sex(actors) {
+        this.writeLine(`sex(${actors.map(({name}) => name).join(', ')})`)
+    }
 
     /**
      * Let the following sex scene happen at a specific position and not at a randomly chosen one.
@@ -657,7 +709,7 @@ module.exports = class Scene extends Context {
      * @param z
      * @param angle
      */
-    sexAtPoint = (x, y, z, angle = '') => {
+    sexAtPoint(x, y, z, angle = '') {
         if (angle) this.writeLine(`sexAtPoint(${x}, ${y}, ${z}, ${angle})`)
         else this.writeLine(`sexAtPoint(${x}, ${y}, ${z})`)
     }
@@ -669,14 +721,18 @@ module.exports = class Scene extends Context {
      * function matters somewhat in group sex: SexNoAffair(Male1, Player, Male2) will be different from SexNoAffair(Male2, Player, Male1).
      * @param actors
      */
-    sexNoAffair = (actors) => this.writeLine(`sexNoAffair(${actors.map(({name}) => name).join(', ')})`)
+    sexNoAffair(actors) {
+        this.writeLine(`sexNoAffair(${actors.map(({name}) => name).join(', ')})`)
+    }
 
 
     /**
      * Allows you to switch to the map view during scenes, possibly with a random location within a specified radius from your current location
      * @param radius
      */
-    showMapView = (radius) => this.writeLine(`showMapView(${radius})`)
+    showMapView(radius) {
+        this.writeLine(`showMapView(${radius})`)
+    }
 
     /**
      * Show sneak game, if successful, the next sneak check will return 100
@@ -686,12 +742,16 @@ module.exports = class Scene extends Context {
      * }).$endif()
      * @return {float}
      */
-    sneakGame = () => this.writeLine(`sneakGame()`)
+    sneakGame() {
+        this.writeLine(`sneakGame()`)
+    }
 
     /**
      * call this command before starting a sex scene to make sure that none of the regular 'dirtytalk' (ie both ppl wanting it) is played, and only rape talk is.
      */
-    talkNonConsensual = () => this.writeLine(`talkNonConsensual()`)
+    talkNonConsensual() {
+        this.writeLine(`talkNonConsensual()`)
+    }
 
     /**
      * Check if the current game was started with the TF New Game
@@ -708,7 +768,7 @@ module.exports = class Scene extends Context {
      * Returns true if condoms were used during last sex
      * @return {boolean}
      */
-    wasCondomUsedDuringLastSex = (name) => {
+    wasCondomUsedDuringLastSex(name) {
         const expression = `wasCondomUsedDuringLastSex()`
         if (name) this.writeLine(`${name} = ${expression}`)
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
@@ -716,11 +776,21 @@ module.exports = class Scene extends Context {
 
 
     // todo sort these
-    timeoutPrecise = (hours, scenes) => this.writeLine(`timeoutPrecise(${hours}, ${scenes.join(', ')})`)
-    timeout = (hours, scenes) => this.writeLine(`timeout(${hours}, ${scenes.join(', ')})`)
-    timeoutActorPrecise = (hours, scene, actors) => this.writeLine(`timeoutActorPrecise(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
-    timeoutActor = (hours, scene, actors) => this.writeLine(`timeoutActor(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
+    timeoutPrecise(hours, scenes) {
+        this.writeLine(`timeoutPrecise(${hours}, ${scenes.join(', ')})`)
+    }
 
+    timeout(hours, scenes) {
+        this.writeLine(`timeout(${hours}, ${scenes.join(', ')})`)
+    }
+
+    timeoutActorPrecise(hours, scene, actors) {
+        this.writeLine(`timeoutActorPrecise(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
+    }
+
+    timeoutActor(hours, scene, actors) {
+        this.writeLine(`timeoutActor(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
+    }
 
     get building() {
         return this._building
@@ -758,17 +828,59 @@ module.exports = class Scene extends Context {
         this._filePath = value
     }
 
-    toString() {
-        return this._code
+    async toString() {
+        const results = await this._$build()
+        if (results.error) throw results.error
+        return results.code
+    }
+
+    async _$build() {
+        console.debug(`_$build ${this.name}`, {modsDir: this.modsDir})
+        assert.ok(!(this.modsDir == null))
+        const parser = require('./parser')
+        const LPGlobals = require('./objects/LPGlobals')
+        const lpGlobals = new LPGlobals({context: this, lpMod: this.lpMod})
+        lpGlobals.hookSandbox(this)
+
+        // const {intermediate, parsed, logs} = parser('module.exports = ' + this._script)
+        const {intermediate, parsed, logs} = parser(`module.exports = ${this._script}`)
+        const script = [
+            "const $IF = (rhs) => {",
+            // "   console.log('$IF', rhs)",
+            "   //rhs.writeLine(`If ${rhs.expression || rhs}`)",
+            "   rhs.write(`If `)",
+            "}",
+            "",
+            `${intermediate}`,
+        ].join('\r\n')
+
+        const dirPath = path.resolve(this.modsDir, this.filePath)
+        console.debug(`_$build ${this.name}`, {dirPath})
+        await ensureDirectory(dirPath)
+
+        const intermediatePath = path.resolve(dirPath, `${this.name}.intermediate.js`)
+        await fs.writeFile(intermediatePath, script)
+        let error
+        try {
+            const intermediateScript = require(intermediatePath)
+            intermediateScript(this)
+        } catch (e) {
+            error = e
+        }
+        return {code: this._code, intermediate, parsed, error, dirPath}
     }
 
     async write() {
         console.debug(`Writing ${this.name}.lpscene`)
-        assert.ok(!(this.modsDir == null))
-        const dirPath = path.resolve(this.modsDir, this.filePath)
-        await ensureDirectory(dirPath)
+        const {code, intermediate, parsed, error, dirPath} = await this._$build()
+
         const filename = path.resolve(dirPath, `${this.name}.lpscene`)
         console.log(`Writing ${this.name}.lpscene to "${filename}"`)
-        return fs.writeFile(filename, this.toString())
+
+        await Promise.all([
+            fs.writeFile(filename, code),
+            fs.writeFile(path.resolve(dirPath, `${this.name}.parsed.json`), JSON.stringify(parsed, null, 2)),
+        ])
+        if (error) throw error
     }
 }

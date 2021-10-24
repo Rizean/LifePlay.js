@@ -24,16 +24,12 @@ handlers.Identifier = ({name}, {depth = 0} = {}) => name
 handlers.Literal = ({value, raw}, {depth = 0, name} = {}) => {
     if (typeof value === 'boolean') {
         if (name) return `scene.boolean(${raw}, "${name}")`
-        return raw
     } else if (typeof value === 'number') {
         if (name) return `scene.float(${raw}, "${name}")`
-        return raw
     } else if (typeof value === 'string') {
         if (name) return `scene.string(${raw}, "${name}")`
-        return raw
     }
-    /* istanbul ignore next */
-    throw new Error('Fixme! How did we get here?')
+    return raw
 }
 handlers.UnaryExpression = (expression, {depth = 0, logs, name} = {}) => {
     logs.push(['UnaryExpression', expression])

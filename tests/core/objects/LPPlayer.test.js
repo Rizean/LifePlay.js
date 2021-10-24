@@ -2,49 +2,62 @@ const setupMod = require('../../tools/setupMod')
 const Scene = require('../../../src/core/Scene')
 const LB = '\r\n'
 
-function playerFunctionTest(func, ...params) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    scene.Player.${func}(${params.map(ele => `"${ele}"`).join(', ')})
-}`
-
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+async function playerFunctionTest(func, ...params) {
+    const script = `module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_${func}'}, (scene) => {
+        scene.start(() => {
+            scene.Player.${func}(${params.map(ele => `"${ele}"`).join(', ')})
+        })
+    })
+    return scene
+    })()
+`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  ${func}(${params.join(', ')})`,
         'sceneEnd()'
     ].join(LB))
 }
 
-function playerFunctionTestWithReturn(func, ...params) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    var result = scene.Player.${func}(${params.map(ele => {
-        if (Array.isArray(ele)) return JSON.stringify(ele)
-        return `"${ele}"`
-    }).join(', ')})
-}`
-
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+async function playerFunctionTestWithReturn(func, ...params) {
+    const script = `module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_${func}'}, (scene) => {
+        scene.start(() => {
+            var result = scene.Player.${func}(${params.map(ele => {
+                if (Array.isArray(ele)) return JSON.stringify(ele)
+                return `"${ele}"`
+            }).join(', ')})
+        })
+    })
+    return scene
+    })()
+`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  result = ${func}(${params?.flat()?.join(', ') || ''})`,
         'sceneEnd()'
     ].join(LB))
 }
 
-function playerFunctionTestWithActor(func, ...params) {
-    const varName = `actor_${func}`
-    const script = `(scene) => {
-    var ActorA = scene.getPerson()
-    scene.Player.${func}(ActorA)
-}`
-
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start(eval(script))
-    expect(scene._code.trim()).toBe([
+async function playerFunctionTestWithActor(func, ...params) {
+    const script = `
+module.exports = (()=>{
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_${func}'}, (scene) => {
+        scene.start(() => {
+            var ActorA = scene.getPerson()
+            scene.Player.${func}(ActorA)
+        })
+    })
+    return scene
+})()
+`
+    const scene = eval(script)
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         `  ActorA = getPerson()`,
         `  ${func}(ActorA)`,
@@ -104,19 +117,19 @@ test('LPPlayer.quitSchool', () => playerFunctionTest('quitSchool'))
 test('LPPlayer.removeAddedClothes', () => playerFunctionTest('removeAddedClothes'))
 test('LPPlayer.selectNPC', () => playerFunctionTestWithReturn('selectNPC'))
 
-test('LPPlayer.setFraternityFees', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        scene.Player.setFraternityFees(1000)
+test('LPPlayer.setFraternityFees', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_setFraternityFees'}, (scene) => {
+        scene.start((scene) => {
+            scene.Player.setFraternityFees(1000)
+        })
     })
-
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  lpjs_fratFee = 1000',
         '  lpjs_fratFee.setFraternityFees()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
-
 })
 
 test('LPPlayer.setMajor', () => playerFunctionTest('setMajor'))

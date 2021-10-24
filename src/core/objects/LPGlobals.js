@@ -12,14 +12,14 @@ module.exports = class LPGlobals extends LPObject {
      * @private
      * @param sandbox
      */
-    hookSandbox(sandbox) {
-        sandbox.comment = (...params) => this.comment(...params)
-        sandbox.enterString = (...params) => this.enterString(...params)
-        sandbox.getGlobal = (...params) => this.getGlobal(...params)
-        sandbox.getGlobalString = (...params) => this.getGlobalString(...params)
-        sandbox.setGlobal = (...params) => this.setGlobal(...params)
-        sandbox.setGlobalString = (...params) => this.setGlobalString(...params)
-        sandbox.setHomeCity = (...params) => this.setHomeCity(...params)
+    hookSandbox() {
+        global.comment = (...params) => this.comment(...params)
+        global.enterString = (...params) => this.enterString(...params)
+        global.getGlobal = (...params) => this.getGlobal(...params)
+        global.getGlobalString = (...params) => this.getGlobalString(...params)
+        global.setGlobal = (...params) => this.setGlobal(...params)
+        global.setGlobalString = (...params) => this.setGlobalString(...params)
+        global.setHomeCity = (...params) => this.setHomeCity(...params)
     }
 
     /**

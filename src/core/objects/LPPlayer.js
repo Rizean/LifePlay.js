@@ -12,13 +12,13 @@ module.exports = class LPPlayer extends LPActor {
         super({context, lpMod, name: 'Player'})
     }
 
-    _playerIsHelper(func, params = [], nameStr) {
-        const name = nameStr?.name || nameStr
-        params = params.map(param => param.name || param)
-        const expression = `${func}(${params.join(', ')})`
-        if (name) this.context.writeLine(`${name} = ${expression}`)
-        return this.context.boolean(expression, name)
-    }
+    // _playerIsHelper(func, params = [], nameStr) {
+    //     const name = nameStr?.name || nameStr
+    //     params = params.map(param => param.name || param)
+    //     const expression = `${func}(${params.join(', ')})`
+    //     if (name) this.context.writeLine(`${name} = ${expression}`)
+    //     return this.context.boolean(expression, name)
+    // }
 
     _playerFunction(func, params, name, ReturnType) {
         const expression = `${func}(${params})`
@@ -129,13 +129,10 @@ module.exports = class LPPlayer extends LPActor {
      * @example
      * scene.narration("We exchanged numbers and parted ways.")
      * Player.exchangeContact(John)
-     * @param actor
-     * @return {void|*}
+     * @param {LPActor} actor
      */
     exchangeContact = (actor) => {
-        if (actor instanceof LPActor) this.context.writeLine(`exchangeContact(${actor.name})`)
-        else if (typeof actor === 'string') this.context.writeLine(`exchangeContact(${actor})`)
-        else throw new Error(`"actor" must be instance of LPActor or a string!`)
+        this.context.writeLine(`exchangeContact(${actor.name})`)
     }
 
     /**

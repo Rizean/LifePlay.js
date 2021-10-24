@@ -3,12 +3,14 @@ const setupMod = require('../tools/setupMod')
 const LB = '\r\n'
 
 test('Globals enterString()', async () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        var myStr = enterString()
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_enterString'}, (scene) => {
+        scene.start(() => {
+            console.log(global)
+            var myStr = enterString()
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core', fileName: 'while', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  myStr = enterString()',
         'sceneEnd()',
@@ -16,46 +18,48 @@ test('Globals enterString()', async () => {
 })
 
 test('Globals setHomeCity()', async () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        setHomeCity()
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_setHomeCity'}, (scene) => {
+        scene.start(() => {
+            setHomeCity()
+        })
     })
-    await scene.writeFiles({buildPath: 'build', filePath: 'test/core', fileName: 'while', type: 'scene', debug: true})
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  setHomeCity()',
         'sceneEnd()',
     ].join(LB))
 })
 
-test('Globals setGlobal(key, value) and getGlobal(key)', () => {
+test('Globals setGlobal(key, value) and getGlobal(key)', async () => {
     const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
     const lpMod = setupMod()
-    let scene = new Scene({lpMod})
-    scene.start((scene) => {
-        var gf2 = 2
-        setGlobal('globalF1', 1)
-        setGlobal('globalF2', gf2)
-        setGlobalString('globalF3', "Not a float.")
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_setGlobal_getGlobal'}, (scene) => {
+        scene.start(() => {
+            var gf2 = 2
+            setGlobal('globalF1', 1)
+            setGlobal('globalF2', gf2)
+            setGlobalString('globalF3', "Not a float.")
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  gf2 = 2',
         '  globalF1.setGlobal(1)',
         '  globalF2.setGlobal(gf2)',
         '  globalF3.setGlobalString("Not a float.")',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 
-    scene.reset()
-
-    scene.start((scene) => {
-        var gf1 = getGlobal('globalF1')
-        var gf2 = getGlobal('globalF2')
-        var gf3 = getGlobal('globalF3')
-        var gf4 = getGlobal('globalF4')
+    scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_setGlobal_getGlobal_errors'}, (scene) => {
+        scene.start(() => {
+            var gf1 = getGlobal('globalF1')
+            var gf2 = getGlobal('globalF2')
+            var gf3 = getGlobal('globalF3')
+            var gf4 = getGlobal('globalF4')
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  gf1 = globalF1.getGlobal()',
         '  gf2 = globalF2.getGlobal()',
@@ -63,7 +67,7 @@ test('Globals setGlobal(key, value) and getGlobal(key)', () => {
         '  gf3 = globalF3.getGlobal()',
         '  // Unknown global globalF4!',
         '  gf4 = globalF4.getGlobal()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 
     expect(consoleWarnMock.mock.calls).toEqual([
@@ -72,36 +76,38 @@ test('Globals setGlobal(key, value) and getGlobal(key)', () => {
     ])
     // expect(console.warn).toHaveBeenLastCalledWith(`Unknown global globalF4!`)
     consoleWarnMock.mockRestore()
+
 })
 
-test('Globals setGlobalString(key, value) and getGlobalString(key)', () => {
+test('Globals setGlobalString(key, value) and getGlobalString(key)', async () => {
     const consoleWarnMock = jest.spyOn(console, 'warn').mockImplementation()
     const lpMod = setupMod()
-    let scene = new Scene({lpMod})
-    scene.start((scene) => {
-        var gs2 = 'String 2'
-        setGlobalString('globalS1', 'String 1')
-        setGlobalString('globalS2', gs2)
-        setGlobal('globalS3', 1337)
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_setGlobalString'}, (scene) => {
+        scene.start(() => {
+            var gs2 = 'String 2'
+            setGlobalString('globalS1', 'String 1')
+            setGlobalString('globalS2', gs2)
+            setGlobal('globalS3', 1337)
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  gs2 = "String 2"',
         '  globalS1.setGlobalString("String 1")',
         '  globalS2.setGlobalString(gs2)',
         '  globalS3.setGlobal(1337)',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 
-    scene.reset()
-
-    scene.start((scene) => {
-        var gs1 = getGlobalString('globalS1')
-        var gs2 = getGlobalString('globalS2')
-        var gs3 = getGlobalString('globalS3')
-        var gs4 = getGlobalString('globalS4')
+    scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'Globals_getGlobalString'}, (scene) => {
+        scene.start(() => {
+            var gs1 = getGlobalString('globalS1')
+            var gs2 = getGlobalString('globalS2')
+            var gs3 = getGlobalString('globalS3')
+            var gs4 = getGlobalString('globalS4')
+        })
     })
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
         '  gs1 = globalS1.getGlobalString()',
         '  gs2 = globalS2.getGlobalString()',
@@ -109,7 +115,7 @@ test('Globals setGlobalString(key, value) and getGlobalString(key)', () => {
         '  gs3 = globalS3.getGlobalString()',
         '  // Unknown global globalS4!',
         '  gs4 = globalS4.getGlobalString()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
 
     expect(consoleWarnMock.mock.calls).toEqual([
@@ -117,4 +123,5 @@ test('Globals setGlobalString(key, value) and getGlobalString(key)', () => {
         [`Unknown global globalS4!`]
     ])
     consoleWarnMock.mockRestore()
+
 })

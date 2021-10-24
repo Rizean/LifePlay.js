@@ -41,11 +41,11 @@ global.sceneStart = function(){ throw new Error('This should not be called!')}
  */
 global.sceneEnd = function(){ throw new Error('This should not be called!')}
 
-/**
- * narrative
- * @param {string} text
- */
-global.narrative = function(text){ throw new Error('This should not be called!')}
+// /**
+//  * narrative
+//  * @param {string} text
+//  */
+// global.narrative = function(text){ throw new Error('This should not be called!')}
 
 /**
  * isAtHome
