@@ -40,11 +40,19 @@ class LPMod {
     }
 
     async writeMod() {
+        const funcDir = path.resolve(this.modsDir, 'functions')
+
         await ensureDirectory(this.modsDir)
+        await ensureDirectory(funcDir)
         const modFile = path.resolve(this.modsDir, `${this.MODULE_UNIQUEID}.lpmod`)
+
         const promises = [
             fs.writeFile(modFile, this.toString())
         ]
+        this._functions.forEach((func, key) => {
+            const funcFile = path.resolve(funcDir, `${key}.intermediate.js`)
+            promises.push(fs.writeFile(funcFile, '' + func))
+        })
         this._stats.forEach((stat) => promises.push(stat.write()))
         this._actions.forEach((action) => promises.push(action.write()))
         this._scenes.forEach((scene) => promises.push(scene.write()))
@@ -96,15 +104,12 @@ class LPMod {
     addScene(scene) {
         const Scene = require('./core/Scene')
         // assert.ok(scene instanceof Scene) // fixme
-        console.log('addScene 1', scene.name)
         scene._lpMod = this
-        console.log('addScene 2',scene.name)
         if (this._scenes.has(scene.name)) {
             console.warn(`OVERWRITING SCENE! ${scene.name}`)
         }
         scene.modsDir = this.modsDir
         this._scenes.set(scene.name, scene)
-        console.log('addScene 3', this._scenes.get(scene.name).name)
     }
 
     removeScene(key) {
