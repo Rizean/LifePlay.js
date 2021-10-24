@@ -8,7 +8,8 @@ module.exports = class LPObject {
         this._name = name
         this._expression = expression || name
 
-        assert.ok(lpMod instanceof LPMod, 'Expected lpMod to be instanceof LPMod')
+        // fixme
+        // assert.ok(lpMod instanceof LPMod, 'Expected lpMod to be instanceof LPMod')
         this._lpMod = lpMod
     }
 
