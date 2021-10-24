@@ -19,7 +19,7 @@ const scene = new Scene({name: 'cinema_with_date_passive'}, (scene) => {
         var RelatedPerson = CurrentCompanion.isRelative().or(CurrentCompanion.isExRelative())
         scene.narrative("I'm watching a movie with <CurrentCompanion.name>. It's really dark in here.") // testComment
         scene.narrative("What's that? <CurrentCompanion.name> is caressing my thigh. What a pervert!")
-        console.log('********** 3')
+
         option([
             {text: "Grope <CurrentCompanion.him_or_her> back"},
             {text: "Ignore"},
@@ -27,22 +27,21 @@ const scene = new Scene({name: 'cinema_with_date_passive'}, (scene) => {
         ])
 
         if (choice(0)) {
-            console.log('********** 4')
+
             scene.narrative("I decided to respond in kind and get handsy with my date and started caressing <CurrentCompanion.his_or_her> thighs.")
-            console.log('********** 4aa')
             scene.narrative("<CurrentCompanion.name> was clearly delighted by my receptive mood and increased <CurrentCompanion.his_or_her> intensity caressing me as well.")
             Player.animatePair(CurrentCompanion, 'Kissing')
             Player.dialogue('...', 'Kiss')
             CurrentCompanion.dialogue('...', 'Kiss')
             scene.narrative("Eventually, we started making out, right there in the theatre.")
             CurrentCompanion.attractiontoplayer.addEq(random(0, 2))
-            console.log('********** 4a')
+
             option([
                 {text: "Stop it there"},
                 {text: "Invite <CurrentCompanion.him_or_her> home", condition: Player.perversion > 5},
                 {text: "Have sex right here", condition: scene.isModEnabled('vin_VanillaPorn').and(Player.perversion > 50)},
             ])
-            console.log('********** 4b')
+
             if (choice(0)) {
                 scene.narrative("That's enough. We should stop before a fellow cinema goer spots our shameless public display of affection.")
             } else if (choice(1)) {
@@ -82,8 +81,6 @@ const scene = new Scene({name: 'cinema_with_date_passive'}, (scene) => {
         }
     })
     scene.timeout(48, ['cinema_with_date_passive'])
-    console.log('********** 5')
-
 
 })
 module.exports = scene

@@ -835,7 +835,7 @@ module.exports = class Scene extends Context {
     }
 
     async _$build() {
-        console.debug(`_$build ${this.name}`, {modsDir: this.modsDir})
+        console.debug(`Building ${this.name}.lpscene`)
         assert.ok(!(this.modsDir == null))
         const parser = require('./parser')
         const LPGlobals = require('./objects/LPGlobals')
@@ -855,7 +855,7 @@ module.exports = class Scene extends Context {
         ].join('\r\n')
 
         const dirPath = path.resolve(this.modsDir, this.filePath)
-        console.debug(`_$build ${this.name}`, {dirPath})
+        // console.debug(`_$build ${this.name}`, {dirPath})
         await ensureDirectory(dirPath)
 
         const intermediatePath = path.resolve(dirPath, `${this.name}.intermediate.js`)
@@ -871,9 +871,7 @@ module.exports = class Scene extends Context {
     }
 
     async write() {
-        console.debug(`Writing ${this.name}.lpscene`)
         const {code, intermediate, parsed, error, dirPath} = await this._$build()
-
         const filename = path.resolve(dirPath, `${this.name}.lpscene`)
         console.log(`Writing ${this.name}.lpscene to "${filename}"`)
 
