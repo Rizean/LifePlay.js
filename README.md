@@ -37,7 +37,7 @@ shortcut commands to make coding faster.
 
 * Install Nodejs [Nodejs](https://nodejs.org/en/download/)
 * Install Git if you don't have
-  it [Git Windows](https://git-scm.com/download/win) [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+  it [Git Windows](https://git-scm.com/download/win) or [All OSs Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 * Clone the project to the location of your
   choosing `git clone https://github.com/Rizean/LifePlay.js.git`
 * npm install
