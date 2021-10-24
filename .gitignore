@@ -7,7 +7,6 @@
 /src/coreui-charts
 
 # testing
-/coverage
 /logs
 
 # production

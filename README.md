@@ -4,6 +4,10 @@ A tool for writing [LifePlay](https://github.com/vinfamy/LifePlay) mods in
 Javascript
 
 ## Current State
+![Coverage lines](./coverage/badge-lines.svg)
+![Coverage functions](./coverage/badge-functions.svg)
+![Coverage branches](./coverage/badge-branches.svg)
+![Coverage statements](./coverage/badge-statements.svg)
 
 While LifePlay.js is getting close to alpha it is still a **TECH DEMO!** It is
 not ready for usage beyond testing. While it's unlikely there could still be
