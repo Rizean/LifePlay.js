@@ -151,6 +151,24 @@ async function oneActorScene(func, testName, ...params) {
 
 
 // *** Test ***
+test('LPActor.assign', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_assign'}, (scene) => {
+        scene.start((scene) => {
+            let BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder'])
+            BadCop = scene.generatePersonTemporary(['fourties', 'bodybuilder_F'])
+        })
+    })
+
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  BadCop = generatePersonTemporary(fourties, bodybuilder)',
+        '  BadCop = generatePersonTemporary(fourties, bodybuilder_F)',
+        'sceneEnd()'
+    ].join(LB))
+})
+
+
 test('LPActor.animate', async () => {
     const lpMod = setupMod()
     let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_animate'}, (scene) => {

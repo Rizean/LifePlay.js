@@ -394,7 +394,7 @@ class LPActor extends LPVariable {
         // name = name || `lpjs_${this.name}_getBuilding_${type}`
         // this.context.writeLine(`${this.name}.getBuilding(${type})`)
         if (name) this.context.writeLine(`${name} = ${this.name}.getBuilding(${type})`)
-        return new LPBuilding({context: this.context, lpMod: this.lpMod, name, expression: `${this.name}.getBuilding(${type})`})
+        return new LPBuilding({context: this.context, lpMod: this.lpMod, name, params: {type},expression: `${this.name}.getBuilding(${type})`})
     }
 
     /**
