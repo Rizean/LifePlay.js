@@ -4,18 +4,11 @@ const LPObject = require('./LPObject')
 const LPFloat = require('./LPFloat')
 const LPBoolean = require('./LPBoolean')
 const LPString = require('./LPString')
+const LPBuildingAlias = require('./LPBuildingAlias')
 
 class LPBuilding extends LPObject {
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
-    }
-
-    /**
-     * Add objective to a building alias, objective is simply a lpaction file with SCENE_ALWAYS
-     * @param lpaction
-     */
-    addObjective(lpaction) {
-        this.context.writeLine(`${this.name}.addObjective(${lpaction})`)
     }
 
     /**
@@ -63,13 +56,13 @@ class LPBuilding extends LPObject {
     }
 
     /**
-     * Used for quest, building alias is a location that a quest objective can be at, used with addObjective()
+     * Used for quest, building alias is a location that a quest objective can be at, used with LPBuildingAlias.addObjective()
      * @param alias
      * @param buildingType
      */
     generateBuildingAlias(alias, buildingType) {
         this.context.writeLine(`${alias}.generateBuildingAlias(${buildingType})`)
-        return new LPBuilding({context: this.context, name: alias})
+        return new LPBuildingAlias({context: this.context, name: alias})
     }
 
     /**
