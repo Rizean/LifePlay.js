@@ -1,4 +1,4 @@
-const LPAction = require('../../../../src/LPAction')
+const LPAction = require('../../../../src/core/LPAction')
 
 module.exports = new LPAction({
     ACTION_UNIQUEID: 'onlyfans',

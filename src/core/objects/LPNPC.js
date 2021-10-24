@@ -6,7 +6,11 @@ const LPString = require('./LPString')
 const LPFloat = require('./LPFloat')
 const LPBoolean = require('./LPBoolean')
 
-module.exports = class LPNPC extends LPActor {
+/**
+ * Class representing a LifePlay NPC Actor.
+ * @type {LPNPC}
+ */
+class LPNPC extends LPActor {
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
     }
@@ -136,7 +140,7 @@ module.exports = class LPNPC extends LPActor {
 
     /**
      * Checks to see if this NPC is already in a special relationship of a specific type or another with any another NPC. The list for 'Type':
-     * @param {[string]} types - dating, spouses, siblings, parentchild, cousins, bossemployee, colleagues
+     * @param {string[]} types - dating, spouses, siblings, parentchild, cousins, bossemployee, colleagues
      * @returns {LPBoolean}
      */
     hasRelationship = (types, name) => {
@@ -462,3 +466,5 @@ module.exports = class LPNPC extends LPActor {
      */
     setUntil = (floatTime) => this.context.writeLine(`${this.name}.setUntil(${floatTime.name})`)
 }
+
+module.exports = LPNPC

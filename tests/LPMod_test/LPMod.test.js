@@ -1,7 +1,7 @@
 const fs = require('fs/promises')
-const LPMod = require('../../src/LPMod')
-const LPStat = require('../../src/LPStat')
-const LPAction = require('../../src/LPAction')
+const LPMod = require('../../src/core/LPMod')
+const LPStat = require('../../src/core/LPStat')
+const LPAction = require('../../src/core/LPAction')
 const path = require('path')
 
 const setupMod = () => {

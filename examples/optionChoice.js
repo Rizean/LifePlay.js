@@ -1,5 +1,5 @@
 require('../src/types')
-const Scene = require('../src/core/Scene')
+const Scene = require('../src/core/LPScene')
 const scene = new Scene()
 const {Player, $if, option, choice, narrative} = scene;
 

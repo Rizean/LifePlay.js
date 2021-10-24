@@ -10,6 +10,10 @@ const LPVariable = require('./LPVariable')
 const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
 let LPNPC = undefined
 
+/**
+ * Class representing a LifePlay Actor.
+ * @type {LPActor}
+ */
 class LPActor extends LPVariable {
     constructor({context, lpMod, name, expression}) {
         super({context, lpMod, name, expression})
@@ -254,7 +258,7 @@ class LPActor extends LPVariable {
      * scene.narration("Looks like they haven't got far at all and are still choosing lingerie ...")
      * Actor.dressExcept(["Outerwear", "Top", "Bottom", "Foot", "Headwear", "Eyewear"])
      * Actor2.dialog("How about this?")
-     * @param {[string]} slots - 'Outerwear', 'Headwear', 'Eyewear', 'Top', 'Top_Under', 'Bottom', 'Bottom_Under', 'Foot', 'Foot_Under'
+     * @param {string[]} slots - 'Outerwear', 'Headwear', 'Eyewear', 'Top', 'Top_Under', 'Bottom', 'Bottom_Under', 'Foot', 'Foot_Under'
      */
     dressExcept = (slots) => {
         slots.forEach(slot => {
@@ -462,7 +466,7 @@ class LPActor extends LPVariable {
 
     /**
      * Get a single NPC with a relationship of the specified type or another with the specified NPC. The list for 'Type' is:
-     * @param {[string]} relationshipTypes - Dating, Spouses, Siblings, ParentChild, Cousins, BossEmployee, Colleagues
+     * @param {string[]} relationshipTypes - Dating, Spouses, Siblings, ParentChild, Cousins, BossEmployee, Colleagues
      * @return {LPNPC|undefined}
      */
     getRelatedPerson = (relationshipTypes = [], name) => {
@@ -472,7 +476,7 @@ class LPActor extends LPVariable {
 
     /**
      * Same as getRelatedPerson() but only load the necessary data for the actor needed for AI stuffs. Only meant for lpai files, actors gotten this way aren't meant to be shown to the player on screen.
-     * @param {[string]} relationshipTypes - Dating, Spouses, Siblings, ParentChild, Cousins, BossEmployee, Colleagues
+     * @param {string[]} relationshipTypes - Dating, Spouses, Siblings, ParentChild, Cousins, BossEmployee, Colleagues
      * @return {LPNPC|undefined}
      */
     getRelatedPersonQuick = (relationshipTypes = [], name = `lpjs_${this.name}_getRelatedPersonQuick`) => {
@@ -817,7 +821,7 @@ class LPActor extends LPVariable {
      *     Actor.loadPreset(["hourglass_F"]) // Just a normal hourglass girl
      *     Actor.blendPreset(["hourglass_F"]) // There is still signs of the beefcake
      * })
-     * @param {[string]} presets
+     * @param {string[]} presets
      * @return {LPActor} "this" LPActor for chaining
      */
     loadPreset = (presets) => {
@@ -939,7 +943,7 @@ class LPActor extends LPVariable {
      * Start a sex scene involving these actors. If the player is involved, it will also check whether the player is cheating or not and add to the affair list accordingly.
      * The order in which roles are given to actors for the sex scene (important for descriptions and dirtytalk) depends largely on gender and domincance. Males are given roles before transsexuals, then women. Between people of the same gender, the most dominant one (lowest submission stat) is given a role first.
      * However, the order of the actor parameters to the Sex() function matters somewhat in group sex: Sex(Male1, Player, Male2) will be different from Sex(Male2, Player, Male1).
-     * @param {[LPActor]} actors
+     * @param {LPActor[]} actors
      * @return {void|*}
      */
     sex = (actors) => this.context.writeLine(`sex(${this.name}, ${actors.map(actor => actor.name).join(', ')})`)

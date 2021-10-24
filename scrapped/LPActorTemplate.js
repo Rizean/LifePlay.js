@@ -1,11 +1,11 @@
 // noinspection JSUnusedGlobalSymbols
-const {isMoodValid} = require('../tools')
-const LPObject = require('./LPObject')
-const LPFloat = require('./LPFloat')
-const LPBoolean = require('./LPBoolean')
-const LPBuilding = require('./LPBuilding')
-const LPString = require('./LPString')
-const {CLOTHING_SLOTS, ANIMATIONS} = require('../constants')
+const {isMoodValid} = require('../src/core/tools')
+const LPObject = require('../src/core/objects/LPObject')
+const LPFloat = require('../src/core/objects/LPFloat')
+const LPBoolean = require('../src/core/objects/LPBoolean')
+const LPBuilding = require('../src/core/objects/LPBuilding')
+const LPString = require('../src/core/objects/LPString')
+const {CLOTHING_SLOTS, ANIMATIONS} = require('../src/core/constants')
 let LPNPC = undefined
 
 class LPActor extends LPObject {
@@ -13,7 +13,7 @@ class LPActor extends LPObject {
         super({context, lpMod, name, expression})
 
         // delayed require as LPNPC depends on LPActor
-        LPNPC = require("./LPNPC")
+        LPNPC = require("../src/core/objects/LPNPC")
 
         /****STATS****/
     }

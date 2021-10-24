@@ -1,7 +1,7 @@
 // noinspection JSUnusedLocalSymbols,ES6ConvertVarToLetConst,JSUnresolvedVariable
 const setupMod = require('../../tools/setupMod')
 const {STATS} = require('../../../src/core/constants')
-const Scene = require('../../../src/core/Scene')
+const Scene = require('../../../src/core/LPScene')
 // const LPMod = require('../../../src/LPMod')
 const LB = '\r\n'
 

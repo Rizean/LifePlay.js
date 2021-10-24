@@ -1,7 +1,7 @@
 // noinspection JSUnresolvedVariable
 
 const setupMod = require('../tools/setupMod')
-const Scene = require('../../src/core/Scene')
+const Scene = require('../../src/core/LPScene')
 const LB = '\r\n'
 
 test('simple $if()', async () => {

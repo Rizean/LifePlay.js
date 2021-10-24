@@ -1,7 +1,7 @@
 const assert = require('assert')
 const fs = require('fs/promises')
 const path = require('path')
-const LPMod = require('../LPMod')
+const LPMod = require('./LPMod')
 
 const ensureDirectory = async (dirPath) => fs.mkdir(dirPath, {recursive: true})
 
@@ -16,7 +16,7 @@ const LPGlobals = require('./objects/LPGlobals')
 const {NodeVM} = require("vm2")
 const parser = require('./parser')
 
-module.exports = class Context {
+class Context {
     constructor({lpMod}) {
         this._code = ''
         this._codeDepth = 0
@@ -275,3 +275,5 @@ module.exports = class Context {
         this._lpMod = value
     }
 }
+
+module.exports = Context

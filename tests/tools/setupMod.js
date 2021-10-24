@@ -1,4 +1,4 @@
-const LPMod = require('../../src/LPMod')
+const LPMod = require('../../src/core/LPMod')
 const path = require('path')
 
 const setupMod = () => {

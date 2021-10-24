@@ -1,4 +1,4 @@
-const LPStat = require('../../../../src/LPStat')
+const LPStat = require('../../../../src/core/LPStat')
 
 module.exports = new LPStat({
     STAT_ID: 'tests',

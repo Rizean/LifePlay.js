@@ -1,6 +1,10 @@
 const LPVariable = require('./LPVariable')
 const LPBoolean = require('./LPBoolean')
 
+/**
+ * Class representing a LifePlay float.
+ * @type {LPFloat}
+ */
 class LPFloat extends LPVariable {
     constructor({context, lpMod, value = Number.NaN, name, expression, isStat = false}) {
         super({context, lpMod, name, expression: expression || name})

@@ -1,6 +1,10 @@
 const LPBoolean = require('./LPBoolean')
 const LPVariable = require('./LPVariable')
 
+/**
+ * Class representing a LifePlay string.
+ * @type {LPString}
+ */
 class LPString extends LPVariable {
 
     /**

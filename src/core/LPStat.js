@@ -1,8 +1,12 @@
 const fs = require('fs/promises')
 const path = require('path')
 const assert = require('assert')
-const ensureDirectory = require('./libs/ensureDirectory')
+const ensureDirectory = require('../libs/ensureDirectory')
 
+/**
+ * Class representing a LifePlay Stat.
+ * @type {LPStat}
+ */
 class LPStat {
     constructor({STAT_ID, STAT_NAME, PLAYER_ONLY, HIGHER_BETTER, STAT_MIN, STAT_MAX, DAILY_CHANGE, DEFAULT_VALUE, NPC_ONLY, modsDir, filePath = 'stats'}) {
         PLAYER_ONLY = PLAYER_ONLY.toString()

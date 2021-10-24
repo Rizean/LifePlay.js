@@ -1,5 +1,5 @@
 const assert = require('assert')
-const LPMod = require('../../LPMod')
+const LPMod = require('../LPMod')
 
 module.exports = class LPObject {
     constructor({context, lpMod, name, expression, params}) {

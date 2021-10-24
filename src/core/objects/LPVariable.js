@@ -1,4 +1,9 @@
 const LPObject = require('./LPObject')
+
+/**
+ * Class representing a LifePlay variable.
+ * @type {LPVariable}
+ */
 module.exports = class LPVariable extends LPObject {
     /**
      * Assigns the value of rhs to this

@@ -1,4 +1,4 @@
-const Scene = require('../src/core/Scene')
+const Scene = require('../src/core/LPScene')
 const scene = new Scene()
 scene.WHAT(['all', '-sleep', '-nap']) // what actions can trigger this scene, use their IDs, or alternatively, use all, followed by a bunch -action to exclude
 scene.WHERE(['home'])                 // for list of wheres, check All_wheres.txt and use their IDs specifically, or alternatively, use all, followed by a bunch -action to exclude

@@ -1,5 +1,5 @@
 const setupMod = require('../../tools/setupMod')
-const Scene = require('../../../src/core/Scene')
+const Scene = require('../../../src/core/LPScene')
 const LB = '\r\n'
 
 test('boolean.and with lhs/rhs chaining', async () => {

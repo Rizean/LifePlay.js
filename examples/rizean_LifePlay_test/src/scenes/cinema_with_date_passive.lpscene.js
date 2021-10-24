@@ -1,5 +1,5 @@
 // noinspection JSUnresolvedVariable
-const Scene = require('../../../../src/core/Scene')
+const Scene = require('../../../../src/core/LPScene')
 
 const scene = new Scene({name: 'cinema_with_date_passive'}, (scene) => {
     const {Player, CurrentCompanion, random, option, choice, isModEnabled, start, paren, WHAT, narrative} = scene

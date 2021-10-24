@@ -1,6 +1,6 @@
 const fs = require('fs/promises')
 const path = require('path')
-const Scene = require('../../src/core/Scene')
+const Scene = require('../../src/core/LPScene')
 const LPActor = require('../../src/core/objects/LPActor')
 const LPBoolean = require('../../src/core/objects/LPBoolean')
 const LPBuilding = require('../../src/core/objects/LPBuilding')
@@ -11,7 +11,7 @@ const LPObject = require('../../src/core/objects/LPObject')
 const LPPlayer = require('../../src/core/objects/LPPlayer')
 const LPString = require('../../src/core/objects/LPString')
 const LPGlobals = require('../../src/core/objects/LPGlobals')
-const LPTalk = require('../../src/core/objects/LPTalk')
+const LPTalk = require('../../src/core/LPTalk')
 
 const setupMod = require('../tools/setupMod')
 

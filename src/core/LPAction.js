@@ -1,8 +1,12 @@
 const fs = require('fs/promises')
 const path = require('path')
 const assert = require('assert')
-const ensureDirectory = require('./libs/ensureDirectory')
+const ensureDirectory = require('../libs/ensureDirectory')
 
+/**
+ * Class representing a LifePlay Action.
+ * @type {LPAction}
+ */
 class LPAction {
     constructor({ACTION_UNIQUEID, ACTION_NAME, WHERE, WHEN, MINUTES, TIMEOUT_MINUTES, ALSO_TIMEOUT, EFFECTS = '', CONDITIONS = '', MOVE_FIRST, SCENE_ALWAYS, ANIMATION, WHO = '', modsDir, filePath = 'actions'}) {
         MOVE_FIRST = MOVE_FIRST.toString()

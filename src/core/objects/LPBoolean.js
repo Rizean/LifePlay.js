@@ -1,8 +1,12 @@
 const LPVariable = require('./LPVariable')
-module.exports = class LPBoolean extends LPVariable {
+/**
+ * Class representing a LifePlay boolean.
+ * @type {LPBoolean}
+ */
+class LPBoolean extends LPVariable {
     /**
      * Assigns the value of rhs to this
-     * @param {boolean|LPBoolean} rhs
+     * @param {(boolean|LPBoolean)} rhs
      * @return {LPBoolean}
      */
     assign(rhs) {
@@ -12,7 +16,7 @@ module.exports = class LPBoolean extends LPVariable {
 
     /**
      * Logical and
-     * @param {boolean|LPBoolean} rhs
+     * @param {(boolean|LPBoolean)} rhs
      * @return {LPBoolean}
      */
     and(rhs) {
@@ -27,7 +31,7 @@ module.exports = class LPBoolean extends LPVariable {
 
     /**
      * Logical or
-     * @param rhs
+     * @param {(boolean|LPBoolean)} rhs
      * @return {LPBoolean}
      */
     or(rhs) {
@@ -49,3 +53,4 @@ module.exports = class LPBoolean extends LPVariable {
         return this._enclose('!(', ')', name)
     }
 }
+module.exports = LPBoolean

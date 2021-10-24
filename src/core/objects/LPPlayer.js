@@ -7,7 +7,11 @@ const LPFloat = require('../objects/LPFloat')
 const LPBoolean = require('../objects/LPBoolean')
 const LPNPC = require('../objects/LPNPC')
 
-module.exports = class LPPlayer extends LPActor {
+/**
+ * Class representing a LifePlay Player.
+ * @type {LPPlayer}
+ */
+class LPPlayer extends LPActor {
     constructor({context, lpMod}) {
         super({context, lpMod, name: 'Player'})
     }
@@ -221,7 +225,7 @@ module.exports = class LPPlayer extends LPActor {
     /**
      * Retrieves an actor who's related to the player.
      * This can be filtered down to only certain types of relatives with keywords: Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
-     * @param {[string]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
+     * @param {string[]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
      * @return {LPActor|undefined}
      */
     getRelative(relationshipTypes = []) {
@@ -233,7 +237,7 @@ module.exports = class LPPlayer extends LPActor {
 
     /**
      * Retrieves an actor who is related to the player, but isn't tagged by the listed keyword(s).
-     * @param {[string]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
+     * @param {string[]} relationshipTypes - Sibling, StepSibling, Child, StepChild, Cousin, ParentSibling (uncles/aunts), GrandParent, Parent, StepParent
      * @return {LPActor|undefined}
      */
     getRelativeExcept(relationshipTypes = []) {
@@ -603,3 +607,5 @@ module.exports = class LPPlayer extends LPActor {
      */
     stopBusiness = () => this.context.writeLine(`stopBusiness()`)
 }
+
+module.exports = LPPlayer

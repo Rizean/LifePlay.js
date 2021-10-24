@@ -1,10 +1,14 @@
 const fs = require('fs/promises')
 const path = require('path')
 const assert = require('assert')
-const ensureDirectory = require('./libs/ensureDirectory')
+const ensureDirectory = require('../libs/ensureDirectory')
 const LPStat = require('./LPStat')
 const LPAction = require('./LPAction')
 
+/**
+ * Class representing a LifePlay Mod.
+ * @type {LPMod}
+ */
 class LPMod {
     constructor({MODULE_UNIQUEID, MODULE_NAME = '', MODULE_AUTHOR = '', MODULE_LINK = '', MODULE_DESCRIPTION = '', MODULE_REQUIREMENTS = '', modsDir}) {
         assert.match(MODULE_UNIQUEID, /\w+/, `Expected MODULE_UNIQUEID to be a string. Received: ${MODULE_UNIQUEID}`)
@@ -102,7 +106,7 @@ class LPMod {
     }
 
     addScene(scene) {
-        const Scene = require('./core/Scene')
+        const Scene = require('./LPScene')
         // assert.ok(scene instanceof Scene) // fixme
         scene._lpMod = this
         if (this._scenes.has(scene.name)) {
@@ -120,7 +124,7 @@ class LPMod {
         if (this._functions.has(key)) {
             console.warn(`OVERWRITING FUNCTION! ${key}`)
         }
-        const parser = require('./core/parser')
+        const parser = require('./parser')
         const {intermediate, parsed, logs} = parser('' + func)
         this._functions.set(key, eval(`(${intermediate})`))
     }

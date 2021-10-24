@@ -1,4 +1,4 @@
-const Scene = require('../../../src/core/Scene')
+const Scene = require('../../../src/core/LPScene')
 const setupMod = require('../../tools/setupMod')
 const LB = '\r\n'
 

@@ -1,6 +1,6 @@
 const Context = require('../../../src/core/Context')
 const setupMod = require('../../tools/setupMod')
-const Scene = require('../../../src/core/Scene')
+const Scene = require('../../../src/core/LPScene')
 
 
 test('LPVariable.assigment error type and iType', async () => {

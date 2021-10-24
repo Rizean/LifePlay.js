@@ -6,6 +6,10 @@ const LPBoolean = require('./LPBoolean')
 const LPString = require('./LPString')
 const LPBuildingAlias = require('./LPBuildingAlias')
 
+/**
+ * Class representing a LifePlay building.
+ * @type {LPBuilding}
+ */
 class LPBuilding extends LPObject {
 
     /**

@@ -1,4 +1,4 @@
-const Scene = require('../src/core/Scene')
+const Scene = require('../src/core/LPScene')
 const scene = new Scene()
 
 scene.WHAT(['all', '-sleep', '-nap'])

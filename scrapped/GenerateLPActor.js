@@ -41,7 +41,7 @@ const makeClass = async (stats) => {
     return template.replace('/****STATS-GETTER-SETTERS****/', makeGettersSetters(stats))
 }
 
-const {STATS} = require('../constants')
+const {STATS} = require('../src/core/constants')
 
 const main = async () => {
     const result = await makeClass(STATS)

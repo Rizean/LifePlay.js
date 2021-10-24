@@ -3,7 +3,7 @@
 
 const setupMod = require('../../tools/setupMod')
 const {STATS} = require('../../../src/core/constants')
-const Scene = require('../../../src/core/Scene')
+const Scene = require('../../../src/core/LPScene')
 const LB = '\r\n'
 
 // *** Helpers ***

@@ -1,5 +1,5 @@
 // noinspection JSUnresolvedVariable
-const Scene = require('../../../../src/core/Scene')
+const Scene = require('../../../../src/core/LPScene')
 
 module.exports = (lpMod) => {
     const scene = new Scene({lpMod, name: 'cinema_with_date_passive'})

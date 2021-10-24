@@ -1,5 +1,5 @@
 // noinspection JSUnresolvedVariable
-const Scene = require('../../../../src/core/Scene')
+const Scene = require('../../../../src/core/LPScene')
 
 const scene = new Scene({name: 'badcop'}, (scene) => {
     scene.WHAT([''])
