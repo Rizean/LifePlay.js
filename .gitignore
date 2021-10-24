@@ -26,3 +26,4 @@ yarn-error.log*
 
 .env
 /scratch/
+/coverage/lcov-report/
