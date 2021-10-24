@@ -14,7 +14,8 @@
     "example:optionChoice": "node ./examples/optionChoice",
     "example:simpleScene": "node ./examples/simpleScene",
     "example:while": "node ./examples/while",
-    "example:dev": "nodemon ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js"
+    "example:test": "set NODE_ENV=test && nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js",
+    "example:dev": "nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js"
   },
   "dependencies": {
     "esprima": "^4.0.1",
