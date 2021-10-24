@@ -106,7 +106,26 @@ test('LPPlayer.moveFraternity', () => playerFunctionTest('moveFraternity'))
 test('LPPlayer.moveHome', () => playerFunctionTest('moveHome'))
 test('LPPlayer.moveJobs', () => playerFunctionTest('moveJobs'))
 test('LPPlayer.moveSchools', () => playerFunctionTest('moveSchools'))
-test('LPPlayer.moveTo', () => playerFunctionTest('moveTo', 'Home_Dating'))
+// test('LPPlayer.moveTo', () => playerFunctionTest('moveTo', 'Home_Dating'))
+
+test('LPPlayer.moveTo', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_moveTo'}, (scene) => {
+        scene.start((scene) => {
+            scene.Player.moveTo('Home_Dating')
+            var location = scene.Player.getBuilding("work")
+            scene.Player.moveTo(location)
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  moveTo(Home_Dating)',
+        '  location = Player.getBuilding(work)',
+        '  moveTo(work)',
+        'sceneEnd()',
+    ].join(LB))
+})
+
 test('LPPlayer.openRelationship', () => playerFunctionTest('openRelationship'))
 test('LPPlayer.playerHasHome', () => playerFunctionTestWithReturn('playerHasHome'))
 test('LPPlayer.quitCrime', () => playerFunctionTest('quitCrime'))
@@ -121,11 +140,15 @@ test('LPPlayer.setFraternityFees', async () => {
     const lpMod = setupMod()
     let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_setFraternityFees'}, (scene) => {
         scene.start((scene) => {
+            const money = 1500
+            scene.Player.setFraternityFees(money)
             scene.Player.setFraternityFees(1000)
         })
     })
     expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
+        '  money = 1500',
+        '  money.setFraternityFees()',
         '  lpjs_fratFee = 1000',
         '  lpjs_fratFee.setFraternityFees()',
         'sceneEnd()',
@@ -134,47 +157,60 @@ test('LPPlayer.setFraternityFees', async () => {
 
 test('LPPlayer.setMajor', () => playerFunctionTest('setMajor'))
 
-test('LPPlayer.setRent', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        scene.Player.setRent(1000)
+test('LPPlayer.setRent', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_setRent'}, (scene) => {
+        scene.start((scene) => {
+            const money = 1500
+            scene.Player.setRent(money)
+            scene.Player.setRent(1000)
+        })
     })
-
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
+        '  money = 1500',
+        '  money.setRent()',
         '  lpjs_rent = 1000',
         '  lpjs_rent.setRent()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
-
 })
-test('LPPlayer.setSalary', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        scene.Player.setSalary(1000)
-    })
 
-    expect(scene._code.trim()).toBe([
+test('LPPlayer.setSalary', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_setSalary'}, (scene) => {
+        scene.start((scene) => {
+            const money = 1500
+            scene.Player.setSalary(money)
+            scene.Player.setSalary(1000)
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
+        '  money = 1500',
+        '  money.setSalary()',
         '  lpjs_salary = 1000',
         '  lpjs_salary.setSalary()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
-
 })
-test('LPPlayer.setTuition', () => {
-    let scene = new Scene({lpMod: setupMod()})
-    scene.start((scene) => {
-        scene.Player.setTuition(1000)
+test('LPPlayer.setTuition', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPPlayer_setTuition'}, (scene) => {
+        scene.start((scene) => {
+            const money = 1500
+            scene.Player.setTuition(money)
+            scene.Player.setTuition(1000)
+        })
     })
-
-    expect(scene._code.trim()).toBe([
+    expect((await scene.toString()).trim()).toBe([
         'sceneStart()',
+        '  money = 1500',
+        '  money.setTuition()',
         '  lpjs_tuition = 1000',
         '  lpjs_tuition.setTuition()',
-        'sceneEnd()'
+        'sceneEnd()',
     ].join(LB))
-
 })
 
 test('LPPlayer.startBusiness', () => playerFunctionTest('startBusiness'))

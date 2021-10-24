@@ -431,7 +431,7 @@ module.exports = class LPPlayer extends LPActor {
      * @param place
      */
     moveTo = (place) => {
-        if (place instanceof LPBuilding) this.context.writeLine(`moveTo(${place.name})`)
+        if (place instanceof LPBuilding) this.context.writeLine(`moveTo(${place.params.type})`)
         else this.context.writeLine(`moveTo(${place})`)
     }
 
@@ -508,6 +508,9 @@ module.exports = class LPPlayer extends LPActor {
      * @param {number|LPFloat} fratFee
      */
     setFraternityFees(fratFee) {
+        if (fratFee instanceof LPFloat) {
+            return this.context.writeLine(`${fratFee.name}.setFraternityFees()`)
+        }
         const varFratFee = new LPFloat({context: this.context, lpMod: this.lpMod, name: 'lpjs_fratFee', codeStr: fratFee})
         this.context.writeLine(`lpjs_fratFee = ${fratFee}`)
         this.context.writeLine(`lpjs_fratFee.setFraternityFees()`)
@@ -533,12 +536,10 @@ module.exports = class LPPlayer extends LPActor {
      * // this is equivalent
      * Player.setRent(Player.getRent().mulEq(1.2))
      * @param {number|LPFloat} rent
-     * @return {LPFloat} lpjs_rent
      */
     setRent = (rent) => {
         if (rent instanceof LPFloat) {
-            this.context.writeLine(`${rent.name}.setRent()`)
-            return rent
+            return this.context.writeLine(`${rent.name}.setRent()`)
         }
         this.context.writeLine(`lpjs_rent = ${rent}`)
         this.context.writeLine(`lpjs_rent.setRent()`)
@@ -552,12 +553,10 @@ module.exports = class LPPlayer extends LPActor {
      * Interviewer.setBoss()
      * Player.setSalary(2000)
      * @param {number|LPFloat} salary
-     * @return {LPFloat} lpjs_salary
      */
     setSalary(salary) {
         if (salary instanceof LPFloat) {
-            this.context.writeLine(`${salary.name}.setSalary()`)
-            return salary
+            return this.context.writeLine(`${salary.name}.setSalary()`)
         }
         this.context.writeLine(`lpjs_salary = ${salary}`)
         this.context.writeLine(`lpjs_salary.setSalary()`)

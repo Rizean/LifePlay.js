@@ -7,9 +7,6 @@ const LPString = require('./LPString')
 const LPBuildingAlias = require('./LPBuildingAlias')
 
 class LPBuilding extends LPObject {
-    constructor({context, lpMod, name, expression}) {
-        super({context, lpMod, name, expression})
-    }
 
     /**
      * Calculate the expenses for the current building.
