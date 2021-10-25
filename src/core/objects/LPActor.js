@@ -41,6 +41,7 @@ class LPActor extends LPVariable {
         this._intoxication = new LPFloat({context, lpMod, name: `${this.name}:intoxication`, isStat: true})
         this._jobexperience = new LPFloat({context, lpMod, name: `${this.name}:jobexperience`, isStat: true})
         this._jobperformance = new LPFloat({context, lpMod, name: `${this.name}:jobperformance`, isStat: true})
+        this._karma = new LPFloat({context, lpMod, name: `${this.name}:karma`, isStat: true})
         this._martial = new LPFloat({context, lpMod, name: `${this.name}:martial`, isStat: true})
         this._masochist = new LPFloat({context, lpMod, name: `${this.name}:masochist`, isStat: true})
         this._money = new LPFloat({context, lpMod, name: `${this.name}:money`, isStat: true})
@@ -1164,6 +1165,18 @@ class LPActor extends LPVariable {
     
     set jobperformance(jobperformance) {
         this._jobperformance.assign(jobperformance)
+    }
+
+    /**
+     * karma
+     * @type {LPFloat}
+     */
+    get karma() {
+        return this._karma;
+    }
+
+    set karma(karma) {
+        this._karma.assign(karma)
     }
 
     /**
