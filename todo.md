@@ -5,6 +5,11 @@
 * ~~LPMod~~
 
 ## todo
+### Missing functions
+* randomizeFace
+* randomizeHairs
+* ~~randomizeRace~~
+* randomizeSexy
 
 ### Modules
 * LPTalk

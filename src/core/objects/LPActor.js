@@ -864,6 +864,11 @@ class LPActor extends LPVariable {
      */
     moveToPersonStand = (actor, distance = 100) => this.context.writeLine(`${this.name}.moveToPersonStand(${actor.name}, ${distance?.name || distance})`)
 
+    /**
+     * Randomize skin colour and nose / eyes racial features
+     */
+    randomizeRace = () => this.context.writeLine(`${this.name}.randomizeRace()`)
+
 
     /**
      * Use this function to set a float variable to a certain actor.
