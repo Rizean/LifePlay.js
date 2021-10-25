@@ -109,6 +109,7 @@ Class representing a LifePlay Scene.
     * [.WHERE](#LPScene+WHERE) : <code>function</code>
     * [.WHO](#LPScene+WHO) ⇒ [<code>LPScene</code>](#LPScene)
     * [.OTHER](#LPScene+OTHER) ⇒ [<code>LPScene</code>](#LPScene)
+    * [.CurrentCompanion](#LPScene+CurrentCompanion) ⇒ [<code>LPNPC</code>](#LPNPC)
     * [.addNpcRelationship(type, actors)](#LPScene+addNpcRelationship) ⇒ <code>void</code> \| <code>\*</code>
     * [.assignHome()](#LPScene+assignHome) ⇒ <code>void</code> \| <code>\*</code>
     * [.assignResidents()](#LPScene+assignResidents) ⇒ <code>void</code> \| <code>\*</code>
@@ -222,6 +223,12 @@ Start the scene and open the scene UI
 | --- | --- |
 | [script] | [<code>scene</code>](#Script..scene) | 
 
+<a name="LPScene+CurrentCompanion"></a>
+
+### lpScene.CurrentCompanion ⇒ [<code>LPNPC</code>](#LPNPC)
+CurrentCompanion
+
+**Kind**: instance property of [<code>LPScene</code>](#LPScene)  
 <a name="LPScene+addNpcRelationship"></a>
 
 ### lpScene.addNpcRelationship(type, actors) ⇒ <code>void</code> \| <code>\*</code>
@@ -1294,6 +1301,7 @@ Class representing a LifePlay NPC Actor.
     * [.intoxication](#LPActor+intoxication) : [<code>LPFloat</code>](#LPFloat)
     * [.jobexperience](#LPActor+jobexperience) : [<code>LPFloat</code>](#LPFloat)
     * [.jobperformance](#LPActor+jobperformance) : [<code>LPFloat</code>](#LPFloat)
+    * [.karma](#LPActor+karma) : [<code>LPFloat</code>](#LPFloat)
     * [.martial](#LPActor+martial) : [<code>LPFloat</code>](#LPFloat)
     * [.masochist](#LPActor+masochist) : [<code>LPFloat</code>](#LPFloat)
     * [.money](#LPActor+money) : [<code>LPFloat</code>](#LPFloat)
@@ -1612,24 +1620,28 @@ Used to pass an actor from one scene to the next scene, used with scene.followUp
 Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Overrides**: [<code>randomizeFace</code>](#LPActor+randomizeFace)  
 <a name="LPNPC+randomizeHairs"></a>
 
 ### lpnpC.randomizeHairs
 Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Overrides**: [<code>randomizeHairs</code>](#LPActor+randomizeHairs)  
 <a name="LPNPC+randomizeRace"></a>
 
 ### lpnpC.randomizeRace
 Randomize skin colour and nose / eyes racial features
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Overrides**: [<code>randomizeRace</code>](#LPActor+randomizeRace)  
 <a name="LPNPC+randomizeSexy"></a>
 
 ### lpnpC.randomizeSexy
 Randomize dick and tits for this character
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Overrides**: [<code>randomizeSexy</code>](#LPActor+randomizeSexy)  
 <a name="LPNPC+removeColleague"></a>
 
 ### lpnpC.removeColleague
@@ -2869,6 +2881,12 @@ jobexperience
 jobperformance
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+<a name="LPActor+karma"></a>
+
+### lpnpC.karma : [<code>LPFloat</code>](#LPFloat)
+karma
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
 <a name="LPActor+martial"></a>
 
 ### lpnpC.martial : [<code>LPFloat</code>](#LPFloat)
@@ -3207,6 +3225,10 @@ Class representing a LifePlay Player.
     * [.modifySalary](#LPActor+modifySalary)
     * [.moveToPerson](#LPActor+moveToPerson)
     * [.moveToPersonStand](#LPActor+moveToPersonStand)
+    * [.randomizeFace](#LPActor+randomizeFace)
+    * [.randomizeHairs](#LPActor+randomizeHairs)
+    * [.randomizeRace](#LPActor+randomizeRace)
+    * [.randomizeSexy](#LPActor+randomizeSexy)
     * [.setActorVar](#LPActor+setActorVar)
     * [.setCurrentLocation](#LPActor+setCurrentLocation)
     * [.setDatingId](#LPActor+setDatingId)
@@ -3237,6 +3259,7 @@ Class representing a LifePlay Player.
     * [.intoxication](#LPActor+intoxication) : [<code>LPFloat</code>](#LPFloat)
     * [.jobexperience](#LPActor+jobexperience) : [<code>LPFloat</code>](#LPFloat)
     * [.jobperformance](#LPActor+jobperformance) : [<code>LPFloat</code>](#LPFloat)
+    * [.karma](#LPActor+karma) : [<code>LPFloat</code>](#LPFloat)
     * [.martial](#LPActor+martial) : [<code>LPFloat</code>](#LPFloat)
     * [.masochist](#LPActor+masochist) : [<code>LPFloat</code>](#LPFloat)
     * [.money](#LPActor+money) : [<code>LPFloat</code>](#LPFloat)
@@ -4468,6 +4491,46 @@ Make this actor move toward another actors position.
 | actor | <code>LPActor</code> |  |
 | distance | <code>number</code> \| [<code>LPFloat</code>](#LPFloat) | Distance to stay away from 'target'. 0 = Move to exact the same spot as 'target'. |
 
+<a name="LPActor+randomizeFace"></a>
+
+### lpPlayer.randomizeFace
+Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeHairs"></a>
+
+### lpPlayer.randomizeHairs
+Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeRace"></a>
+
+### lpPlayer.randomizeRace
+Randomize skin colour and nose / eyes racial features
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeSexy"></a>
+
+### lpPlayer.randomizeSexy
+Randomize genitals for this character
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
 <a name="LPActor+setActorVar"></a>
 
 ### lpPlayer.setActorVar
@@ -4697,6 +4760,12 @@ jobexperience
 
 ### lpPlayer.jobperformance : [<code>LPFloat</code>](#LPFloat)
 jobperformance
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+<a name="LPActor+karma"></a>
+
+### lpPlayer.karma : [<code>LPFloat</code>](#LPFloat)
+karma
 
 **Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
 <a name="LPActor+martial"></a>

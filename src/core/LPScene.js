@@ -801,10 +801,18 @@ class LPScene extends Context {
         this.writeLine(`timeoutActor(${hours}, ${scene}, ${actors.map(({name}) => name).join(', ')})`)
     }
 
+    /**
+     * Current location, sort of.
+     * @return {LPBuilding}
+     */
     get building() {
         return this._building
     }
 
+    /**
+     * CurrentCompanion
+     * @return {LPNPC}
+     */
     get CurrentCompanion() {
         return this._CurrentCompanion
     }

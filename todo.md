@@ -13,6 +13,7 @@
 
 ### Syntax Sugar
 * LPActor.faceEachOther(LPActor)
+* scene.timeout(300) - timeout this scene
 
 ### Modules
 * LPTalk
