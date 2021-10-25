@@ -6,10 +6,10 @@
 
 ## todo
 ### Missing functions
-* randomizeFace
-* randomizeHairs
+* ~~randomizeFace~~
+* ~~randomizeHairs~~
 * ~~randomizeRace~~
-* randomizeSexy
+* ~~randomizeSexy~~
 
 ### Syntax Sugar
 * LPActor.faceEachOther(LPActor)

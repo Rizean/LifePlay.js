@@ -396,7 +396,7 @@ class LPActor extends LPVariable {
         // name = name || `lpjs_${this.name}_getBuilding_${type}`
         // this.context.writeLine(`${this.name}.getBuilding(${type})`)
         if (name) this.context.writeLine(`${name} = ${this.name}.getBuilding(${type})`)
-        return new LPBuilding({context: this.context, lpMod: this.lpMod, name, params: {type},expression: `${this.name}.getBuilding(${type})`})
+        return new LPBuilding({context: this.context, lpMod: this.lpMod, name, params: {type}, expression: `${this.name}.getBuilding(${type})`})
     }
 
     /**
@@ -865,10 +865,80 @@ class LPActor extends LPVariable {
     moveToPersonStand = (actor, distance = 100) => this.context.writeLine(`${this.name}.moveToPersonStand(${actor.name}, ${distance?.name || distance})`)
 
     /**
+     * Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+     * @example
+     * let Helper = Player.getCompanion()
+     * if (!Helper.isValid()) {
+     *      Helper = scene.generatePersonTemporary()
+     *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+     *          Helper = generatePersonTemporary()
+     *      }
+     *      Helper.randomizeRace()
+     *      Helper.randomizeHairs()
+     *      Helper.randomizeSexy()
+     *      Helper.randomizeFace()
+     *      Helper.dress()
+     *      Helper.show(2)
+     * }
+     */
+    randomizeFace = () => this.context.writeLine(`${this.name}.randomizeFace()`)
+
+    /**
+     * Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+     * @example
+     * let Helper = Player.getCompanion()
+     * if (!Helper.isValid()) {
+     *      Helper = scene.generatePersonTemporary()
+     *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+     *          Helper = generatePersonTemporary()
+     *      }
+     *      Helper.randomizeRace()
+     *      Helper.randomizeHairs()
+     *      Helper.randomizeSexy()
+     *      Helper.randomizeFace()
+     *      Helper.dress()
+     *      Helper.show(2)
+     * }
+     */
+    randomizeHairs = () => this.context.writeLine(`${this.name}.randomizeHairs()`)
+
+    /**
      * Randomize skin colour and nose / eyes racial features
+     * @example
+     * let Helper = Player.getCompanion()
+     * if (!Helper.isValid()) {
+     *      Helper = scene.generatePersonTemporary()
+     *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+     *          Helper = generatePersonTemporary()
+     *      }
+     *      Helper.randomizeRace()
+     *      Helper.randomizeHairs()
+     *      Helper.randomizeSexy()
+     *      Helper.randomizeFace()
+     *      Helper.dress()
+     *      Helper.show(2)
+     * }
      */
     randomizeRace = () => this.context.writeLine(`${this.name}.randomizeRace()`)
 
+    /**
+     * Randomize genitals for this character
+     * @example
+     * let Helper = Player.getCompanion()
+     * if (!Helper.isValid()) {
+     *      Helper = scene.generatePersonTemporary()
+     *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+     *          Helper = generatePersonTemporary()
+     *      }
+     *      Helper.randomizeRace()
+     *      Helper.randomizeHairs()
+     *      Helper.randomizeSexy()
+     *      Helper.randomizeFace()
+     *      Helper.dress()
+     *      Helper.show(2)
+     * }
+     */
+    randomizeSexy = () => this.context.writeLine(`${this.name}.randomizeSexy()`)
 
     /**
      * Use this function to set a float variable to a certain actor.
@@ -975,7 +1045,7 @@ class LPActor extends LPVariable {
     get age() {
         return this._age;
     }
-    
+
     set age(age) {
         this._age.assign(age)
     }
@@ -987,7 +1057,7 @@ class LPActor extends LPVariable {
     get arousal() {
         return this._arousal;
     }
-    
+
     set arousal(arousal) {
         this._arousal.assign(arousal)
     }
@@ -999,7 +1069,7 @@ class LPActor extends LPVariable {
     get attractiontoplayer() {
         return this._attractiontoplayer;
     }
-    
+
     set attractiontoplayer(attractiontoplayer) {
         this._attractiontoplayer.assign(attractiontoplayer)
     }
@@ -1011,7 +1081,7 @@ class LPActor extends LPVariable {
     get attractiveness() {
         return this._attractiveness;
     }
-    
+
     set attractiveness(attractiveness) {
         this._attractiveness.assign(attractiveness)
     }
@@ -1023,7 +1093,7 @@ class LPActor extends LPVariable {
     get car_value() {
         return this._car_value;
     }
-    
+
     set car_value(car_value) {
         this._car_value.assign(car_value)
     }
@@ -1035,7 +1105,7 @@ class LPActor extends LPVariable {
     get children() {
         return this._children;
     }
-    
+
     set children(children) {
         this._children.assign(children)
     }
@@ -1047,7 +1117,7 @@ class LPActor extends LPVariable {
     get cooking() {
         return this._cooking;
     }
-    
+
     set cooking(cooking) {
         this._cooking.assign(cooking)
     }
@@ -1059,7 +1129,7 @@ class LPActor extends LPVariable {
     get dance() {
         return this._dance;
     }
-    
+
     set dance(dance) {
         this._dance.assign(dance)
     }
@@ -1071,7 +1141,7 @@ class LPActor extends LPVariable {
     get energy() {
         return this._energy;
     }
-    
+
     set energy(energy) {
         this._energy.assign(energy)
     }
@@ -1083,7 +1153,7 @@ class LPActor extends LPVariable {
     get fertility() {
         return this._fertility;
     }
-    
+
     set fertility(fertility) {
         this._fertility.assign(fertility)
     }
@@ -1095,7 +1165,7 @@ class LPActor extends LPVariable {
     get fitness() {
         return this._fitness;
     }
-    
+
     set fitness(fitness) {
         this._fitness.assign(fitness)
     }
@@ -1107,7 +1177,7 @@ class LPActor extends LPVariable {
     get incest() {
         return this._incest;
     }
-    
+
     set incest(incest) {
         this._incest.assign(incest)
     }
@@ -1119,7 +1189,7 @@ class LPActor extends LPVariable {
     get intelligence() {
         return this._intelligence;
     }
-    
+
     set intelligence(intelligence) {
         this._intelligence.assign(intelligence)
     }
@@ -1131,7 +1201,7 @@ class LPActor extends LPVariable {
     get interpersonal() {
         return this._interpersonal;
     }
-    
+
     set interpersonal(interpersonal) {
         this._interpersonal.assign(interpersonal)
     }
@@ -1143,7 +1213,7 @@ class LPActor extends LPVariable {
     get intoxication() {
         return this._intoxication;
     }
-    
+
     set intoxication(intoxication) {
         this._intoxication.assign(intoxication)
     }
@@ -1155,7 +1225,7 @@ class LPActor extends LPVariable {
     get jobexperience() {
         return this._jobexperience;
     }
-    
+
     set jobexperience(jobexperience) {
         this._jobexperience.assign(jobexperience)
     }
@@ -1167,7 +1237,7 @@ class LPActor extends LPVariable {
     get jobperformance() {
         return this._jobperformance;
     }
-    
+
     set jobperformance(jobperformance) {
         this._jobperformance.assign(jobperformance)
     }
@@ -1191,7 +1261,7 @@ class LPActor extends LPVariable {
     get martial() {
         return this._martial;
     }
-    
+
     set martial(martial) {
         this._martial.assign(martial)
     }
@@ -1203,7 +1273,7 @@ class LPActor extends LPVariable {
     get masochist() {
         return this._masochist;
     }
-    
+
     set masochist(masochist) {
         this._masochist.assign(masochist)
     }
@@ -1215,7 +1285,7 @@ class LPActor extends LPVariable {
     get money() {
         return this._money;
     }
-    
+
     set money(money) {
         this._money.assign(money)
     }
@@ -1227,7 +1297,7 @@ class LPActor extends LPVariable {
     get mood() {
         return this._mood;
     }
-    
+
     set mood(mood) {
         this._mood.assign(mood)
     }
@@ -1239,7 +1309,7 @@ class LPActor extends LPVariable {
     get muscle() {
         return this._muscle;
     }
-    
+
     set muscle(muscle) {
         this._muscle.assign(muscle)
     }
@@ -1251,7 +1321,7 @@ class LPActor extends LPVariable {
     get music() {
         return this._music;
     }
-    
+
     set music(music) {
         this._music.assign(music)
     }
@@ -1263,7 +1333,7 @@ class LPActor extends LPVariable {
     get perversion() {
         return this._perversion;
     }
-    
+
     set perversion(perversion) {
         this._perversion.assign(perversion)
     }
@@ -1275,7 +1345,7 @@ class LPActor extends LPVariable {
     get pet_health() {
         return this._pet_health;
     }
-    
+
     set pet_health(pet_health) {
         this._pet_health.assign(pet_health)
     }
@@ -1287,7 +1357,7 @@ class LPActor extends LPVariable {
     get pornfame() {
         return this._pornfame;
     }
-    
+
     set pornfame(pornfame) {
         this._pornfame.assign(pornfame)
     }
@@ -1299,7 +1369,7 @@ class LPActor extends LPVariable {
     get rapportwithplayer() {
         return this._rapportwithplayer;
     }
-    
+
     set rapportwithplayer(rapportwithplayer) {
         this._rapportwithplayer.assign(rapportwithplayer)
     }
@@ -1311,7 +1381,7 @@ class LPActor extends LPVariable {
     get sneak() {
         return this._sneak;
     }
-    
+
     set sneak(sneak) {
         this._sneak.assign(sneak)
     }
@@ -1323,7 +1393,7 @@ class LPActor extends LPVariable {
     get stock_alcohol() {
         return this._stock_alcohol;
     }
-    
+
     set stock_alcohol(stock_alcohol) {
         this._stock_alcohol.assign(stock_alcohol)
     }
@@ -1335,7 +1405,7 @@ class LPActor extends LPVariable {
     get stock_book() {
         return this._stock_book;
     }
-    
+
     set stock_book(stock_book) {
         this._stock_book.assign(stock_book)
     }
@@ -1347,7 +1417,7 @@ class LPActor extends LPVariable {
     get stock_coffee() {
         return this._stock_coffee;
     }
-    
+
     set stock_coffee(stock_coffee) {
         this._stock_coffee.assign(stock_coffee)
     }
@@ -1359,7 +1429,7 @@ class LPActor extends LPVariable {
     get stock_condom() {
         return this._stock_condom;
     }
-    
+
     set stock_condom(stock_condom) {
         this._stock_condom.assign(stock_condom)
     }
@@ -1371,7 +1441,7 @@ class LPActor extends LPVariable {
     get stock_flower() {
         return this._stock_flower;
     }
-    
+
     set stock_flower(stock_flower) {
         this._stock_flower.assign(stock_flower)
     }
@@ -1383,7 +1453,7 @@ class LPActor extends LPVariable {
     get stock_gift() {
         return this._stock_gift;
     }
-    
+
     set stock_gift(stock_gift) {
         this._stock_gift.assign(stock_gift)
     }
@@ -1395,7 +1465,7 @@ class LPActor extends LPVariable {
     get stock_haircare() {
         return this._stock_haircare;
     }
-    
+
     set stock_haircare(stock_haircare) {
         this._stock_haircare.assign(stock_haircare)
     }
@@ -1407,7 +1477,7 @@ class LPActor extends LPVariable {
     get stock_ingredient() {
         return this._stock_ingredient;
     }
-    
+
     set stock_ingredient(stock_ingredient) {
         this._stock_ingredient.assign(stock_ingredient)
     }
@@ -1419,7 +1489,7 @@ class LPActor extends LPVariable {
     get stock_juice() {
         return this._stock_juice;
     }
-    
+
     set stock_juice(stock_juice) {
         this._stock_juice.assign(stock_juice)
     }
@@ -1431,7 +1501,7 @@ class LPActor extends LPVariable {
     get stock_makeup() {
         return this._stock_makeup;
     }
-    
+
     set stock_makeup(stock_makeup) {
         this._stock_makeup.assign(stock_makeup)
     }
@@ -1443,7 +1513,7 @@ class LPActor extends LPVariable {
     get stock_meal() {
         return this._stock_meal;
     }
-    
+
     set stock_meal(stock_meal) {
         this._stock_meal.assign(stock_meal)
     }
@@ -1455,7 +1525,7 @@ class LPActor extends LPVariable {
     get stock_movie() {
         return this._stock_movie;
     }
-    
+
     set stock_movie(stock_movie) {
         this._stock_movie.assign(stock_movie)
     }
@@ -1467,7 +1537,7 @@ class LPActor extends LPVariable {
     get stock_musicalinstrument() {
         return this._stock_musicalinstrument;
     }
-    
+
     set stock_musicalinstrument(stock_musicalinstrument) {
         this._stock_musicalinstrument.assign(stock_musicalinstrument)
     }
@@ -1479,7 +1549,7 @@ class LPActor extends LPVariable {
     get stock_petfood() {
         return this._stock_petfood;
     }
-    
+
     set stock_petfood(stock_petfood) {
         this._stock_petfood.assign(stock_petfood)
     }
@@ -1491,7 +1561,7 @@ class LPActor extends LPVariable {
     get stock_photo() {
         return this._stock_photo;
     }
-    
+
     set stock_photo(stock_photo) {
         this._stock_photo.assign(stock_photo)
     }
@@ -1503,7 +1573,7 @@ class LPActor extends LPVariable {
     get stock_pill() {
         return this._stock_pill;
     }
-    
+
     set stock_pill(stock_pill) {
         this._stock_pill.assign(stock_pill)
     }
@@ -1515,7 +1585,7 @@ class LPActor extends LPVariable {
     get stock_skincare() {
         return this._stock_skincare;
     }
-    
+
     set stock_skincare(stock_skincare) {
         this._stock_skincare.assign(stock_skincare)
     }
@@ -1527,7 +1597,7 @@ class LPActor extends LPVariable {
     get stock_snack() {
         return this._stock_snack;
     }
-    
+
     set stock_snack(stock_snack) {
         this._stock_snack.assign(stock_snack)
     }
@@ -1539,7 +1609,7 @@ class LPActor extends LPVariable {
     get stock_soda() {
         return this._stock_soda;
     }
-    
+
     set stock_soda(stock_soda) {
         this._stock_soda.assign(stock_soda)
     }
@@ -1551,7 +1621,7 @@ class LPActor extends LPVariable {
     get stock_supplement() {
         return this._stock_supplement;
     }
-    
+
     set stock_supplement(stock_supplement) {
         this._stock_supplement.assign(stock_supplement)
     }
@@ -1563,7 +1633,7 @@ class LPActor extends LPVariable {
     get stock_tea() {
         return this._stock_tea;
     }
-    
+
     set stock_tea(stock_tea) {
         this._stock_tea.assign(stock_tea)
     }
@@ -1575,7 +1645,7 @@ class LPActor extends LPVariable {
     get stock_tobacco() {
         return this._stock_tobacco;
     }
-    
+
     set stock_tobacco(stock_tobacco) {
         this._stock_tobacco.assign(stock_tobacco)
     }
@@ -1587,7 +1657,7 @@ class LPActor extends LPVariable {
     get stock_video() {
         return this._stock_video;
     }
-    
+
     set stock_video(stock_video) {
         this._stock_video.assign(stock_video)
     }
