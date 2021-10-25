@@ -22,7 +22,7 @@ module.exports = {
         "martialart", "drinkglass", "dance", "smoke", "pray", "sofawatch", "browse", "call", "socialize", "work", "sweep", "bathe", "drinkbottle",
         "lecture", "theatrewatch", "write", "groupdance", "call", "sneak", "camera", "makeup", "eat", "toilet", "bathe", "masturbate", "drinktea",
         "smoke", "strip", "managefinances", "receivelapdance", "dental", "beauty", "health", "haircut", "weights", "yoga", "na_sleep", "na_running",
-        "gun",
+        "gun", "fightlost"
     ],
     MOODS: [
         'Angry', 'Annoyed', 'Anxious', 'Attentive', 'Bored', 'Confused', 'Crying', 'Curious', 'Disgusted', 'Drained', 'Embarassed',

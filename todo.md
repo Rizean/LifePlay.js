@@ -11,6 +11,9 @@
 * ~~randomizeRace~~
 * randomizeSexy
 
+### Syntax Sugar
+* LPActor.faceEachOther(LPActor)
+
 ### Modules
 * LPTalk
 * LPDescription
