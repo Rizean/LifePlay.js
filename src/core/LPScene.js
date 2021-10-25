@@ -47,6 +47,7 @@ class LPScene extends Context {
         this._shouldWriteHeader = true
         this.actionDuration = new LPFloat({context: this, lpMod, name: 'actionDuration'})
         this.hoursElapsed = new LPFloat({context: this, lpMod, name: 'hoursElapsed'})
+        this.percentageElves = new LPFloat({context: this, lpMod, name: 'percentageElves'})
         this._lpMod = lpMod
         this._name = name
         this._modsDir = modsDir
