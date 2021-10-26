@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1635249102945" clover="3.2.0">
-  <project timestamp="1635249102945" name="All files">
-    <metrics statements="5747" coveredstatements="5530" conditionals="839" coveredconditionals="810" methods="644" coveredmethods="578" elements="7230" coveredelements="6918" complexity="0" loc="5747" ncloc="5747" packages="3" files="22" classes="22"/>
+<coverage generated="1635250566191" clover="3.2.0">
+  <project timestamp="1635250566191" name="All files">
+    <metrics statements="5727" coveredstatements="5510" conditionals="839" coveredconditionals="810" methods="640" coveredmethods="578" elements="7206" coveredelements="6898" complexity="0" loc="5727" ncloc="5727" packages="3" files="22" classes="22"/>
     <package name="core">
       <metrics statements="2181" coveredstatements="1964" conditionals="345" coveredconditionals="317" methods="236" coveredmethods="174"/>
       <file name="Context.js" path="D:\projects\LifePlay.js\src\core\Context.js">
@@ -2217,9 +2217,9 @@
       </file>
     </package>
     <package name="core.objects">
-      <metrics statements="3563" coveredstatements="3563" conditionals="493" coveredconditionals="492" methods="407" coveredmethods="403"/>
+      <metrics statements="3543" coveredstatements="3543" conditionals="493" coveredconditionals="492" methods="403" coveredmethods="403"/>
       <file name="LPActor.js" path="D:\projects\LifePlay.js\src\core\objects\LPActor.js">
-        <metrics statements="1712" coveredstatements="1712" conditionals="223" coveredconditionals="223" methods="204" coveredmethods="200"/>
+        <metrics statements="1712" coveredstatements="1712" conditionals="227" coveredconditionals="227" methods="204" coveredmethods="204"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -3149,7 +3149,7 @@
         <line num="927" count="1054" type="stmt"/>
         <line num="928" count="1054" type="stmt"/>
         <line num="929" count="1054" type="stmt"/>
-        <line num="930" count="1054" type="stmt"/>
+        <line num="930" count="1054" type="cond" truecount="1" falsecount="0"/>
         <line num="931" count="1054" type="stmt"/>
         <line num="932" count="1054" type="stmt"/>
         <line num="933" count="1054" type="stmt"/>
@@ -3168,7 +3168,7 @@
         <line num="946" count="1054" type="stmt"/>
         <line num="947" count="1054" type="stmt"/>
         <line num="948" count="1054" type="stmt"/>
-        <line num="949" count="1054" type="stmt"/>
+        <line num="949" count="1054" type="cond" truecount="1" falsecount="0"/>
         <line num="950" count="1054" type="stmt"/>
         <line num="951" count="1054" type="stmt"/>
         <line num="952" count="1054" type="stmt"/>
@@ -3187,7 +3187,7 @@
         <line num="965" count="1054" type="stmt"/>
         <line num="966" count="1054" type="stmt"/>
         <line num="967" count="1054" type="stmt"/>
-        <line num="968" count="1054" type="stmt"/>
+        <line num="968" count="1054" type="cond" truecount="1" falsecount="0"/>
         <line num="969" count="1054" type="stmt"/>
         <line num="970" count="1054" type="stmt"/>
         <line num="971" count="1054" type="stmt"/>
@@ -3206,7 +3206,7 @@
         <line num="984" count="1054" type="stmt"/>
         <line num="985" count="1054" type="stmt"/>
         <line num="986" count="1054" type="stmt"/>
-        <line num="987" count="1054" type="stmt"/>
+        <line num="987" count="1054" type="cond" truecount="1" falsecount="0"/>
         <line num="988" count="1054" type="stmt"/>
         <line num="989" count="1054" type="stmt"/>
         <line num="990" count="1054" type="stmt"/>
@@ -4615,7 +4615,7 @@
         <line num="123" count="1" type="stmt"/>
       </file>
       <file name="LPNPC.js" path="D:\projects\LifePlay.js\src\core\objects\LPNPC.js">
-        <metrics statements="448" coveredstatements="448" conditionals="64" coveredconditionals="64" methods="61" coveredmethods="61"/>
+        <metrics statements="428" coveredstatements="428" conditionals="60" coveredconditionals="60" methods="57" coveredmethods="57"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -4960,34 +4960,34 @@
         <line num="342" count="643" type="stmt"/>
         <line num="343" count="643" type="stmt"/>
         <line num="344" count="643" type="stmt"/>
-        <line num="345" count="643" type="cond" truecount="1" falsecount="0"/>
+        <line num="345" count="643" type="stmt"/>
         <line num="346" count="643" type="stmt"/>
-        <line num="347" count="643" type="stmt"/>
-        <line num="348" count="643" type="stmt"/>
-        <line num="349" count="643" type="stmt"/>
-        <line num="350" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="351" count="643" type="stmt"/>
-        <line num="352" count="643" type="stmt"/>
+        <line num="347" count="643" type="cond" truecount="1" falsecount="0"/>
+        <line num="348" count="1" type="stmt"/>
+        <line num="349" count="1" type="stmt"/>
+        <line num="350" count="1" type="stmt"/>
+        <line num="351" count="1" type="stmt"/>
+        <line num="352" count="1" type="stmt"/>
         <line num="353" count="643" type="stmt"/>
         <line num="354" count="643" type="stmt"/>
-        <line num="355" count="643" type="cond" truecount="1" falsecount="0"/>
+        <line num="355" count="643" type="stmt"/>
         <line num="356" count="643" type="stmt"/>
-        <line num="357" count="643" type="stmt"/>
+        <line num="357" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="358" count="643" type="stmt"/>
         <line num="359" count="643" type="stmt"/>
-        <line num="360" count="643" type="cond" truecount="1" falsecount="0"/>
+        <line num="360" count="643" type="stmt"/>
         <line num="361" count="643" type="stmt"/>
-        <line num="362" count="643" type="stmt"/>
+        <line num="362" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="363" count="643" type="stmt"/>
         <line num="364" count="643" type="stmt"/>
         <line num="365" count="643" type="stmt"/>
         <line num="366" count="643" type="stmt"/>
         <line num="367" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="368" count="1" type="stmt"/>
-        <line num="369" count="1" type="stmt"/>
-        <line num="370" count="1" type="stmt"/>
-        <line num="371" count="1" type="stmt"/>
-        <line num="372" count="1" type="stmt"/>
+        <line num="368" count="643" type="stmt"/>
+        <line num="369" count="643" type="stmt"/>
+        <line num="370" count="643" type="stmt"/>
+        <line num="371" count="643" type="stmt"/>
+        <line num="372" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="373" count="643" type="stmt"/>
         <line num="374" count="643" type="stmt"/>
         <line num="375" count="643" type="stmt"/>
@@ -5002,23 +5002,23 @@
         <line num="384" count="643" type="stmt"/>
         <line num="385" count="643" type="stmt"/>
         <line num="386" count="643" type="stmt"/>
-        <line num="387" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="388" count="643" type="stmt"/>
+        <line num="387" count="643" type="stmt"/>
+        <line num="388" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="389" count="643" type="stmt"/>
         <line num="390" count="643" type="stmt"/>
         <line num="391" count="643" type="stmt"/>
-        <line num="392" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="393" count="643" type="stmt"/>
+        <line num="392" count="643" type="stmt"/>
+        <line num="393" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="394" count="643" type="stmt"/>
         <line num="395" count="643" type="stmt"/>
         <line num="396" count="643" type="stmt"/>
-        <line num="397" count="643" type="cond" truecount="1" falsecount="0"/>
+        <line num="397" count="643" type="stmt"/>
         <line num="398" count="643" type="stmt"/>
         <line num="399" count="643" type="stmt"/>
         <line num="400" count="643" type="stmt"/>
         <line num="401" count="643" type="stmt"/>
-        <line num="402" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="403" count="643" type="stmt"/>
+        <line num="402" count="643" type="stmt"/>
+        <line num="403" count="643" type="cond" truecount="1" falsecount="0"/>
         <line num="404" count="643" type="stmt"/>
         <line num="405" count="643" type="stmt"/>
         <line num="406" count="643" type="stmt"/>
@@ -5035,35 +5035,15 @@
         <line num="417" count="643" type="stmt"/>
         <line num="418" count="643" type="stmt"/>
         <line num="419" count="643" type="stmt"/>
-        <line num="420" count="643" type="stmt"/>
-        <line num="421" count="643" type="stmt"/>
-        <line num="422" count="643" type="stmt"/>
-        <line num="423" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="424" count="643" type="stmt"/>
-        <line num="425" count="643" type="stmt"/>
-        <line num="426" count="643" type="stmt"/>
-        <line num="427" count="643" type="stmt"/>
-        <line num="428" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="429" count="643" type="stmt"/>
-        <line num="430" count="643" type="stmt"/>
-        <line num="431" count="643" type="stmt"/>
-        <line num="432" count="643" type="stmt"/>
-        <line num="433" count="643" type="cond" truecount="1" falsecount="0"/>
-        <line num="434" count="643" type="stmt"/>
-        <line num="435" count="643" type="stmt"/>
-        <line num="436" count="643" type="stmt"/>
-        <line num="437" count="643" type="stmt"/>
-        <line num="438" count="643" type="stmt"/>
-        <line num="439" count="643" type="stmt"/>
-        <line num="440" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="441" count="1" type="stmt"/>
-        <line num="442" count="1" type="stmt"/>
-        <line num="443" count="1" type="stmt"/>
-        <line num="444" count="1" type="stmt"/>
-        <line num="445" count="1" type="stmt"/>
-        <line num="446" count="1" type="stmt"/>
-        <line num="447" count="1" type="stmt"/>
-        <line num="448" count="1" type="stmt"/>
+        <line num="420" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="421" count="1" type="stmt"/>
+        <line num="422" count="1" type="stmt"/>
+        <line num="423" count="1" type="stmt"/>
+        <line num="424" count="1" type="stmt"/>
+        <line num="425" count="1" type="stmt"/>
+        <line num="426" count="1" type="stmt"/>
+        <line num="427" count="1" type="stmt"/>
+        <line num="428" count="1" type="stmt"/>
       </file>
       <file name="LPObject.js" path="D:\projects\LifePlay.js\src\core\objects\LPObject.js">
         <metrics statements="41" coveredstatements="41" conditionals="9" coveredconditionals="9" methods="6" coveredmethods="6"/>

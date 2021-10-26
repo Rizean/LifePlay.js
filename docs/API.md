@@ -1195,10 +1195,6 @@ Class representing a LifePlay NPC Actor.
     * [.livesWithPlayer](#LPNPC+livesWithPlayer) ⇒ [<code>LPBoolean</code>](#LPBoolean)
     * [.makePermanent](#LPNPC+makePermanent)
     * [.passOn](#LPNPC+passOn) ⇒ [<code>LPNPC</code>](#LPNPC)
-    * [.randomizeFace](#LPNPC+randomizeFace)
-    * [.randomizeHairs](#LPNPC+randomizeHairs)
-    * [.randomizeRace](#LPNPC+randomizeRace)
-    * [.randomizeSexy](#LPNPC+randomizeSexy)
     * [.removeColleague](#LPNPC+removeColleague)
     * [.removeDatingFriend](#LPNPC+removeDatingFriend)
     * [.removeEmployee](#LPNPC+removeEmployee)
@@ -1295,6 +1291,10 @@ Class representing a LifePlay NPC Actor.
     * [.moveToPerson](#LPActor+moveToPerson)
     * [.moveToPersonStand](#LPActor+moveToPersonStand)
     * [.randomize](#LPActor+randomize)
+    * [.randomizeFace](#LPActor+randomizeFace)
+    * [.randomizeHairs](#LPActor+randomizeHairs)
+    * [.randomizeRace](#LPActor+randomizeRace)
+    * [.randomizeSexy](#LPActor+randomizeSexy)
     * [.setActorVar](#LPActor+setActorVar)
     * [.setCurrentLocation](#LPActor+setCurrentLocation)
     * [.setDatingId](#LPActor+setDatingId)
@@ -1639,34 +1639,6 @@ Used to pass an actor from one scene to the next scene, used with scene.followUp
 
 **Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
 **Returns**: [<code>LPNPC</code>](#LPNPC) - "this" LPActor for chaining  
-<a name="LPNPC+randomizeFace"></a>
-
-### lpnpC.randomizeFace
-Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-
-**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
-**Overrides**: [<code>randomizeFace</code>](#LPActor+randomizeFace)  
-<a name="LPNPC+randomizeHairs"></a>
-
-### lpnpC.randomizeHairs
-Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-
-**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
-**Overrides**: [<code>randomizeHairs</code>](#LPActor+randomizeHairs)  
-<a name="LPNPC+randomizeRace"></a>
-
-### lpnpC.randomizeRace
-Randomize skin colour and nose / eyes racial features
-
-**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
-**Overrides**: [<code>randomizeRace</code>](#LPActor+randomizeRace)  
-<a name="LPNPC+randomizeSexy"></a>
-
-### lpnpC.randomizeSexy
-Randomize dick and tits for this character
-
-**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
-**Overrides**: [<code>randomizeSexy</code>](#LPActor+randomizeSexy)  
 <a name="LPNPC+removeColleague"></a>
 
 ### lpnpC.removeColleague
@@ -2684,6 +2656,46 @@ Randomize the actor's one or more of (face and skin), (hair and pubic hair), (sk
 **Example**  
 ```js
 let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomize({race: false, hairs: true, sexy: true, face: true})     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeFace"></a>
+
+### lpnpC.randomizeFace
+Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = scene.generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeHairs"></a>
+
+### lpnpC.randomizeHairs
+Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeRace"></a>
+
+### lpnpC.randomizeRace
+Randomize skin colour and nose / eyes racial features
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+```
+<a name="LPActor+randomizeSexy"></a>
+
+### lpnpC.randomizeSexy
+Randomize genitals for this character
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
 ```
 <a name="LPActor+setActorVar"></a>
 
