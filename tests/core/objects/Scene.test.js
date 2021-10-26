@@ -222,10 +222,18 @@ test('narrative', () => {
     let scene = new Scene({lpMod: setupMod()})
     scene.start((scene) => {
         scene.narrative("some text")
+        scene.narrative([
+            "many lines",
+            "of",
+            "text"
+        ])
     })
     expect(scene._code.trim()).toBe([
         'sceneStart()',
         '  "some text"',
+        '  "many lines"',
+        '  "of"',
+        '  "text"',
         'sceneEnd()'
     ].join(LB))
 })

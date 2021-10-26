@@ -109,6 +109,8 @@ Class representing a LifePlay Scene.
     * [.WHERE](#LPScene+WHERE) : <code>function</code>
     * [.WHO](#LPScene+WHO) ⇒ [<code>LPScene</code>](#LPScene)
     * [.OTHER](#LPScene+OTHER) ⇒ [<code>LPScene</code>](#LPScene)
+    * [.narrative](#LPScene+narrative)
+    * [.building](#LPScene+building) ⇒ [<code>LPBuilding</code>](#LPBuilding)
     * [.CurrentCompanion](#LPScene+CurrentCompanion) ⇒ [<code>LPNPC</code>](#LPNPC)
     * [.addNpcRelationship(type, actors)](#LPScene+addNpcRelationship) ⇒ <code>void</code> \| <code>\*</code>
     * [.assignHome()](#LPScene+assignHome) ⇒ <code>void</code> \| <code>\*</code>
@@ -223,6 +225,27 @@ Start the scene and open the scene UI
 | --- | --- |
 | [script] | [<code>scene</code>](#Script..scene) | 
 
+<a name="LPScene+narrative"></a>
+
+### lpScene.narrative
+Scene description narrations
+
+**Kind**: instance property of [<code>LPScene</code>](#LPScene)  
+
+| Param | Type |
+| --- | --- |
+| text | <code>string</code> \| <code>Array.&lt;string&gt;</code> | 
+
+**Example**  
+```js
+scene.start((scene) => {    scene.narrative("some text")    scene.narrative([        "many lines",        "of",        "text"    ]) })
+```
+<a name="LPScene+building"></a>
+
+### lpScene.building ⇒ [<code>LPBuilding</code>](#LPBuilding)
+Current location, sort of.
+
+**Kind**: instance property of [<code>LPScene</code>](#LPScene)  
 <a name="LPScene+CurrentCompanion"></a>
 
 ### lpScene.CurrentCompanion ⇒ [<code>LPNPC</code>](#LPNPC)
@@ -1271,6 +1294,7 @@ Class representing a LifePlay NPC Actor.
     * [.modifySalary](#LPActor+modifySalary)
     * [.moveToPerson](#LPActor+moveToPerson)
     * [.moveToPersonStand](#LPActor+moveToPersonStand)
+    * [.randomize](#LPActor+randomize)
     * [.setActorVar](#LPActor+setActorVar)
     * [.setCurrentLocation](#LPActor+setCurrentLocation)
     * [.setDatingId](#LPActor+setDatingId)
@@ -1337,6 +1361,7 @@ Class representing a LifePlay NPC Actor.
     * [.stock_tobacco](#LPActor+stock_tobacco) : [<code>LPFloat</code>](#LPFloat)
     * [.stock_video](#LPActor+stock_video) : [<code>LPFloat</code>](#LPFloat)
     * [.dialogue(text, [mood])](#LPActor+dialogue)
+    * [.monolog(lines)](#LPActor+monolog)
 
 <a name="LPNPC+addColleague"></a>
 
@@ -2650,6 +2675,16 @@ Make this actor move toward another actors position.
 | actor | <code>LPActor</code> |  |
 | distance | <code>number</code> \| [<code>LPFloat</code>](#LPFloat) | Distance to stay away from 'target'. 0 = Move to exact the same spot as 'target'. |
 
+<a name="LPActor+randomize"></a>
+
+### lpnpC.randomize
+Randomize the actor's one or more of (face and skin), (hair and pubic hair), (skin colour and nose / eyes racial features), (genitals). Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPNPC</code>](#LPNPC)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomize({race: false, hairs: true, sexy: true, face: true})     Helper.dress()     Helper.show(2)}
+```
 <a name="LPActor+setActorVar"></a>
 
 ### lpnpC.setActorVar
@@ -3094,7 +3129,7 @@ stock_video
 <a name="LPActor+dialogue"></a>
 
 ### lpnpC.dialogue(text, [mood])
-Text the actor will say.
+Text the actor will say in mood.
 
 **Kind**: instance method of [<code>LPNPC</code>](#LPNPC)  
 
@@ -3103,6 +3138,23 @@ Text the actor will say.
 | text | <code>string</code> | 
 | [mood] | <code>string</code> | 
 
+<a name="LPActor+monolog"></a>
+
+### lpnpC.monolog(lines)
+Lines of text the actor will say in mood.
+
+**Kind**: instance method of [<code>LPNPC</code>](#LPNPC)  
+
+| Param | Type |
+| --- | --- |
+| lines | <code>Array.&lt;string&gt;</code> | 
+| lines[].text | <code>string</code> | 
+| lines[].mood | <code>string</code> | 
+
+**Example**  
+```js
+let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_monolog'}, (scene) => {    scene.start(() => {        const {Player} = scene        Player.monolog([            {text: "simple line of dialog"},            {text: "simple line of dialog with a mood", mood: 'Happy'},        ])    })})
+```
 <a name="LPPlayer"></a>
 
 ## LPPlayer ⇐ <code>LPActor</code>
@@ -3225,6 +3277,7 @@ Class representing a LifePlay Player.
     * [.modifySalary](#LPActor+modifySalary)
     * [.moveToPerson](#LPActor+moveToPerson)
     * [.moveToPersonStand](#LPActor+moveToPersonStand)
+    * [.randomize](#LPActor+randomize)
     * [.randomizeFace](#LPActor+randomizeFace)
     * [.randomizeHairs](#LPActor+randomizeHairs)
     * [.randomizeRace](#LPActor+randomizeRace)
@@ -3318,6 +3371,7 @@ Class representing a LifePlay Player.
     * [.setSalary(salary)](#LPPlayer+setSalary)
     * [.setTuition(tuition)](#LPPlayer+setTuition)
     * [.dialogue(text, [mood])](#LPActor+dialogue)
+    * [.monolog(lines)](#LPActor+monolog)
 
 <a name="LPPlayer+blockContact"></a>
 
@@ -4491,6 +4545,16 @@ Make this actor move toward another actors position.
 | actor | <code>LPActor</code> |  |
 | distance | <code>number</code> \| [<code>LPFloat</code>](#LPFloat) | Distance to stay away from 'target'. 0 = Move to exact the same spot as 'target'. |
 
+<a name="LPActor+randomize"></a>
+
+### lpPlayer.randomize
+Randomize the actor's one or more of (face and skin), (hair and pubic hair), (skin colour and nose / eyes racial features), (genitals). Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+
+**Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
+**Example**  
+```js
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomize({race: false, hairs: true, sexy: true, face: true})     Helper.dress()     Helper.show(2)}
+```
 <a name="LPActor+randomizeFace"></a>
 
 ### lpPlayer.randomizeFace
@@ -4499,7 +4563,7 @@ Randomize the actor's face and skin. Commonly called after blendpreset (which mi
 **Kind**: instance property of [<code>LPPlayer</code>](#LPPlayer)  
 **Example**  
 ```js
-let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
+let Helper = Player.getCompanion()if (!Helper.isValid()) {     Helper = scene.generatePersonTemporary()     while (!Helper.isInterestedIn(Player) || Helper.age > 35) {         Helper = scene.generatePersonTemporary()     }     Helper.randomizeRace()     Helper.randomizeHairs()     Helper.randomizeSexy()     Helper.randomizeFace()     Helper.dress()     Helper.show(2)}
 ```
 <a name="LPActor+randomizeHairs"></a>
 
@@ -5199,7 +5263,7 @@ Player.setTuition(1000)scene.narrative("I agreed to pay $1000 per month for tui
 <a name="LPActor+dialogue"></a>
 
 ### lpPlayer.dialogue(text, [mood])
-Text the actor will say.
+Text the actor will say in mood.
 
 **Kind**: instance method of [<code>LPPlayer</code>](#LPPlayer)  
 
@@ -5208,6 +5272,23 @@ Text the actor will say.
 | text | <code>string</code> | 
 | [mood] | <code>string</code> | 
 
+<a name="LPActor+monolog"></a>
+
+### lpPlayer.monolog(lines)
+Lines of text the actor will say in mood.
+
+**Kind**: instance method of [<code>LPPlayer</code>](#LPPlayer)  
+
+| Param | Type |
+| --- | --- |
+| lines | <code>Array.&lt;string&gt;</code> | 
+| lines[].text | <code>string</code> | 
+| lines[].mood | <code>string</code> | 
+
+**Example**  
+```js
+let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_monolog'}, (scene) => {    scene.start(() => {        const {Player} = scene        Player.monolog([            {text: "simple line of dialog"},            {text: "simple line of dialog with a mood", mood: 'Happy'},        ])    })})
+```
 <a name="LPString"></a>
 
 ## LPString : [<code>LPString</code>](#LPString)

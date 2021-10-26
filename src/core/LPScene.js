@@ -548,8 +548,25 @@ class LPScene extends Context {
         return new LPBoolean({context: this, lpMod: this.lpMod, name, expression})
     }
 
+    /**
+     * Scene description narrations
+     * @param {(string|string[])} text
+     * @example
+     *  scene.start((scene) => {
+     *     scene.narrative("some text")
+     *     scene.narrative([
+     *         "many lines",
+     *         "of",
+     *         "text"
+     *     ])
+     *  })
+     */
     narrative = (text) => {
-        this.writeLine(`"${text}"`)
+        if (Array.isArray(text)) {
+            text.forEach(line => this.writeLine(`"${line}"`))
+        } else {
+            this.writeLine(`"${text}"`)
+        }
     }
 
 

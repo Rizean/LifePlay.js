@@ -57,9 +57,9 @@ async function oneActorSceneWithVar(func, testName, ...params) {
         scene.start(() => {
             var randomActor = scene.getPerson()
             var result = randomActor.${func}(${params.map(ele => {
-                if (Array.isArray(ele)) return JSON.stringify(ele)
-                return `"${ele}"`
-            }).join(', ')})
+        if (Array.isArray(ele)) return JSON.stringify(ele)
+        return `"${ele}"`
+    }).join(', ')})
         })
     })
     return scene
@@ -98,6 +98,7 @@ async function twoActorSceneWithVar(func, testName, ...params) {
         'sceneEnd()'
     ].join(LB))
 }
+
 const twoActorIsScene = twoActorSceneWithVar
 
 async function actorPlayerScene(func, testName, ...params) {
@@ -132,9 +133,9 @@ async function oneActorScene(func, testName, ...params) {
         scene.start(() => {
             var ActorA = scene.getSpecific('Criminal')
             ActorA.${func}(${params.map(ele => {
-                if (Array.isArray(ele)) return JSON.stringify(ele)
-                return `"${ele}"`
-            }).join(', ')})
+        if (Array.isArray(ele)) return JSON.stringify(ele)
+        return `"${ele}"`
+    }).join(', ')})
         })
     })
     return scene
@@ -587,6 +588,38 @@ test('LPActor.modifySalary()', async () => {
     ].join(LB))
 })
 
+test('LPActor.monolog()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_monolog'}, (scene) => {
+        scene.start(() => {
+            const {Player} = scene
+            Player.monolog([
+                {text: "simple line of dialog"},
+                {text: "simple line of dialog with a mood", mood: 'Happy'},
+            ])
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  Player:: "simple line of dialog"',
+        '  Player(Happy):: "simple line of dialog with a mood"',
+        'sceneEnd()',
+    ].join(LB))
+})
+test('LPString.monolog() error', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_monolog_error'}, (scene) => {
+        scene.start(() => {
+            const {Player} = scene;
+            Player.monolog([
+                {text: "simple line of dialog"},
+                {text: "simple line of dialog with a mood", mood: 'invalid mood'},
+            ])
+        })
+    })
+    await expect(async () => await scene.toString()).rejects.toThrowError('Invalid mood!')
+})
+
 test('LPActor.moveToPerson()', async () => {
     const lpMod = setupMod()
     let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_moveToPerson'}, (scene) => {
@@ -618,6 +651,42 @@ test('LPActor.moveToPersonStand()', async () => {
         'sceneStart()',
         '  ActorA = getSpecific(Criminal)',
         '  ActorA.moveToPersonStand(Player, 70)',
+        'sceneEnd()',
+    ].join(LB))
+})
+
+test('LPActor.randomize() / randomizeRace() / randomizeHairs() / randomizeSexy() randomizeFace()', async () => {
+    const lpMod = setupMod()
+    let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_randomize'}, (scene) => {
+        scene.start((scene) => {
+            const {Player} = scene
+            let Helper = Player.getCompanion()
+            if (!Helper.isValid()) {
+                Helper = scene.generatePersonTemporary()
+                while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+                    Helper = scene.generatePersonTemporary()
+                }
+                Helper.randomize({race: true, hairs: true, sexy: true, face: true})
+                Helper.dress()
+                Helper.show(2)
+            }
+        })
+    })
+    expect((await scene.toString()).trim()).toBe([
+        'sceneStart()',
+        '  Helper = getCompanion()',
+        '  If !(Helper.isValid())',
+        '    Helper = generatePersonTemporary()',
+        '    While !(Helper.isInterestedIn(Player)) || Helper:age > 35',
+        '      Helper = generatePersonTemporary()',
+        '    EndWhile',
+        '    Helper.randomizeRace()',
+        '    Helper.randomizeHairs()',
+        '    Helper.randomizeSexy()',
+        '    Helper.randomizeFace()',
+        '    Helper.dress()',
+        '    Helper.show(2)',
+        '  EndIf',
         'sceneEnd()',
     ].join(LB))
 })

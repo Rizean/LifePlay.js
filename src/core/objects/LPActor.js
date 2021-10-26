@@ -223,7 +223,7 @@ class LPActor extends LPVariable {
     }
 
     /**
-     * Text the actor will say.
+     * Text the actor will say in mood.
      * @param {string} text
      * @param {string=} mood
      */
@@ -231,6 +231,30 @@ class LPActor extends LPVariable {
         if (mood && !isMoodValid(mood)) throw new Error(`Invalid mood! ${mood}`)
         if (!!mood) this.context.writeLine(`${this.name}(${mood}):: "${text}"`)
         else this.context.writeLine(`${this.name}:: "${text}"`)
+    }
+
+    /**
+     * Lines of text the actor will say in mood.
+     * @param {string[]} lines
+     * @param {string} lines[].text
+     * @param {string} lines[].mood
+     * @example
+     * let scene = new Scene({lpMod, modsDir: lpMod.modsDir, name: 'LPActor_monolog'}, (scene) => {
+     *     scene.start(() => {
+     *         const {Player} = scene
+     *         Player.monolog([
+     *             {text: "simple line of dialog"},
+     *             {text: "simple line of dialog with a mood", mood: 'Happy'},
+     *         ])
+     *     })
+     * })
+     */
+    monolog(lines) {
+        lines.forEach(({text, mood})=>{
+            if (mood && !isMoodValid(mood)) throw new Error(`Invalid mood! ${mood}`)
+            if (!!mood) this.context.writeLine(`${this.name}(${mood}):: "${text}"`)
+            else this.context.writeLine(`${this.name}:: "${text}"`)
+        })
     }
 
     /**
@@ -865,13 +889,35 @@ class LPActor extends LPVariable {
     moveToPersonStand = (actor, distance = 100) => this.context.writeLine(`${this.name}.moveToPersonStand(${actor.name}, ${distance?.name || distance})`)
 
     /**
-     * Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+     * Randomize the actor's one or more of (face and skin), (hair and pubic hair), (skin colour and nose / eyes racial features), (genitals). Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
      * @example
      * let Helper = Player.getCompanion()
      * if (!Helper.isValid()) {
      *      Helper = scene.generatePersonTemporary()
      *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
      *          Helper = generatePersonTemporary()
+     *      }
+     *      Helper.randomize({race: false, hairs: true, sexy: true, face: true})
+     *      Helper.dress()
+     *      Helper.show(2)
+     * }
+     */
+    randomize = (options) => {
+        const {race, hairs, sexy, face} = options
+        if (race) this.randomizeRace()
+        if (hairs) this.randomizeHairs()
+        if (sexy) this.randomizeSexy()
+        if (face) this.randomizeFace()
+    }
+
+    /**
+     * Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
+     * @example
+     * let Helper = Player.getCompanion()
+     * if (!Helper.isValid()) {
+     *      Helper = scene.generatePersonTemporary()
+     *      while (!Helper.isInterestedIn(Player) || Helper.age > 35) {
+     *          Helper = scene.generatePersonTemporary()
      *      }
      *      Helper.randomizeRace()
      *      Helper.randomizeHairs()

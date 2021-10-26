@@ -14,9 +14,9 @@
 ### Syntax Sugar
 * LPActor.faceEachOther(LPActor)
 * scene.timeout(300) - timeout this scene
-* scene.narrative([string]) - generates multiple lines of narrative
-* LPActor.dialog([[text, mood]]) - generates multiple lines of dialog
-* LPActor.randomize({hairs, sexy, face, race})
+* ~~scene.narrative([string]) - generates multiple lines of narrative~~
+* ~~LPActor.dialog([[text, mood]]) - generates multiple lines of dialog~~
+* ~~LPActor.randomize({hairs, sexy, face, race})~~
 
 ### Bugs
 * scene.filter should support an array

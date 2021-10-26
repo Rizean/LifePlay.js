@@ -15,7 +15,7 @@ module.exports = {
         'age', 'arousal', 'attractiontoplayer', 'attractiveness', 'car_value', 'children', 'cooking', 'dance', 'energy', 'fertility', 'fitness', 'incest', 'intelligence', 'interpersonal', 'intoxication', 'jobexperience', 'jobperformance',
         'martial', 'masochist', 'money', 'mood', 'muscle', 'music', 'perversion', 'pet_health', 'pornfame', 'rapportwithplayer', 'sneak', 'stock_alcohol', 'stock_book', 'stock_coffee', 'stock_condom', 'stock_flower', 'stock_gift',
         'stock_haircare', 'stock_ingredient', 'stock_juice', 'stock_makeup', 'stock_meal', 'stock_movie', 'stock_musicalinstrument', 'stock_petfood', 'stock_photo', 'stock_pill', 'stock_skincare', 'stock_snack', 'stock_soda',
-        'stock_supplement', 'stock_tea', 'stock_tobacco', 'stock_video'
+        'stock_supplement', 'stock_tea', 'stock_tobacco', 'stock_video', 'karma', 'martial'
     ],
     CLOTHING_SLOTS: ['Outerwear', 'Headwear', 'Eyewear', 'Top', 'Top_Under', 'Bottom', 'Bottom_Under', 'Foot', 'Foot_Under'].map(ele=>ele.toLowerCase()),
     ANIMATIONS: [
