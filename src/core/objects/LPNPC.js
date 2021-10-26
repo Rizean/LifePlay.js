@@ -310,26 +310,6 @@ class LPNPC extends LPActor {
     }
 
     /**
-     * Randomize the actor's face and skin. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-     */
-    randomizeFace = () => this.context.writeLine(`${this.name}.randomizeFace()`)
-
-    /**
-     * Randomize the actor's hair and pubic hair. Commonly called after blendpreset (which might change the gender which resets the actor to the default face and hair for that gender)
-     */
-    randomizeHairs = () => this.context.writeLine(`${this.name}.randomizeHairs()`)
-
-    /**
-     * Randomize skin colour and nose / eyes racial features
-     */
-    randomizeRace = () => this.context.writeLine(`${this.name}.randomizeRace()`)
-
-    /**
-     * Randomize dick and tits for this character
-     */
-    randomizeSexy = () => this.context.writeLine(`${this.name}.randomizeSexy()`)
-
-    /**
      * Remove this actor from the list of colleague. Will remain acquaintance at least though.
      */
     removeColleague = () => this.context.writeLine(`${this.name}.removeColleague()`)
