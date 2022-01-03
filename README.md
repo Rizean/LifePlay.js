@@ -47,6 +47,16 @@ shortcut commands to make coding faster.
 * npm install
 * Optional: `npm run example:dev`
 
+### Build your own folder
+
+Run `npm run build <directory>`
+
+Example:
+`npm run build ./examples`
+
+> The script will search the directory specified recursively and build the first lpmod file found.
+
+
 ### Example Installation
 
 ```text

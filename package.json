@@ -13,6 +13,7 @@
   },
   "scripts": {
     "test": "jest",
+    "build": "nodemon --ignore build/ build.js",
     "example:test": "set NODE_ENV=test && nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js",
     "example:dev": "nodemon --ignore build/ ./examples/rizean_LifePlay_test/src/rizean_LifePlay_test.lpmod.js",
     "docs": "docs.sh"
