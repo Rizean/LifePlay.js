@@ -31,7 +31,7 @@ lpMod.addAction(require('./actions/onlyfans.lpaction'))
 lpMod.addAction(require('./actions/open_relationship.lpaction'))
 console.log('mod addScene')
 
-lpMod.addScene(require('./scenes/cinema_with_date_passive.lpScene'))
+lpMod.addScene(require('./scenes/cinema_with_date_passive.lpscene'))
 lpMod.addScene(require('./scenes/test.lpscene'))
 
 lpMod.writeMod()
